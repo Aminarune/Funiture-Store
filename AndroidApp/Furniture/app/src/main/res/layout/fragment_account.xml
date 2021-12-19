@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragments.AccountFragment">
+
+    <!--user information basic-->
+    <LinearLayout
+        android:id="@+id/linearItemView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space16"
+        android:layout_marginTop="@dimen/space32"
+        android:layout_marginRight="@dimen/space16"
+        android:layout_marginBottom="@dimen/space8"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_avatar1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/space16"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space4"
+                android:ellipsize="end"
+                android:fontFamily="@font/nunitosans_bold"
+                android:maxLines="1"
+                android:text="@string/sample_user_name"
+                android:textColor="@color/black_1"
+                android:textSize="@dimen/font20" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space4"
+                android:ellipsize="end"
+                android:fontFamily="@font/nunitosans_regular"
+                android:maxLines="1"
+                android:text="@string/sample_email"
+                android:textColor="@color/grey_2"
+                android:textSize="@dimen/font14" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!--my order-->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space16"
+        android:layout_marginTop="@dimen/space16"
+        android:layout_marginRight="@dimen/space16"
+        android:layout_marginBottom="@dimen/font16"
+        app:cardCornerRadius="@dimen/space4"
+        app:cardElevation="@dimen/space4">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space16"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="@dimen/space4"
+
+                    android:ellipsize="end"
+                    android:fontFamily="@font/nunitosans_bold"
+                    android:maxLines="1"
+                    android:text="@string/order_history"
+                    android:textColor="@color/black_1"
+                    android:textSize="@dimen/font18" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="@dimen/space4"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/nunitosans_regular"
+                    android:maxLines="1"
+                    android:text="@string/order_history_desc"
+                    android:textColor="@color/grey_2"
+                    android:textSize="@dimen/font12" />
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/ivOrderHisButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@android:color/transparent"
+                android:padding="@dimen/space16"
+                android:src="@drawable/ic_chevron_right_1" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!--shipping address-->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space16"
+        android:layout_marginTop="@dimen/space8"
+        android:layout_marginRight="@dimen/space16"
+        android:layout_marginBottom="@dimen/space16"
+        app:cardCornerRadius="@dimen/space4"
+        app:cardElevation="@dimen/space4">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space16"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="@dimen/space4"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/nunitosans_bold"
+                    android:maxLines="1"
+                    android:text="@string/shipping_add"
+                    android:textColor="@color/black_1"
+                    android:textSize="@dimen/font18" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="@dimen/space4"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/nunitosans_regular"
+                    android:maxLines="1"
+                    android:text="@string/shipping_add_desc"
+                    android:textColor="@color/grey_2"
+                    android:textSize="@dimen/font12" />
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/ivShippingAdButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@android:color/transparent"
+                android:padding="@dimen/space16"
+                android:src="@drawable/ic_chevron_right_1" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!--payment method-->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space16"
+        android:layout_marginTop="@dimen/space8"
+        android:layout_marginRight="@dimen/space16"
+        android:layout_marginBottom="@dimen/space16"
+        app:cardCornerRadius="@dimen/space4"
+        app:cardElevation="@dimen/space4">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space16"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="@dimen/space4"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/nunitosans_bold"
+                    android:maxLines="1"
+                    android:text="@string/payment_method"
+                    android:textColor="@color/black_1"
+                    android:textSize="@dimen/font18" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="@dimen/space4"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/nunitosans_regular"
+                    android:maxLines="1"
+                    android:text="@string/payment_method_desc"
+                    android:textColor="@color/grey_2"
+                    android:textSize="@dimen/font12" />
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/ivPaymentButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@android:color/transparent"
+                android:padding="@dimen/space16"
+                android:src="@drawable/ic_chevron_right_1"
+                tools:ignore="DuplicateIds" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!--setting-->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space16"
+        android:layout_marginTop="@dimen/space8"
+        android:layout_marginRight="@dimen/space16"
+        android:layout_marginBottom="@dimen/space16"
+        app:cardCornerRadius="@dimen/space4"
+        app:cardElevation="@dimen/space4">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space16"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="@dimen/space4"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/nunitosans_bold"
+                    android:maxLines="1"
+                    android:text="@string/setting_title"
+                    android:textColor="@color/black_1"
+                    android:textSize="@dimen/font18" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="@dimen/space4"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/nunitosans_regular"
+                    android:maxLines="1"
+                    android:text="@string/setting_desc"
+                    android:textColor="@color/grey_2"
+                    android:textSize="@dimen/font12" />
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/ivSettingButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@android:color/transparent"
+                android:padding="@dimen/space16"
+                android:src="@drawable/ic_chevron_right_1" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>

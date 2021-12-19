@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Item"
+        android:id="@+id/bottom_home_nav"
+        android:icon="@drawable/ic_clarity_home_solid"/>
+    <item android:title="Item"
+        android:id="@+id/bottom_maker_nav"
+        android:icon="@drawable/ic_marker"/>
+    <item android:title="Item"
+        android:id="@+id/bottom_bell_nav"
+        android:icon="@drawable/ic_bell"/>
+    <item android:title="Item"
+        android:id="@+id/bottom_person_nav"
+        android:icon="@drawable/ic_bi_person_fill"/>
+</menu>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".views.SignUpActivity">
+
+
+    <include layout="@layout/header_login" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space16"
+        android:layout_marginTop="@dimen/space8"
+        android:fontFamily="@font/merriweather_bold"
+        android:text="@string/welcome"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/black_1"
+        android:textSize="@dimen/font24" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space32"
+        android:orientation="vertical"
+        android:padding="@dimen/space16">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunitosans_regular"
+            android:text="@string/name_hint"
+            android:textColor="@color/grey_2"
+            android:textSize="@dimen/font14" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/grey_2"
+            android:inputType="text"
+            android:textCursorDrawable="@null" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space16"
+            android:fontFamily="@font/nunitosans_regular"
+            android:text="@string/email_hint"
+            android:textColor="@color/grey_2"
+            android:textSize="@dimen/font14" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space8"
+            android:backgroundTint="@color/grey_2"
+            android:inputType="textEmailAddress"
+            android:textCursorDrawable="@null" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunitosans_regular"
+            android:text="@string/password_hint"
+            android:textColor="@color/grey_2"
+            android:textSize="@dimen/font14" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/grey_2"
+            android:inputType="textPassword"
+            android:textCursorDrawable="@null" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space16"
+            android:fontFamily="@font/nunitosans_regular"
+            android:text="@string/password_confirm"
+            android:textColor="@color/grey_2"
+            android:textSize="@dimen/font14" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space8"
+            android:backgroundTint="@color/grey_2"
+            android:inputType="textPassword"
+            android:textCursorDrawable="@null" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/space32"
+            android:id="@+id/btnRegister"
+            android:backgroundTint="@color/black_1"
+            android:fontFamily="@font/nunitosans_semibold"
+            android:padding="@dimen/space16"
+            android:text="@string/register"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font18" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/space16"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space8"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunitosans_regular"
+                android:text="@string/already_have_ac"
+                android:textAlignment="textEnd"
+                android:textAllCaps="false"
+                android:textColor="@color/grey_2"
+                android:textSize="@dimen/font14" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space8"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunitosans_semibold"
+                android:paddingLeft="@dimen/space8"
+                android:text="@string/sign_in"
+                android:id="@+id/tvSignIn"
+                android:textAlignment="textStart"
+                android:textAllCaps="true"
+                android:textColor="@color/black_1"
+                android:textSize="@dimen/font14" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>
