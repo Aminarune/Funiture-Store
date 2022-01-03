@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_color"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".views.EnterPhoneActivity">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/phone_numer"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font42" />
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="@dimen/space32"
+        android:layout_marginTop="@dimen/space32"
+        android:layout_marginRight="@dimen/space32"
+        android:backgroundTint="@color/white"
+        app:cardCornerRadius="@dimen/space16">
+
+        <LinearLayout
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/countryCodePicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space16"
+                android:layout_marginTop="@dimen/space32"
+                android:layout_marginRight="@dimen/space16"
+                android:background="@color/white"
+                app:ccp_autoDetectCountry="true"
+                app:ccp_autoFormatNumber="true"
+                app:ccp_showFullName="true" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/space16"
+                android:background="@color/white"
+                android:hint="@string/enter_phone"
+                app:boxStrokeColor="@color/black"
+                app:boxStrokeWidthFocused="@dimen/space2"
+                app:endIconMode="clear_text"
+                app:endIconTint="@color/black"
+
+                app:hintTextColor="@color/black"
+                app:startIconDrawable="@drawable/ic_phone"
+                app:startIconTint="@color/black_1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="phone" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <Button
+                android:id="@+id/btnSend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/space16"
+                android:backgroundTint="@color/main_color"
+                android:text="@string/send" />
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>

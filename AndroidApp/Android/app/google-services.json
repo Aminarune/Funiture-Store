@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1014701062099",
+    "project_id": "myproject-fc576",
+    "storage_bucket": "myproject-fc576.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1014701062099:android:8474710d93525fff55a126",
+        "android_client_info": {
+          "package_name": "com.example.furniture"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1014701062099-lfbv3o5d8u4rggpkp8qchusk9lnltcg2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.furniture",
+            "certificate_hash": "fa2c5bf90a99f70b6e721b3c2808111c3ad5380f"
+          }
+        },
+        {
+          "client_id": "1014701062099-074ek32hl9o1lepg6k61uqv96cuvpfik.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7o2TXBQSC74LXRle_19IX_WElWiLtROM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1014701062099-074ek32hl9o1lepg6k61uqv96cuvpfik.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

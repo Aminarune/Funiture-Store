@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".fragments.AccountFragment">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintAvatar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/main_color"
+        android:orientation="vertical"
+        android:padding="@dimen/space8">
+
+        <ImageView
+            android:id="@+id/ivAcvatarAccountHome"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/ic_avatar1"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivPhotoCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivAcvatarAccountHome"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_photo_camera"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintEnd_toEndOf="@+id/ivAcvatarAccountHome"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tvNameAccountHome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/constraintAvatar"
+            android:layout_marginStart="16dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/sample_user_name"
+            android:textAlignment="center"
+            android:textColor="@color/black_1"
+            android:textSize="@dimen/font20"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivAcvatarAccountHome"
+            app:layout_constraintTop_toTopOf="@+id/ivAcvatarAccountHome"
+            app:layout_constraintVertical_bias="0.465" />
+
+        <TextView
+            android:id="@+id/tvEmailAccountHome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvNameAccountHome"
+            android:layout_marginStart="16dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/sample_email"
+            android:textAlignment="center"
+            android:textColor="@color/grey_2"
+            android:textSize="@dimen/font14"
+            app:layout_constraintBottom_toBottomOf="@+id/ivAcvatarAccountHome"
+            app:layout_constraintStart_toEndOf="@+id/ivAcvatarAccountHome"
+            app:layout_constraintTop_toBottomOf="@+id/tvNameAccountHome" />
+
+        <ImageView
+            android:id="@+id/btnLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_logout"
+            android:padding="@dimen/space16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/constraintAvatar"
+        android:layout_marginStart="@dimen/space16"
+        android:layout_marginTop="@dimen/space32"
+        android:layout_marginEnd="@dimen/space16"
+        android:layout_marginBottom="@dimen/space16"
+        app:cardCornerRadius="@dimen/space4"
+        app:cardElevation="@dimen/space4">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space16"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="@dimen/space4"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/order_history"
+                android:textColor="@color/black_1"
+                android:textSize="@dimen/font18" />
+
+
+            <ImageButton
+                android:id="@+id/ivEditOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@android:color/transparent"
+                android:padding="@dimen/space16"
+                android:src="@drawable/ic_chevron_right_1" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewShipping"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cardViewOrder"
+        android:layout_margin="@dimen/space16"
+        app:cardCornerRadius="@dimen/space4"
+        app:cardElevation="@dimen/space4">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space16"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="@dimen/space4"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/shipping_add"
+                android:textColor="@color/black_1"
+                android:textSize="@dimen/font18" />
+
+            <ImageButton
+                android:id="@+id/ivEditShppingAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@android:color/transparent"
+                android:padding="@dimen/space16"
+                android:src="@drawable/ic_chevron_right_1" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewSetting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cardViewShipping"
+        android:layout_margin="@dimen/space16"
+        app:cardCornerRadius="@dimen/space4"
+        app:cardElevation="@dimen/space4">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space16"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="@dimen/space4"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/setting"
+                android:textColor="@color/black_1"
+                android:textSize="@dimen/font18" />
+
+
+            <ImageButton
+                android:id="@+id/ivEditSetting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@android:color/transparent"
+                android:padding="@dimen/space16"
+                android:src="@drawable/ic_chevron_right_1" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>

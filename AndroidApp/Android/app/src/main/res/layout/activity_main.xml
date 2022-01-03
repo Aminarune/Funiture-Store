@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".views.MainActivity">
+
+
+    <FrameLayout
+        android:id="@+id/frameLayoutHome"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="70dp"/>
+
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottom_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:backgroundTint="@color/main_color"
+        app:fabCradleMargin="@dimen/space8"
+        app:fabCradleRoundedCornerRadius="@dimen/space16"
+        app:fabCradleVerticalOffset="@dimen/space2">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:layout_marginEnd="@dimen/space16"
+            android:background="@android:color/transparent"
+            android:foreground="?attr/selectableItemBackground"
+            app:itemIconTint="@drawable/bottom_nav_icon_color_selector"
+            app:itemTextColor="@android:color/black"
+            app:labelVisibilityMode="unlabeled"
+            app:menu="@menu/bottom_nav" />
+
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_shopping_cart"
+        app:layout_anchor="@id/bottom_appbar"
+        android:backgroundTint="@color/main_color"
+        app:rippleColor="@color/grey_7"
+        />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

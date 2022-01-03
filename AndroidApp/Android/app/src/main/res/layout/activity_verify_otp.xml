@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".views.VerifyOtpActivity">
+
+    <TextView
+        android:id="@+id/textViewCountTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/space16"
+        android:textAllCaps="true"
+        android:textColor="@color/black_1"
+        android:textSize="@dimen/font30" />
+
+    <TextView
+        android:id="@+id/textView_code_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/code"
+        android:textAllCaps="true"
+        android:textColor="@color/black_1"
+        android:textSize="@dimen/font50" />
+
+
+    <TextView
+        android:id="@+id/textView_enter_onepass_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/space32"
+        android:layout_marginBottom="@dimen/space16"
+        android:text="@string/enter_onetime_pass"
+        android:textSize="@dimen/font16" />
+
+
+    <com.chaos.view.PinView
+        android:id="@+id/pinView"
+        style="@style/PinWidget.PinView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="@dimen/space16"
+        android:imeOptions="actionDone"
+        android:inputType="phone"
+        android:itemBackground="@color/main_color"
+        android:textColor="@color/black"
+        app:cursorColor="@color/black"
+        app:hideLineWhenFilled="true"
+        app:itemCount="6"
+        app:itemHeight="@dimen/space40"
+        app:itemRadius="@dimen/space2"
+        app:itemWidth="@dimen/space40"
+        app:lineColor="@color/black" />
+
+    <Button
+        android:id="@+id/btnVerify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/space16"
+        android:backgroundTint="@color/main_color"
+        android:text="@string/verify" />
+
+
+    <LinearLayout
+        android:id="@+id/layoutResend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/space16"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space8"
+                android:layout_weight="1"
+                android:text="@string/don_receive_code"
+                android:textAlignment="textEnd"
+                android:textAllCaps="false"
+                android:textColor="@color/grey_2"
+                android:textSize="@dimen/font14" />
+
+            <TextView
+                android:id="@+id/tvResendCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space8"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunitosans_semibold"
+                android:paddingLeft="@dimen/space8"
+                android:text="@string/resend"
+                android:textAlignment="textStart"
+                android:textAllCaps="true"
+                android:textColor="@color/black_1"
+                android:textSize="@dimen/font14" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvBackToEnter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space8"
+            android:layout_weight="1"
+            android:fontFamily="@font/nunitosans_semibold"
+            android:paddingLeft="@dimen/space8"
+            android:text="@string/choose_number"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/black_1"
+            android:textSize="@dimen/font14" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

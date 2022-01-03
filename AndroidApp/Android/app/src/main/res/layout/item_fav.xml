@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/layoutImageFav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="@dimen/space16"
+        android:layout_marginTop="@dimen/space16"
+        android:elevation="@dimen/space8"
+        app:cardCornerRadius="@dimen/space4">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/ivFavProduct"
+            android:scaleType="centerCrop"
+             />
+
+    </androidx.cardview.widget.CardView>
+
+    <View
+        android:id="@+id/viewDot"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/layoutImageFav"
+        android:layout_alignStart="@id/layoutImageFav"
+        android:layout_alignEnd="@id/layoutIconFav"
+        android:layout_marginTop="8dp"
+        android:background="@color/grey_7" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/viewDot"
+        android:layout_alignTop="@id/layoutImageFav"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="@dimen/space8"
+        android:layout_toStartOf="@+id/layoutIconFav"
+        android:layout_toEndOf="@id/layoutImageFav"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="@dimen/space16"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:id="@+id/tvFavProduct"
+             />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:id="@+id/tvPriceProduct"
+            />
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/layoutIconFav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/layoutImageFav"
+        android:layout_alignBottom="@id/layoutImageFav"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/space16"
+        android:orientation="vertical"
+        android:paddingEnd="@dimen/space4">
+
+        <ImageView
+            android:id="@+id/ivFavRemove"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="top"
+            android:src="@drawable/ic_remove" />
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:backgroundTint="@color/grey_8"
+            app:cardCornerRadius="@dimen/space4">
+
+            <ImageView
+                android:id="@+id/ivAddProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_market_black" />
+        </androidx.cardview.widget.CardView>
+
+
+    </RelativeLayout>
+</RelativeLayout>
