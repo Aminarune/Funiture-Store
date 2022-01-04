@@ -17,16 +17,22 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.furniture.R;
+import com.example.furniture.models.Cart;
 import com.example.furniture.models.Favourite;
 import com.example.furniture.models.Product;
 import com.example.furniture.models.User;
+import com.example.furniture.services.CheckCart;
 import com.example.furniture.services.DownloadProductById;
+import com.example.furniture.services.OnDataGetCart;
 import com.example.furniture.services.OnDataProductByID;
 import com.example.furniture.services.CheckFavorite;
+import com.example.furniture.services.OnDataSaveCart;
 import com.example.furniture.services.OnDataSaveListener;
 import com.example.furniture.services.OnFavDataListener;
 import com.example.furniture.services.RemoveFavorite;
+import com.example.furniture.services.SaveToCart;
 import com.example.furniture.services.SaveToFavorite;
+import com.example.furniture.services.UpdateToCart;
 import com.example.furniture.utilities.AlertDialogUtil;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
@@ -67,7 +73,7 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_product);
 
-        queue=Volley.newRequestQueue(this);
+        queue = Volley.newRequestQueue(this);
 
         user = (User) getIntent().getSerializableExtra("user");
 
@@ -78,7 +84,7 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
         initView();
 
         //check first
-        CheckFavorite checkFavorite=new CheckFavorite(user.getId(),idProduct,queue,this);
+        CheckFavorite checkFavorite = new CheckFavorite(user.getId(), idProduct, queue, this);
         checkFavorite.execute();
 
         getData(this, idProduct);
@@ -136,10 +142,92 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
                 break;
 
             case R.id.btnAddToCart:
-                Toast.makeText(view.getContext(), "OK", Toast.LENGTH_SHORT).show();
+                getCart();
                 break;
         }
     }
+
+    private void getCart() {
+
+        CheckCart checkCart = new CheckCart(user.getId(), idProduct, queue, new OnDataGetCart() {
+            @Override
+            public void onFoundCartItem(Cart cart) {
+                //found - update
+                if (cart.getQuantity() == 10) {
+                    AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(DetailProductActivity.this,
+                            R.raw.wrong, "You have reached the maximum purchase limit");
+                    alertDialog.setCanceledOnTouchOutside(true);
+                    alertDialog.show();
+                } else {
+                    int quantity = Integer.valueOf(tvQuantityDetail.getText().toString());
+                    updateCart(cart, quantity);
+                }
+            }
+
+            @Override
+            public void onNotFoundItem(String error) {
+                //notfound - save
+                saveToCart();
+            }
+        });
+        checkCart.execute();
+    }
+
+
+    private void saveToCart() {
+        int quantity = Integer.valueOf(tvQuantityDetail.getText().toString());
+
+        float price = Float.valueOf(tvPriceProductDetail.getText().toString());
+
+        float total = price * quantity;
+
+        SaveToCart saveToCart = new SaveToCart(user.getId(), idProduct, quantity, price, total, queue, new OnDataSaveCart() {
+            @Override
+            public void onSuccess(boolean result) {
+                AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(DetailProductActivity.this,
+                        R.raw.loading,
+                        "Item successfully added to your cart");
+                alertDialog.setCanceledOnTouchOutside(true);
+                alertDialog.show();
+            }
+
+            @Override
+            public void onFailure(String result) {
+                AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(DetailProductActivity.this,
+                        R.raw.wrong,
+                        "Item could not  added to your cart");
+                alertDialog.setCanceledOnTouchOutside(true);
+                alertDialog.show();
+            }
+        });
+        saveToCart.execute();
+    }
+
+    private void updateCart(Cart cart, int quantity) {
+
+        UpdateToCart updateToCart = new UpdateToCart(quantity, queue, cart, new OnDataSaveCart() {
+            @Override
+            public void onSuccess(boolean result) {
+                AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(DetailProductActivity.this,
+                        R.raw.loading,
+                        "Item successfully added to your cart");
+                alertDialog.setCanceledOnTouchOutside(true);
+                alertDialog.show();
+            }
+
+            @Override
+            public void onFailure(String result) {
+                AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(DetailProductActivity.this,
+                        R.raw.wrong,
+                        "Item could not added to your cart");
+                alertDialog.setCanceledOnTouchOutside(true);
+                alertDialog.show();
+            }
+        });
+        updateToCart.execute();
+
+    }
+
 
     private void getData(Context context, String idProduct) {
 
@@ -153,11 +241,9 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
     }
 
     private void createUIProduct(Product product) {
-
-
         ivItemProductDetail.setImageBitmap(product.getPicture());
         tvItemProductDetail.setText(product.getName());
-        tvPriceProductDetail.setText("$ " + product.getPrice());
+        tvPriceProductDetail.setText(product.getPrice());
         tvDescProductDetail.setText(product.getDesc());
     }
 
@@ -221,23 +307,25 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
 
     //change when click
     private void checkFav() {
-        if (state==false) {
+        if (state == false) {
             //uncheck to check
-            SaveToFavorite saveToFavorite = new SaveToFavorite(user.getId(), idProduct, queue,this);
+            SaveToFavorite saveToFavorite = new SaveToFavorite(user.getId(), idProduct, queue, this);
             saveToFavorite.execute();
             ivFavourite.setImageResource(R.drawable.ic_marker_black_check);
+            state = true;
         } else {
             //check to uncheck
-            RemoveFavorite removeFavorite = new RemoveFavorite(idFav, user.getId(), idProduct, queue);
+            RemoveFavorite removeFavorite = new RemoveFavorite(idFav, queue);
             removeFavorite.execute();
             ivFavourite.setImageResource(R.drawable.ic_marker_black);
+            state = false;
         }
     }
 
 
     //check exist
     @Override
-    public void onFoundFav(boolean result,String id) {
+    public void onFoundFav(boolean result, String id) {
         state = result;
         idFav = id;
         ivFavourite.setImageResource(R.drawable.ic_marker_black_check);
@@ -253,7 +341,7 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
     //save success
     @Override
     public void onSuccess(Favourite favourite) {
-        idFav=favourite.getId();
+        idFav = favourite.getId();
     }
 
     @Override

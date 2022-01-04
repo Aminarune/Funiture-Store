@@ -3,6 +3,7 @@ package com.example.furniture.fragments;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,15 +17,25 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.furniture.R;
 import com.example.furniture.adapters.FavoriteAdapter;
+import com.example.furniture.models.Cart;
 import com.example.furniture.models.Favourite;
 import com.example.furniture.models.Product;
 import com.example.furniture.models.User;
 import com.example.furniture.services.Api;
+import com.example.furniture.services.CheckCart;
 import com.example.furniture.services.DownloadDataProduct;
 import com.example.furniture.services.DownloadDataProductByCategory;
 import com.example.furniture.services.GetFavorite;
 import com.example.furniture.services.OnDataFavList;
+import com.example.furniture.services.OnDataGetCart;
 import com.example.furniture.services.OnDataProductListener;
+import com.example.furniture.services.OnDataSaveCart;
+import com.example.furniture.services.RemoveCart;
+import com.example.furniture.services.RemoveFavorite;
+import com.example.furniture.services.SaveToCart;
+import com.example.furniture.services.UpdateToCart;
+import com.example.furniture.utilities.AlertDialogUtil;
+import com.example.furniture.views.DetailProductActivity;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
@@ -34,7 +45,7 @@ import java.util.ArrayList;
  * Use the {@link MakerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MakerFragment extends Fragment implements OnDataFavList, OnDataProductListener, FavoriteAdapter.SetOnClickFav {
+public class MakerFragment extends Fragment implements OnDataFavList, OnDataProductListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -158,8 +169,13 @@ public class MakerFragment extends Fragment implements OnDataFavList, OnDataProd
         createUiFav(context,arrayListProduct,favourites);
     }
 
+    @Override
+    public void onCompleteDataCartProduct(Context view, ArrayList<Product> products, ArrayList<Cart> carts) {
+
+    }
+
     private void createUiFav(Context context,ArrayList<Product> products,ArrayList<Favourite> favourites){
-        FavoriteAdapter favoriteAdapter=new FavoriteAdapter(context,products,favourites,this);
+        FavoriteAdapter favoriteAdapter=new FavoriteAdapter(context, products, favourites);
         LinearLayoutManager layoutManager=new LinearLayoutManager(context,RecyclerView.VERTICAL,false);
         recycleViewFavorite.setLayoutManager(layoutManager);
         recycleViewFavorite.setAdapter(favoriteAdapter);
@@ -169,15 +185,20 @@ public class MakerFragment extends Fragment implements OnDataFavList, OnDataProd
         shimmerFrameLayout.setVisibility(View.GONE);
         recycleViewFavorite.setVisibility(View.VISIBLE);
 
+        favoriteAdapter.setOnClickFav(new FavoriteAdapter.SetOnClickFav() {
+            @Override
+            public void onRemoveItem(Favourite favourite,int pos) {
+                favourites.remove(favourite);
+                favoriteAdapter.notifyItemRemoved(pos);
+                favoriteAdapter.notifyItemRangeChanged(pos,favourites.size());
+                RemoveFavorite removeFavorite=new RemoveFavorite(favourite.getId(),queue);
+                removeFavorite.execute();
+            }
+
+        });
+
     }
 
-    @Override
-    public void onRemoveItem(String idFav, String idUser, String idProduct) {
 
-    }
 
-    @Override
-    public void onAddItem(String idUser, String idProduct) {
-
-    }
 }

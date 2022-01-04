@@ -12,6 +12,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.furniture.models.Cart;
 import com.example.furniture.models.Favourite;
 import com.example.furniture.models.Product;
 
@@ -31,6 +32,8 @@ public class DownloadDataProduct extends AsyncTask<Void, Void, Void> {
 
     ArrayList<Favourite> favourites;
 
+    ArrayList<Cart> carts;
+
     private static final String urlProduct = Api.url + "product";
 
 
@@ -39,6 +42,14 @@ public class DownloadDataProduct extends AsyncTask<Void, Void, Void> {
         this.mlistener = mlistener;
         this.favourites = favourites;
     }
+
+
+    public DownloadDataProduct(Context view, ArrayList<Cart> carts,OnDataProductListener mlistener) {
+        this.view = view;
+        this.mlistener = mlistener;
+        this.carts = carts;
+    }
+
 
     @Override
     protected Void doInBackground(Void... voids) {
@@ -69,6 +80,7 @@ public class DownloadDataProduct extends AsyncTask<Void, Void, Void> {
                         }
                     }
                     mlistener.onCompleteDataFavProduct(view, products,favourites);
+                    mlistener.onCompleteDataCartProduct(view,products,carts);
                 }
 
             }

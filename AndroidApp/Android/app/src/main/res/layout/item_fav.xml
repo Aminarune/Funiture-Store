@@ -17,11 +17,10 @@
         app:cardCornerRadius="@dimen/space4">
 
         <ImageView
+            android:id="@+id/ivFavProduct"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:id="@+id/ivFavProduct"
-            android:scaleType="centerCrop"
-             />
+            android:scaleType="centerCrop" />
 
     </androidx.cardview.widget.CardView>
 
@@ -47,22 +46,32 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tvFavProduct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginBottom="@dimen/space16"
             android:ellipsize="end"
-            android:maxLines="1"
-            android:id="@+id/tvFavProduct"
-             />
+            android:maxLines="1" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:id="@+id/tvPriceProduct"
-            />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/money_symbol"/>
+
+            <TextView
+                android:id="@+id/tvPriceProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1" />
+        </LinearLayout>
+
     </LinearLayout>
 
 
@@ -79,29 +88,12 @@
 
         <ImageView
             android:id="@+id/ivFavRemove"
-            android:layout_width="20dp"
+            android:layout_width="30dp"
             android:layout_height="20dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="top"
             android:src="@drawable/ic_remove" />
-
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentBottom="true"
-            android:backgroundTint="@color/grey_8"
-            app:cardCornerRadius="@dimen/space4">
-
-            <ImageView
-                android:id="@+id/ivAddProduct"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_market_black" />
-        </androidx.cardview.widget.CardView>
-
 
     </RelativeLayout>
 </RelativeLayout>

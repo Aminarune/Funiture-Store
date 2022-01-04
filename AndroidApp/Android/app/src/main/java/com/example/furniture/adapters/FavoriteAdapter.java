@@ -1,5 +1,6 @@
 package com.example.furniture.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,10 +33,14 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHD
 
     SetOnClickFav onClickFav;
 
-    public FavoriteAdapter(Context context, ArrayList<Product> productArrayList, ArrayList<Favourite> favouriteArrayList, SetOnClickFav onClickFav) {
+    public FavoriteAdapter(Context context, ArrayList<Product> productArrayList,
+                           ArrayList<Favourite> favouriteArrayList) {
         this.context = context;
         this.productArrayList = productArrayList;
         this.favouriteArrayList = favouriteArrayList;
+    }
+
+    public void setOnClickFav(SetOnClickFav onClickFav) {
         this.onClickFav = onClickFav;
     }
 
@@ -50,35 +55,31 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHD
 
     @Override
     public void onBindViewHolder(@NonNull ViewHD holder, int position) {
+
+
         Product product=productArrayList.get(position);
         holder.ivFavProduct.setImageBitmap(product.getPicture());
         holder.tvFavProduct.setText(product.getName());
-        holder.tvPriceProduct.setText("$ "+product.getPrice());
+        holder.tvPriceProduct.setText(product.getPrice());
 
         Favourite favourite=favouriteArrayList.get(position);
         holder.ivFavRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onClickFav.onRemoveItem(favourite.getId(),favourite.getIdUser(),favourite.getIdProduct());
+                onClickFav.onRemoveItem(favourite,position);
             }
         });
 
-        holder.ivAddProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onClickFav.onAddItem(favourite.getIdUser(),favourite.getIdProduct());
-            }
-        });
     }
 
     @Override
     public int getItemCount() {
-        return productArrayList.size();
+        return favouriteArrayList.size();
     }
 
     public class ViewHD extends RecyclerView.ViewHolder {
 
-        ImageView ivFavProduct, ivAddProduct, ivFavRemove;
+        ImageView ivFavProduct, ivFavRemove;
 
         TextView tvFavProduct, tvPriceProduct;
 
@@ -87,7 +88,6 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHD
             super(itemView);
 
             ivFavProduct = itemView.findViewById(R.id.ivFavProduct);
-            ivAddProduct = itemView.findViewById(R.id.ivAddProduct);
             ivFavRemove = itemView.findViewById(R.id.ivFavRemove);
             tvFavProduct = itemView.findViewById(R.id.tvFavProduct);
             tvPriceProduct = itemView.findViewById(R.id.tvPriceProduct);
@@ -96,8 +96,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHD
     }
 
     public interface SetOnClickFav{
-        void onRemoveItem(String idFav,String idUser,String idProduct);
-        void onAddItem(String idUser,String idProduct);
+        void onRemoveItem(Favourite favourite,int pos);
     }
 
 }

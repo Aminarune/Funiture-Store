@@ -56,7 +56,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHD> 
         Product product = productArrayList.get(position);
         holder.imageView.setImageBitmap(product.getPicture());
         holder.textName.setText(product.getName());
-        holder.textPrice.setText("$ "+product.getPrice());
+        holder.textPrice.setText(product.getPrice());
 
         holder.ivItemPurchase.setOnClickListener(new View.OnClickListener() {
             @Override

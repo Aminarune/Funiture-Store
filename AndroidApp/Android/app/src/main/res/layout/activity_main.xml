@@ -48,9 +48,10 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_shopping_cart"
+        android:src="@drawable/ic_bi_cart"
         app:layout_anchor="@id/bottom_appbar"
         android:backgroundTint="@color/main_color"
         app:rippleColor="@color/grey_7"
+        android:id="@+id/btnCart"
         />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

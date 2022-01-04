@@ -17,7 +17,7 @@
             android:exported="false" />
         <activity
             android:name=".views.DetailProductActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".views.NewPassWordActivity"
             android:exported="false" />

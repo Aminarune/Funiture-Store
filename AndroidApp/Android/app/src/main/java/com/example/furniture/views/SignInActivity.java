@@ -286,10 +286,11 @@ public class SignInActivity extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    alertDialog.dismiss();
                     String str = "Some thing wrong please try again.";
-                    AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(context, R.raw.disconnected, str);
-                    alertDialog.setCanceledOnTouchOutside(true);
-                    alertDialog.show();
+                    AlertDialog dialog = AlertDialogUtil.showAlertDialog(context, R.raw.disconnected, str);
+                    dialog.setCanceledOnTouchOutside(true);
+                    dialog.show();
                 }
             });
 

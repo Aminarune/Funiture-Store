@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.furniture.R;
 import com.example.furniture.adapters.CategoryAdapter;
 import com.example.furniture.adapters.ProductAdapter;
+import com.example.furniture.models.Cart;
 import com.example.furniture.models.Category;
 
 import com.example.furniture.models.Favourite;
@@ -193,6 +194,11 @@ public class HomeFragment extends Fragment implements OnDataCategoryListener, On
 
     @Override
     public void onCompleteDataFavProduct(Context view, ArrayList<Product> products, ArrayList<Favourite> favourites) {
+
+    }
+
+    @Override
+    public void onCompleteDataCartProduct(Context view, ArrayList<Product> products, ArrayList<Cart> carts) {
 
     }
 

@@ -19,17 +19,13 @@ import org.json.JSONObject;
 public class RemoveFavorite extends AsyncTask<Void, Void, Void> {
 
     String id;
-    String id_User;
-    String id_Product;
     RequestQueue queue;
 
 
     private String urlFav = Api.url + "favorite";
 
-    public RemoveFavorite(String id, String id_User, String id_Product, RequestQueue queue) {
+    public RemoveFavorite(String id, RequestQueue queue) {
         this.id = id;
-        this.id_User = id_User;
-        this.id_Product = id_Product;
         this.queue = queue;
     }
 

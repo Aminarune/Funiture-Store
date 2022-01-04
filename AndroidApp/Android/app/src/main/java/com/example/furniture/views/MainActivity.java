@@ -18,6 +18,7 @@ import android.view.View;
 import com.example.furniture.R;
 import com.example.furniture.fragments.AccountFragment;
 import com.example.furniture.fragments.BellFragment;
+import com.example.furniture.fragments.CartFragment;
 import com.example.furniture.fragments.HomeFragment;
 import com.example.furniture.fragments.MakerFragment;
 import com.example.furniture.models.Product;
@@ -26,10 +27,11 @@ import com.example.furniture.services.DownloadDataCategory;
 import com.example.furniture.utilities.AlertDialogUtil;
 import com.example.furniture.utilities.NetworkChangeReceiver;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity implements
-        NavigationBarView.OnItemSelectedListener, HomeFragment.OnDataPassProduct {
+        NavigationBarView.OnItemSelectedListener, HomeFragment.OnDataPassProduct, View.OnClickListener {
 
 
     //check connection state auto
@@ -41,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements
 
     private User userLogin;
 
+    private FloatingActionButton btnCart;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
 
         userLogin=getUserInfor();
+
+        btnCart=findViewById(R.id.btnCart);
+        btnCart.setOnClickListener(this);
 
         bottomNav = findViewById(R.id.bottom_nav_view);
 
@@ -142,8 +149,20 @@ public class MainActivity extends AppCompatActivity implements
         startActivity(intent);
     }
 
+
+
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btnCart:
+                createFragment(new CartFragment(userLogin));
+                break;
+        }
     }
 }

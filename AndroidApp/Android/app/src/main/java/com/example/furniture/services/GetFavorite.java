@@ -23,6 +23,7 @@ public class GetFavorite extends AsyncTask<Void,Void,Void> {
     Context view;
 
     String id_User;
+
     RequestQueue queue;
 
     OnDataFavList onDataFavList;

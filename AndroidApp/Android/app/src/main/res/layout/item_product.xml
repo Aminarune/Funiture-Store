@@ -10,9 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginTop="@dimen/space16"
-        >
+        android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
@@ -36,18 +35,18 @@
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/grey_1"
             android:layout_alignParentBottom="true"
             android:layout_marginRight="@dimen/space8"
             android:layout_marginBottom="@dimen/space8"
+            android:backgroundTint="@color/grey_1"
+            app:cardCornerRadius="@dimen/space8"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:cardCornerRadius="@dimen/space8">
+            app:layout_constraintEnd_toEndOf="parent">
 
             <ImageView
+                android:id="@+id/ivItemPurchase"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/ivItemPurchase"
                 android:layout_margin="@dimen/space8"
                 android:src="@drawable/ic_market" />
         </androidx.cardview.widget.CardView>
@@ -59,23 +58,37 @@
         android:id="@+id/tvNameProduct"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space8"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="@string/sample_user_name"
-        android:layout_marginTop="@dimen/space8"
         android:textAlignment="center"
         android:textSize="@dimen/font14" />
 
-    <TextView
-        android:id="@+id/tvPriceProduct"
+    <LinearLayout
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space4"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:text="@string/sample_user_name"
-        android:textAlignment="center"
-        android:textSize="@dimen/font14" />
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/money_symbol"
+            android:layout_marginTop="@dimen/space4"
+            />
+
+        <TextView
+            android:id="@+id/tvPriceProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space4"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/sample_user_name"
+            android:textAlignment="center"
+            android:textSize="@dimen/font14" />
+    </LinearLayout>
 
 
 </LinearLayout>

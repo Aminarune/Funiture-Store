@@ -41,19 +41,19 @@
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/grey_7"
             android:layout_alignParentRight="true"
-            app:cardCornerRadius="@dimen/space16"
+            android:layout_marginTop="@dimen/space16"
             android:layout_marginRight="@dimen/space16"
-            android:layout_marginTop="@dimen/space16">
+            android:backgroundTint="@color/grey_7"
+            app:cardCornerRadius="@dimen/space16">
+
             <ImageView
+                android:id="@+id/ivFavourite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/space16"
-                android:id="@+id/ivFavourite"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_marker_black"
-                />
+                android:padding="@dimen/space16"
+                android:src="@drawable/ic_marker_black" />
         </androidx.cardview.widget.CardView>
 
         <ImageView
@@ -75,13 +75,13 @@
 
             <TextView
                 android:id="@+id/tvItemProductDetail"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/space16"
                 android:layout_weight="5"
                 android:text="@string/sample_user_name"
-                android:textSize="@dimen/font24" />
+                android:textSize="@dimen/font20" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -99,8 +99,8 @@
 
                     <TextView
                         android:id="@+id/tvInscrease"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
                         android:background="@color/grey_7"
                         android:gravity="center"
                         android:text="+"
@@ -114,7 +114,7 @@
                     android:layout_marginLeft="@dimen/space8"
                     android:layout_marginRight="@dimen/space8"
                     android:text="01"
-                    android:textSize="@dimen/font24" />
+                    android:textSize="@dimen/font20" />
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
@@ -123,8 +123,8 @@
 
                     <TextView
                         android:id="@+id/tvDescrease"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
                         android:background="@color/grey_7"
                         android:gravity="center"
                         android:text="-"
@@ -134,22 +134,38 @@
 
         </LinearLayout>
 
-
-        <TextView
-            android:id="@+id/tvPriceProductDetail"
+        <LinearLayout
+            android:id="@+id/layoutPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/layoutLinear"
             android:layout_marginStart="@dimen/space16"
             android:layout_marginBottom="@dimen/space8"
-            android:text="@string/sample_user_name"
-            android:textSize="@dimen/font24" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/money_symbol"
+                android:textSize="@dimen/font20"
+
+                />
+
+            <TextView
+                android:id="@+id/tvPriceProductDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="@string/sample_user_name"
+                android:textSize="@dimen/font20" />
+        </LinearLayout>
+
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/btnAddToCart"
-            android:layout_below="@id/tvPriceProductDetail"
+            android:layout_below="@id/layoutPrice"
             android:layout_marginStart="@dimen/space16"
             android:layout_marginEnd="@dimen/space16"
             android:fillViewport="true"

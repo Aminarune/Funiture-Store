@@ -49,4 +49,8 @@
     <string name="add_to_cart">Add to cart</string>
     <string name="use_this_shipping">Use as the shipping address</string>
     <string name="enter_street_address">Street Address</string>
+    <string name="favourite">favourite</string>
+    <string name="notification">Notification</string>
+    <string name="my_cart">my cart</string>
+    <string name="money_symbol">$ </string>
 </resources>

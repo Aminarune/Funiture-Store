@@ -309,7 +309,6 @@ public class VerifyOtpActivity extends AppCompatActivity {
             // 2 - Auto-retrieval. On some devices Google Play services can automatically
             //     detect the incoming verification SMS and perform verification without
             //     user action.
-            Log.d(TAG, "onVerificationCompleted:" + credential);
 
             String code = credential.getSmsCode();
             if (code != null) {
@@ -323,7 +322,7 @@ public class VerifyOtpActivity extends AppCompatActivity {
         public void onVerificationFailed(FirebaseException e) {
             // This callback is invoked in an invalid request for verification is made,
             // for instance if the the phone number format is not valid.
-            Log.d(TAG, "onVerificationFailed", e);
+
 
             if (e instanceof FirebaseAuthInvalidCredentialsException) {
                 // Invalid request
@@ -340,7 +339,7 @@ public class VerifyOtpActivity extends AppCompatActivity {
             // The SMS verification code has been sent to the provided phone number, we
             // now need to ask the user to enter the code and then construct a credential
             // by combining the code with a verification ID.
-            Log.d(TAG, "onCodeSent:" + verificationId + "\n");
+
 
             // Save verification ID and resending token so we can use them later
             codeBySystem = verificationId;
@@ -357,7 +356,7 @@ public class VerifyOtpActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
+
 
                             FirebaseUser user = task.getResult().getUser();
                             // Update UI
@@ -367,7 +366,7 @@ public class VerifyOtpActivity extends AppCompatActivity {
 
                         } else {
                             // Sign in failed, display a message and update the UI
-                            Log.d(TAG, "signInWithCredential:failure", task.getException());
+
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 // The verification code entered was invalid
                             }
