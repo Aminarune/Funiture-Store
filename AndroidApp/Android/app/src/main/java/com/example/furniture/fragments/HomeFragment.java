@@ -211,6 +211,6 @@ public class HomeFragment extends Fragment implements OnDataCategoryListener, On
     }
 
     public void sendDataToActivity(Product product) {
-        dataPassProduct.onDataPassProduct(product);
+        dataPassProduct.onDataPassProduct(product,"Home");
     }
 }

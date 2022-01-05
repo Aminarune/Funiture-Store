@@ -11,7 +11,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -23,7 +22,6 @@ import com.example.furniture.fragments.HomeFragment;
 import com.example.furniture.fragments.MakerFragment;
 import com.example.furniture.models.Product;
 import com.example.furniture.models.User;
-import com.example.furniture.services.DownloadDataCategory;
 import com.example.furniture.utilities.AlertDialogUtil;
 import com.example.furniture.utilities.NetworkChangeReceiver;
 import com.example.furniture.utilities.OnDataPassProduct;
@@ -50,11 +48,12 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
-        userLogin=getUserInfor();
+        userLogin = getUserInfor();
 
-        btnCart=findViewById(R.id.btnCart);
+        btnCart = findViewById(R.id.btnCart);
         btnCart.setOnClickListener(this);
 
         bottomNav = findViewById(R.id.bottom_nav_view);
@@ -141,15 +140,14 @@ public class MainActivity extends AppCompatActivity implements
 
 
     @Override
-    public void onDataPassProduct(Product data) {
+    public void onDataPassProduct(Product data, String tag) {
         //receive data from fragment and send to detail
-        Intent intent=new Intent(MainActivity.this, DetailProductActivity.class);
-        intent.putExtra("productID",data.getId());
-        intent.putExtra("user",userLogin);
+        Intent intent = new Intent(MainActivity.this, DetailProductActivity.class);
+        intent.putExtra("productID", data.getId());
+        intent.putExtra("user", userLogin);
+        intent.putExtra("from", tag);
         startActivity(intent);
     }
-
-
 
 
     @Override
@@ -159,10 +157,12 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btnCart:
                 createFragment(new CartFragment(userLogin));
                 break;
         }
     }
+
+
 }

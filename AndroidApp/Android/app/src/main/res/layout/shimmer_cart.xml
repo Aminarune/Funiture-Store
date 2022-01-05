@@ -95,7 +95,7 @@
 
             <TextView
                 android:layout_width="50dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:textSize="@dimen/font14"
                 android:textAlignment="textEnd"
                 android:background="@color/grey_7"

@@ -4,11 +4,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -34,15 +33,14 @@ import com.example.furniture.services.OnFavDataListener;
 import com.example.furniture.services.RemoveFavorite;
 import com.example.furniture.services.SaveToCart;
 import com.example.furniture.services.SaveToFavorite;
-import com.example.furniture.services.UpdateToCart;
 import com.example.furniture.services.UpdateToCartDetailProduct;
 import com.example.furniture.utilities.AlertDialogUtil;
 import com.example.furniture.utilities.NetworkChangeReceiver;
+import com.example.furniture.utilities.NumberUtilities;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.UUID;
 
 public class DetailProductActivity extends AppCompatActivity implements OnDataProductByID, View.OnClickListener, OnFavDataListener, OnDataSaveListener {
 
@@ -72,8 +70,13 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
 
     private String idFav;
 
+    private String from;
+
+    private Product product;
+
     //check connection state auto
     private NetworkChangeReceiver networkChangeReceiver;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,9 +89,13 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
 
         idProduct = getIntent().getStringExtra("productID");
 
-        String from = getIntent().getStringExtra("from");
+        from = getIntent().getStringExtra("from");
 
         initView();
+
+        networkChangeReceiver = new NetworkChangeReceiver(
+                AlertDialogUtil.showAlertDialog(DetailProductActivity.this,
+                        R.raw.disconnected, "Please check your connection and try again"));
 
         //check first
         CheckFavorite checkFavorite = new CheckFavorite(user.getId(), idProduct, queue, this);
@@ -96,7 +103,6 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
 
         getData(this, idProduct);
     }
-
 
 
     private void initView() {
@@ -208,32 +214,38 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
                 alertDialog.show();
             }
         });
+        tvQuantityDetail.setText(formatString(1));
         saveToCart.execute();
     }
 
     private void updateCart(Cart cart, int quantity) {
 
-        UpdateToCartDetailProduct updateToCartDetailProduct = new UpdateToCartDetailProduct(quantity, queue, cart, new OnDataSaveCart() {
-            @Override
-            public void onSuccess(boolean result) {
-                AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(DetailProductActivity.this,
-                        R.raw.loading,
-                        "Item successfully added to your cart");
-                alertDialog.setCanceledOnTouchOutside(true);
-                alertDialog.show();
-            }
+        int quan = cart.getQuantity() + quantity;
+        if (quan > 10) {
+            AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(DetailProductActivity.this,
+                    R.raw.wrong,
+                    "You have reach the maximum number product (10)");
+            alertDialog.setCanceledOnTouchOutside(true);
+            alertDialog.show();
+        } else {
+            UpdateToCartDetailProduct updateToCartDetailProduct = new UpdateToCartDetailProduct(quantity, queue, cart, new OnDataSaveCart() {
+                @Override
+                public void onSuccess(boolean result) {
+                    AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(DetailProductActivity.this,
+                            R.raw.loading,
+                            "Item successfully added to your cart");
+                    alertDialog.setCanceledOnTouchOutside(true);
+                    alertDialog.show();
+                }
 
-            @Override
-            public void onFailure(String result) {
-                AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(DetailProductActivity.this,
-                        R.raw.wrong,
-                        "You have reach the maximum number product (10)");
-                alertDialog.setCanceledOnTouchOutside(true);
-                alertDialog.show();
-            }
-        });
-        updateToCartDetailProduct.execute();
+                @Override
+                public void onFailure(String result) {
 
+                }
+            });
+            tvQuantityDetail.setText(formatString(1));
+            updateToCartDetailProduct.execute();
+        }
     }
 
 
@@ -262,6 +274,7 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
         shimmerFrameLayout.stopShimmer();
         shimmerFrameLayout.setVisibility(View.GONE);
         createUIProduct(product);
+        this.product = product;
     }
 
     @Override
@@ -357,8 +370,21 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
 
     }
 
+
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStart() {
+        super.onStart();
+        registerReceiver(networkChangeReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(networkChangeReceiver);
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 }

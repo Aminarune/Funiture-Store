@@ -78,7 +78,7 @@ public class EnterPhoneActivity extends AppCompatActivity {
         intent.putExtra("userName", user);
         intent.putExtra("email", email);
         intent.putExtra("pass", pass);
-        intent.putExtra("from","enter_phone");
+        intent.putExtra("from", "enter_phone");
         startActivity(intent);
         finish();
     }
@@ -146,6 +146,7 @@ public class EnterPhoneActivity extends AppCompatActivity {
 
                     String from = getIntent().getStringExtra("from");
 
+                    int temp = 0;
                     if (response.length() > 0) {
                         for (int i = 0; i < response.length(); i++) {
                             try {
@@ -153,31 +154,19 @@ public class EnterPhoneActivity extends AppCompatActivity {
 
                                 String num = jsonObject.getString("Phonenumber");
 
-                                if (from.equals("signup")) {
-                                    if (num.equals(editPhone)) {
-                                        AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(EnterPhoneActivity.this,
-                                                R.raw.wrong, "This phone number is already registered for another. Try forgot password!");
-                                        alertDialog.setCanceledOnTouchOutside(true);
-                                        alertDialog.show();
-                                    } else {
-                                        fromSignUpToEnterPhoneScreen(phoneNo, editPhone);
-                                        break;
-                                    }
+
+                                if (from.equals("signup") && num.equals(editPhone)) {
+                                    AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(EnterPhoneActivity.this,
+                                            R.raw.wrong, "This phone number is already registered for another. Try forgot password!");
+                                    alertDialog.setCanceledOnTouchOutside(true);
+                                    alertDialog.show();
+                                } else if (from.equals("signup") && !num.equals(editPhone)) {
+                                    fromSignUpToEnterPhoneScreen(phoneNo, editPhone);
+                                    break;
                                 } else {
-                                    if (from.equals("forgot")) {
-                                        if (num.equals(editPhone)) {
-                                            fromForgotToEnterPhoneScreen(phoneNo, editPhone);
-                                            break;
-                                        } else {
-                                            AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(EnterPhoneActivity.this,
-                                                    R.raw.wrong, "This phone number is not link with any account. Try register account!");
-                                            alertDialog.setCanceledOnTouchOutside(true);
-                                            alertDialog.show();
-                                        }
-
-                                    }
+                                    fromForgotToEnterPhoneScreen(phoneNo, editPhone);
+                                    break;
                                 }
-
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -190,7 +179,7 @@ public class EnterPhoneActivity extends AppCompatActivity {
                             fromSignUpToEnterPhoneScreen(phoneNo, editPhone);
                         } else {
                             AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(EnterPhoneActivity.this,
-                                    R.raw.wrong, "This phone number is not link with any account. Try register account!");
+                                    R.raw.wrong, "AAA This phone number is not link with any account. Try register account!");
                             alertDialog.setCanceledOnTouchOutside(true);
                             alertDialog.show();
                         }

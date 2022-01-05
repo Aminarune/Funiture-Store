@@ -48,23 +48,17 @@ public class UpdateToCartDetailProduct extends AsyncTask<Void, Void, Void> {
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(2);
 
-        int quan = quantity+cart_found.getQuantity();
+        int quan = quantity + cart_found.getQuantity();
 
         float totalPrice = cart_found.getPrice() * quan;
-
-
-
 
         StringRequest stringRequest = new StringRequest(Request.Method.PUT, link, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                if(quan>=10){
-                    onDataSaveCart.onFailure("");
-                }else {
-                    Gson gson = new GsonBuilder().create();
-                    Cart cart = gson.fromJson(response, Cart.class);
-                    onDataSaveCart.onSuccess(true);
-                }
+
+                Gson gson = new GsonBuilder().create();
+                Cart cart = gson.fromJson(response, Cart.class);
+                onDataSaveCart.onSuccess(true);
 
             }
         }, new Response.ErrorListener() {

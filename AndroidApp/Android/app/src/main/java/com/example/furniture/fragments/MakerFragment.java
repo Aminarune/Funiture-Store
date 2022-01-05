@@ -216,8 +216,18 @@ public class MakerFragment extends Fragment implements OnDataFavList, OnDataProd
     }
 
     public void sendDataToActivity(Product product) {
-        onDataPassProduct.onDataPassProduct(product);
+        onDataPassProduct.onDataPassProduct(product,"Maker");
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
 
+        shimmerFrameLayout.startShimmer();
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        recycleViewFavorite.setVisibility(View.GONE);
+        //getListFav
+        GetFavorite getFavorite = new GetFavorite(getActivity(), user.getId(), queue, this);
+        getFavorite.execute();
+    }
 }

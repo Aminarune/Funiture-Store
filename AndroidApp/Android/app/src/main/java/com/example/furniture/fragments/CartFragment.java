@@ -105,6 +105,8 @@ public class CartFragment extends Fragment implements OnDataCartList {
 
     private OnDataPassProduct onDataPassProduct;
 
+    private CartAdapter cartAdapter;
+
 
     public CartFragment(User user) {
         this.user = user;
@@ -113,6 +115,8 @@ public class CartFragment extends Fragment implements OnDataCartList {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
 
@@ -179,11 +183,13 @@ public class CartFragment extends Fragment implements OnDataCartList {
 
 
     private void createUiProduct(Context context, ArrayList<Product> products, ArrayList<Cart> carts) {
-        CartAdapter cartAdapter = new CartAdapter(context, products, carts);
+        cartAdapter = new CartAdapter(context, products, carts);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context, RecyclerView.VERTICAL, false);
         recycleViewCart.setLayoutManager(layoutManager);
         recycleViewCart.setAdapter(cartAdapter);
+
+        cartAdapter.notifyDataSetChanged();
 
         shimmerCart.stopShimmer();
         shimmerCart.setVisibility(View.GONE);
@@ -261,7 +267,37 @@ public class CartFragment extends Fragment implements OnDataCartList {
     }
 
     public void sendDataToActivity(Product product) {
-        onDataPassProduct.onDataPassProduct(product);
+        onDataPassProduct.onDataPassProduct(product,"Cart");
     }
 
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //getListFav
+        shimmerCart.startShimmer();
+        shimmerCart.setVisibility(View.VISIBLE);
+        recycleViewCart.setVisibility(View.GONE);
+        GetCart getCart = new GetCart(getActivity(), user.getId(), queue, this);
+        getCart.execute();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+    }
 }
