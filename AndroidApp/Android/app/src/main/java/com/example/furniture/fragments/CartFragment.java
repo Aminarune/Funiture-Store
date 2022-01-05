@@ -3,6 +3,7 @@ package com.example.furniture.fragments;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -38,6 +39,7 @@ import com.example.furniture.services.SaveToCart;
 import com.example.furniture.services.SaveToFavorite;
 import com.example.furniture.services.UpdateToCart;
 import com.example.furniture.utilities.AlertDialogUtil;
+import com.example.furniture.utilities.OnDataPassProduct;
 import com.example.furniture.views.DetailProductActivity;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
@@ -100,6 +102,8 @@ public class CartFragment extends Fragment implements OnDataCartList {
     private String link = Api.url + "cart";
 
     private User user;
+
+    private OnDataPassProduct onDataPassProduct;
 
 
     public CartFragment(User user) {
@@ -204,7 +208,13 @@ public class CartFragment extends Fragment implements OnDataCartList {
             public void onDecreaseItem(View view,Cart cart,int quantity){
                 getCart(cart,quantity);
             }
+
+            @Override
+            public void onClickItemCart(View view, Product product) {
+                sendDataToActivity(product);
+            }
         });
+
 
     }
 
@@ -240,6 +250,18 @@ public class CartFragment extends Fragment implements OnDataCartList {
         });
         updateToCart.execute();
 
+    }
+
+
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        onDataPassProduct = (OnDataPassProduct) context;
+    }
+
+    public void sendDataToActivity(Product product) {
+        onDataPassProduct.onDataPassProduct(product);
     }
 
 }

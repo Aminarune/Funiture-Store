@@ -28,9 +28,9 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/viewDot"
         android:layout_alignTop="@id/layoutImageFav"
+        android:layout_marginStart="@dimen/space8"
         android:layout_toStartOf="@+id/ivCartRemove"
         android:layout_toEndOf="@+id/layoutImageFav"
-        android:layout_marginStart="@dimen/space8"
         android:orientation="vertical">
 
         <TextView
@@ -41,37 +41,37 @@
             android:layout_marginBottom="@dimen/space8"
             android:layout_weight="1"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:maxLines="1"
             android:textSize="@dimen/font18" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/space8"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/font18"
-                android:text="@string/money_symbol"/>
+                android:text="@string/money_symbol"
+                android:textSize="@dimen/font14" />
+
             <TextView
                 android:id="@+id/tvPriceProductCart"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/space8"
-                android:textSize="@dimen/font18" />
+                android:textSize="@dimen/font14" />
         </LinearLayout>
 
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal"
-
             >
 
             <androidx.cardview.widget.CardView
@@ -96,7 +96,7 @@
                 android:layout_marginLeft="@dimen/space8"
                 android:layout_marginRight="@dimen/space8"
                 android:text="01"
-                android:textSize="@dimen/font18" />
+                android:textSize="@dimen/font14" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
@@ -112,6 +112,24 @@
                     android:text="-"
                     android:textSize="@dimen/font18" />
             </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="@string/money_symbol"
+                android:textSize="@dimen/font14"
+                android:textAlignment="textEnd"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginStart="@dimen/space16"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=""
+                android:paddingStart="@dimen/space4"
+                android:id="@+id/tvTotalPriceCart"
+                android:gravity="start|center_vertical"
+                />
         </LinearLayout>
 
 

@@ -26,12 +26,13 @@ import com.example.furniture.models.User;
 import com.example.furniture.services.DownloadDataCategory;
 import com.example.furniture.utilities.AlertDialogUtil;
 import com.example.furniture.utilities.NetworkChangeReceiver;
+import com.example.furniture.utilities.OnDataPassProduct;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity implements
-        NavigationBarView.OnItemSelectedListener, HomeFragment.OnDataPassProduct, View.OnClickListener {
+        NavigationBarView.OnItemSelectedListener, View.OnClickListener, OnDataPassProduct {
 
 
     //check connection state auto
@@ -145,7 +146,6 @@ public class MainActivity extends AppCompatActivity implements
         Intent intent=new Intent(MainActivity.this, DetailProductActivity.class);
         intent.putExtra("productID",data.getId());
         intent.putExtra("user",userLogin);
-        intent.putExtra("from","home_fragment");
         startActivity(intent);
     }
 

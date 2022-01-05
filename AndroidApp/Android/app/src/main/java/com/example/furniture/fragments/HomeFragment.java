@@ -27,6 +27,7 @@ import com.example.furniture.services.DownloadDataCategory;
 import com.example.furniture.services.DownloadDataProductByCategory;
 import com.example.furniture.services.OnDataCategoryListener;
 import com.example.furniture.services.OnDataProductListener;
+import com.example.furniture.utilities.OnDataPassProduct;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 
@@ -202,10 +203,6 @@ public class HomeFragment extends Fragment implements OnDataCategoryListener, On
 
     }
 
-
-    public interface OnDataPassProduct {
-        public void onDataPassProduct(Product data);
-    }
 
     @Override
     public void onAttach(@NonNull Context context) {

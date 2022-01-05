@@ -1,5 +1,6 @@
 package com.example.furniture.utilities;
 
+import java.text.DecimalFormat;
 import java.util.Random;
 
 public class NumberUtilities {
@@ -12,6 +13,11 @@ public class NumberUtilities {
 
         // this will convert any number sequence into 6 character.
         return String.format("%06d", number);
+    }
+
+    public static DecimalFormat getFloatDecimal(String maxDecimal){
+        DecimalFormat df = new DecimalFormat(maxDecimal);
+        return df;
     }
 
 }

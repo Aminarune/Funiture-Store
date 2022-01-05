@@ -4,6 +4,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,7 +35,9 @@ import com.example.furniture.services.RemoveFavorite;
 import com.example.furniture.services.SaveToCart;
 import com.example.furniture.services.SaveToFavorite;
 import com.example.furniture.services.UpdateToCart;
+import com.example.furniture.services.UpdateToCartDetailProduct;
 import com.example.furniture.utilities.AlertDialogUtil;
+import com.example.furniture.utilities.NetworkChangeReceiver;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.Timer;
@@ -68,6 +72,9 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
 
     private String idFav;
 
+    //check connection state auto
+    private NetworkChangeReceiver networkChangeReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +96,7 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
 
         getData(this, idProduct);
     }
+
 
 
     private void initView() {
@@ -205,7 +213,7 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
 
     private void updateCart(Cart cart, int quantity) {
 
-        UpdateToCart updateToCart = new UpdateToCart(quantity, queue, cart, new OnDataSaveCart() {
+        UpdateToCartDetailProduct updateToCartDetailProduct = new UpdateToCartDetailProduct(quantity, queue, cart, new OnDataSaveCart() {
             @Override
             public void onSuccess(boolean result) {
                 AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(DetailProductActivity.this,
@@ -219,12 +227,12 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
             public void onFailure(String result) {
                 AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(DetailProductActivity.this,
                         R.raw.wrong,
-                        "Item could not added to your cart");
+                        "You have reach the maximum number product (10)");
                 alertDialog.setCanceledOnTouchOutside(true);
                 alertDialog.show();
             }
         });
-        updateToCart.execute();
+        updateToCartDetailProduct.execute();
 
     }
 

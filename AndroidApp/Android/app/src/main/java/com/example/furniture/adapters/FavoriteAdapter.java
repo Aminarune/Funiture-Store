@@ -2,6 +2,7 @@ package com.example.furniture.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.example.furniture.models.Favourite;
 import com.example.furniture.models.Product;
 import com.example.furniture.services.DownloadProductById;
 import com.example.furniture.services.OnDataProductByID;
+import com.example.furniture.views.DetailProductActivity;
 
 import java.util.ArrayList;
 import java.util.Queue;
@@ -54,7 +56,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHD
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHD holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHD holder, @SuppressLint("RecyclerView") int position) {
 
 
         Product product=productArrayList.get(position);
@@ -67,6 +69,13 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHD
             @Override
             public void onClick(View view) {
                 onClickFav.onRemoveItem(favourite,position);
+            }
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickFav.onClickItemFav(view,product);
             }
         });
 
@@ -97,6 +106,8 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHD
 
     public interface SetOnClickFav{
         void onRemoveItem(Favourite favourite,int pos);
+        void onClickItemFav(View view,Product product);
     }
+
 
 }
