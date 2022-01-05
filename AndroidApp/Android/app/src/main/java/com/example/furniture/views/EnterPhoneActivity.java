@@ -3,11 +3,10 @@ package com.example.furniture.views;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -18,11 +17,10 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.furniture.R;
 import com.example.furniture.services.Api;
-import com.example.furniture.utilities.AlertDialogUtil;
+import com.example.furniture.utilities.DialogUtil;
 import com.example.furniture.utilities.NetworkUtil;
 import com.example.furniture.utilities.Validate;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.hbb20.CountryCodePicker;
 
 import org.json.JSONArray;
@@ -89,23 +87,23 @@ public class EnterPhoneActivity extends AppCompatActivity {
 
         if (!checkConnection()) {
             String str = "Please check your connection and try again.";
-            AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(view.getContext(),
+            Dialog dialog = DialogUtil.showDialog(view.getContext(),
                     R.raw.disconnected, str);
-            alertDialog.setCanceledOnTouchOutside(true);
-            alertDialog.show();
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.show();
         } else {
             if (phoneEnter.isEmpty()) {
                 String str = "Your phone enter phone number.";
-                AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(EnterPhoneActivity.this, R.raw.wrong, str);
-                alertDialog.setCanceledOnTouchOutside(true);
-                alertDialog.show();
+                Dialog dialog = DialogUtil.showDialog(EnterPhoneActivity.this, R.raw.wrong, str);
+                dialog.setCanceledOnTouchOutside(true);
+                dialog.show();
             } else {
                 boolean validPhone = Validate.isValidPhone(phoneEnter);
                 if (!validPhone) {
                     String str = "Your phone must have 10 digital number.";
-                    AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(EnterPhoneActivity.this, R.raw.wrong, str);
-                    alertDialog.setCanceledOnTouchOutside(true);
-                    alertDialog.show();
+                    Dialog dialog = DialogUtil.showDialog(EnterPhoneActivity.this, R.raw.wrong, str);
+                    dialog.setCanceledOnTouchOutside(true);
+                    dialog.show();
                 } else {
                     String phoneNo = "+" + countryCodePicker.getSelectedCountryCode() + phoneEnter;
 
@@ -156,10 +154,10 @@ public class EnterPhoneActivity extends AppCompatActivity {
 
 
                                 if (from.equals("signup") && num.equals(editPhone)) {
-                                    AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(EnterPhoneActivity.this,
+                                    Dialog dialog = DialogUtil.showDialog(EnterPhoneActivity.this,
                                             R.raw.wrong, "This phone number is already registered for another. Try forgot password!");
-                                    alertDialog.setCanceledOnTouchOutside(true);
-                                    alertDialog.show();
+                                    dialog.setCanceledOnTouchOutside(true);
+                                    dialog.show();
                                 } else if (from.equals("signup") && !num.equals(editPhone)) {
                                     fromSignUpToEnterPhoneScreen(phoneNo, editPhone);
                                     break;
@@ -178,10 +176,10 @@ public class EnterPhoneActivity extends AppCompatActivity {
                         if (from.equals("signup")) {
                             fromSignUpToEnterPhoneScreen(phoneNo, editPhone);
                         } else {
-                            AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(EnterPhoneActivity.this,
+                            Dialog dialog = DialogUtil.showDialog(EnterPhoneActivity.this,
                                     R.raw.wrong, "AAA This phone number is not link with any account. Try register account!");
-                            alertDialog.setCanceledOnTouchOutside(true);
-                            alertDialog.show();
+                            dialog.setCanceledOnTouchOutside(true);
+                            dialog.show();
                         }
                     }
                 }

@@ -3,6 +3,7 @@ package com.example.furniture.views;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -19,7 +20,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.furniture.R;
 
 import com.example.furniture.services.Api;
-import com.example.furniture.utilities.AlertDialogUtil;
+import com.example.furniture.utilities.DialogUtil;
 import com.example.furniture.utilities.NetworkUtil;
 import com.example.furniture.utilities.Validate;
 import com.google.android.material.textfield.TextInputLayout;
@@ -87,9 +88,9 @@ public class SignUpActivity extends AppCompatActivity {
                     validate(view, user, email, pass, confirm);
                 } else {
                     String str2 = "Please check your connection and try again.";
-                    AlertDialog alert = AlertDialogUtil.showAlertDialog(view.getContext(), R.raw.disconnected, str2);
-                    alert.setCanceledOnTouchOutside(true);
-                    alert.show();
+                    Dialog dialog = DialogUtil.showDialog(view.getContext(), R.raw.disconnected, str2);
+                    dialog.setCanceledOnTouchOutside(true);
+                    dialog.show();
                 }
             }
         });
@@ -151,9 +152,9 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         if (!message.isEmpty()) {
-            AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(view.getContext(), R.raw.wrong, message);
-            alertDialog.setCanceledOnTouchOutside(true);
-            alertDialog.show();
+            Dialog dialog = DialogUtil.showDialog(view.getContext(), R.raw.wrong, message);
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.show();
         }
 
     }
@@ -200,9 +201,9 @@ public class SignUpActivity extends AppCompatActivity {
 
                     if (check) {
                         String message = "This email address is registered with another account";
-                        AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(view.getContext(), R.raw.wrong, message);
-                        alertDialog.setCanceledOnTouchOutside(true);
-                        alertDialog.show();
+                        Dialog dialog = DialogUtil.showDialog(view.getContext(), R.raw.wrong, message);
+                        dialog.setCanceledOnTouchOutside(true);
+                        dialog.show();
                     } else {
                         moveToEnterPhone(view, user_name, email, password);
                     }

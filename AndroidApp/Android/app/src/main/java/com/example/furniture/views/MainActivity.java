@@ -1,6 +1,7 @@
 package com.example.furniture.views;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -22,7 +23,7 @@ import com.example.furniture.fragments.HomeFragment;
 import com.example.furniture.fragments.MakerFragment;
 import com.example.furniture.models.Product;
 import com.example.furniture.models.User;
-import com.example.furniture.utilities.AlertDialogUtil;
+import com.example.furniture.utilities.DialogUtil;
 import com.example.furniture.utilities.NetworkChangeReceiver;
 import com.example.furniture.utilities.OnDataPassProduct;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -66,9 +67,7 @@ public class MainActivity extends AppCompatActivity implements
         bottomNav.setOnItemSelectedListener(this);
 
 
-        networkChangeReceiver = new NetworkChangeReceiver(
-                AlertDialogUtil.showAlertDialog(MainActivity.this,
-                        R.raw.disconnected, "Please check your connection and try again"));
+        networkChangeReceiver = new NetworkChangeReceiver();
 
         /*show home screen first*/
         bottomNav.setSelectedItemId(R.id.bottom_home_nav);

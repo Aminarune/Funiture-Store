@@ -10,25 +10,22 @@ import android.content.Intent;
 import androidx.appcompat.app.AlertDialog;
 
 
-
 public class NetworkChangeReceiver extends BroadcastReceiver {
 
-
-    private AlertDialog alertDialog;
-
-    public NetworkChangeReceiver(AlertDialog alertDialog) {
-        this.alertDialog = alertDialog;
-    }
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("Please check your connection and try again");
+        AlertDialog alertDialog = builder.create();
         int status = NetworkUtil.getConnectivityStatus(context);
 
 
         if (status == NetworkUtil.TYPE_NOT_CONNECTED) {
 
             alertDialog.setCanceledOnTouchOutside(false);
+            alertDialog.setCancelable(false);
 
             alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Open setting", new DialogInterface.OnClickListener() {
                 @Override
@@ -43,9 +40,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
             alertDialog.show();
 
         } else {
-
             alertDialog.dismiss();
-
         }
     }
 }

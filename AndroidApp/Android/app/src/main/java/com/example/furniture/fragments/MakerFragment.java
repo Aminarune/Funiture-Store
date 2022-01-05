@@ -4,12 +4,10 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,21 +21,12 @@ import com.example.furniture.models.Favourite;
 import com.example.furniture.models.Product;
 import com.example.furniture.models.User;
 import com.example.furniture.services.Api;
-import com.example.furniture.services.CheckCart;
 import com.example.furniture.services.DownloadDataProduct;
-import com.example.furniture.services.DownloadDataProductByCategory;
 import com.example.furniture.services.GetFavorite;
 import com.example.furniture.services.OnDataFavList;
-import com.example.furniture.services.OnDataGetCart;
 import com.example.furniture.services.OnDataProductListener;
-import com.example.furniture.services.OnDataSaveCart;
-import com.example.furniture.services.RemoveCart;
 import com.example.furniture.services.RemoveFavorite;
-import com.example.furniture.services.SaveToCart;
-import com.example.furniture.services.UpdateToCart;
-import com.example.furniture.utilities.AlertDialogUtil;
 import com.example.furniture.utilities.OnDataPassProduct;
-import com.example.furniture.views.DetailProductActivity;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;

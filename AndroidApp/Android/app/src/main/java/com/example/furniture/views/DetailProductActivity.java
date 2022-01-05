@@ -3,8 +3,8 @@ package com.example.furniture.views;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -34,9 +34,8 @@ import com.example.furniture.services.RemoveFavorite;
 import com.example.furniture.services.SaveToCart;
 import com.example.furniture.services.SaveToFavorite;
 import com.example.furniture.services.UpdateToCartDetailProduct;
-import com.example.furniture.utilities.AlertDialogUtil;
+import com.example.furniture.utilities.DialogUtil;
 import com.example.furniture.utilities.NetworkChangeReceiver;
-import com.example.furniture.utilities.NumberUtilities;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.Timer;
@@ -93,9 +92,7 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
 
         initView();
 
-        networkChangeReceiver = new NetworkChangeReceiver(
-                AlertDialogUtil.showAlertDialog(DetailProductActivity.this,
-                        R.raw.disconnected, "Please check your connection and try again"));
+        networkChangeReceiver = new NetworkChangeReceiver();
 
         //check first
         CheckFavorite checkFavorite = new CheckFavorite(user.getId(), idProduct, queue, this);
@@ -168,10 +165,10 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
             public void onFoundCartItem(Cart cart) {
                 //found - update
                 if (cart.getQuantity() == 10) {
-                    AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(DetailProductActivity.this,
+                    Dialog dialog = DialogUtil.showDialog(DetailProductActivity.this,
                             R.raw.wrong, "You have reached the maximum purchase limit");
-                    alertDialog.setCanceledOnTouchOutside(true);
-                    alertDialog.show();
+                    dialog.setCanceledOnTouchOutside(true);
+                    dialog.show();
                 } else {
                     int quantity = Integer.valueOf(tvQuantityDetail.getText().toString());
                     updateCart(cart, quantity);
@@ -198,20 +195,20 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
         SaveToCart saveToCart = new SaveToCart(user.getId(), idProduct, quantity, price, total, queue, new OnDataSaveCart() {
             @Override
             public void onSuccess(boolean result) {
-                AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(DetailProductActivity.this,
+                Dialog dialog = DialogUtil.showDialog(DetailProductActivity.this,
                         R.raw.loading,
                         "Item successfully added to your cart");
-                alertDialog.setCanceledOnTouchOutside(true);
-                alertDialog.show();
+                dialog.setCanceledOnTouchOutside(true);
+                dialog.show();
             }
 
             @Override
             public void onFailure(String result) {
-                AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(DetailProductActivity.this,
+                Dialog dialog = DialogUtil.showDialog(DetailProductActivity.this,
                         R.raw.wrong,
                         "Item could not  added to your cart");
-                alertDialog.setCanceledOnTouchOutside(true);
-                alertDialog.show();
+                dialog.setCanceledOnTouchOutside(true);
+                dialog.show();
             }
         });
         tvQuantityDetail.setText(formatString(1));
@@ -222,20 +219,20 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
 
         int quan = cart.getQuantity() + quantity;
         if (quan > 10) {
-            AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(DetailProductActivity.this,
+            Dialog dialog = DialogUtil.showDialog(DetailProductActivity.this,
                     R.raw.wrong,
                     "You have reach the maximum number product (10)");
-            alertDialog.setCanceledOnTouchOutside(true);
-            alertDialog.show();
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.show();
         } else {
             UpdateToCartDetailProduct updateToCartDetailProduct = new UpdateToCartDetailProduct(quantity, queue, cart, new OnDataSaveCart() {
                 @Override
                 public void onSuccess(boolean result) {
-                    AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(DetailProductActivity.this,
+                    Dialog dialog = DialogUtil.showDialog(DetailProductActivity.this,
                             R.raw.loading,
                             "Item successfully added to your cart");
-                    alertDialog.setCanceledOnTouchOutside(true);
-                    alertDialog.show();
+                    dialog.setCanceledOnTouchOutside(true);
+                    dialog.show();
                 }
 
                 @Override
@@ -280,16 +277,17 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
     @Override
     public void onNotFound(Context view, String error) {
 
-        AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(DetailProductActivity.this,
+        Dialog dialog = DialogUtil.showDialog(DetailProductActivity.this,
                 R.raw.wrong, error);
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.show();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.show();
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 timer.cancel();
-                alertDialog.dismiss();
+                dialog.dismiss();
                 finish();
             }
         }, 1500);

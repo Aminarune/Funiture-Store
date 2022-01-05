@@ -1,33 +1,17 @@
 package com.example.furniture.services;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Base64;
-import android.util.Log;
-import android.view.View;
-import android.widget.RelativeLayout;
 
-import androidx.appcompat.app.AlertDialog;
-
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.furniture.R;
-import com.example.furniture.adapters.FavoriteAdapter;
 import com.example.furniture.models.Product;
-import com.example.furniture.utilities.AlertDialogUtil;
-import com.example.furniture.views.DetailProductActivity;
-import com.facebook.shimmer.ShimmerFrameLayout;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

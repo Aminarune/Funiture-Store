@@ -4,13 +4,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatCheckBox;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -25,7 +24,7 @@ import com.example.furniture.R;
 import com.example.furniture.models.User;
 
 import com.example.furniture.services.Api;
-import com.example.furniture.utilities.AlertDialogUtil;
+import com.example.furniture.utilities.DialogUtil;
 import com.example.furniture.utilities.NetworkUtil;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -163,18 +162,18 @@ public class SignInActivity extends AppCompatActivity {
 
             if (editEmail.trim().length() == 0 || editPass.trim().length() == 0) {
                 String str = "Your email or password must not empty.";
-                AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(context, R.raw.wrong, str);
-                alertDialog.setCanceledOnTouchOutside(true);
-                alertDialog.show();
+                Dialog dialog = DialogUtil.showDialog(context, R.raw.wrong, str);
+                dialog.setCanceledOnTouchOutside(true);
+                dialog.show();
             } else {
                 LoginUserDatabase loginUserDatabase = new LoginUserDatabase(context, editEmail, editPass);
                 loginUserDatabase.execute();
             }
         } else {
             String str = "Please check your connection and try again.";
-            AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(context, R.raw.disconnected, str);
-            alertDialog.setCanceledOnTouchOutside(true);
-            alertDialog.show();
+            Dialog dialog = DialogUtil.showDialog(context, R.raw.disconnected, str);
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.show();
         }
     }
 
@@ -185,7 +184,7 @@ public class SignInActivity extends AppCompatActivity {
         String editEmail;
         String editPass;
 
-        AlertDialog alertDialog;
+        Dialog dialog;
 
         Intent intent;
 
@@ -200,9 +199,10 @@ public class SignInActivity extends AppCompatActivity {
             super.onPreExecute();
             intent = new Intent(SignInActivity.this, MainActivity.class);
             String str = "Please wait a moment.";
-            alertDialog = AlertDialogUtil.showAlertDialog(context, R.raw.loading, str);
-            alertDialog.show();
-            alertDialog.setCanceledOnTouchOutside(false);
+            dialog = DialogUtil.showDialog(context, R.raw.loading, str);
+            dialog.show();
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.setCancelable(false);
         }
 
         @Override
@@ -214,8 +214,8 @@ public class SignInActivity extends AppCompatActivity {
 
                     int temp = 0;//s=0 success
                     if (response.length() == 0) {
-                        alertDialog.dismiss();
-                        AlertDialog a = AlertDialogUtil.showAlertDialog(SignInActivity.this, R.raw.disconnected,
+                        dialog.dismiss();
+                        Dialog a = DialogUtil.showDialog(SignInActivity.this, R.raw.disconnected,
                                 "Account is not exist.\nTry to register a new account.");
                         a.setCanceledOnTouchOutside(true);
                         a.show();
@@ -254,20 +254,20 @@ public class SignInActivity extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 String str2 = "Some thing wrong please check your information and try again.";
-                                AlertDialog alert = AlertDialogUtil.showAlertDialog(context, R.raw.disconnected, str2);
-                                alert.setCanceledOnTouchOutside(true);
-                                alert.show();
+                                Dialog dialog = DialogUtil.showDialog(context, R.raw.disconnected, str2);
+                                dialog.setCanceledOnTouchOutside(true);
+                                dialog.show();
                             }
 
                         }
                     }
                     if (temp == 1) {
 
-                        alertDialog.dismiss();
+                        dialog.dismiss();
                         String str = "Email or password is incorrect!";
-                        AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(context, R.raw.wrong, str);
-                        alertDialog.setCanceledOnTouchOutside(true);
-                        alertDialog.show();
+                        Dialog b = DialogUtil.showDialog(context, R.raw.wrong, str);
+                        b.setCanceledOnTouchOutside(true);
+                        b.show();
 
                     } else {
                         Timer timer = new Timer();
@@ -275,7 +275,7 @@ public class SignInActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 timer.cancel();
-                                alertDialog.dismiss();
+                                dialog.dismiss();
                                 startActivity(intent);
                                 finish();
                             }
@@ -286,11 +286,11 @@ public class SignInActivity extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    alertDialog.dismiss();
+                    dialog.dismiss();
                     String str = "Some thing wrong please try again.";
-                    AlertDialog dialog = AlertDialogUtil.showAlertDialog(context, R.raw.disconnected, str);
-                    dialog.setCanceledOnTouchOutside(true);
-                    dialog.show();
+                    Dialog c = DialogUtil.showDialog(context, R.raw.disconnected, str);
+                    c.setCanceledOnTouchOutside(true);
+                    c.show();
                 }
             });
 

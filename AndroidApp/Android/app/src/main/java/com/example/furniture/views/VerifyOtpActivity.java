@@ -5,33 +5,29 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.chaos.view.PinView;
 import com.example.furniture.R;
 import com.example.furniture.models.User;
 import com.example.furniture.services.Api;
-import com.example.furniture.utilities.AlertDialogUtil;
-import com.example.furniture.utilities.NumberUtilities;
+import com.example.furniture.utilities.DialogUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -39,17 +35,12 @@ import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthSettings;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -136,10 +127,11 @@ public class VerifyOtpActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                AlertDialog alertDialog=AlertDialogUtil.showAlertDialog(VerifyOtpActivity.this,
+                Dialog dialog= DialogUtil.showDialog(VerifyOtpActivity.this,
                         R.raw.loading,"Sending OTP");
-                alertDialog.setCanceledOnTouchOutside(false);
-                alertDialog.show();
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.setCancelable(false);
+                dialog.show();
                 Timer timer = new Timer();
                 timer.schedule(new TimerTask() {
                     @Override
@@ -151,7 +143,7 @@ public class VerifyOtpActivity extends AppCompatActivity {
                         sendVerification(phoneNo);
 
                         layoutResend.setVisibility(View.GONE);
-                        alertDialog.dismiss();
+                        dialog.dismiss();
 
                         textViewCountTimer.setVisibility(View.VISIBLE);
 
@@ -186,14 +178,14 @@ public class VerifyOtpActivity extends AppCompatActivity {
         }.start();
     }
 
-    private void moveToLogin(AlertDialog alertDialog) {
+    private void moveToLogin(Dialog dialog) {
 
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 timer.cancel();
-                alertDialog.dismiss();
+                dialog.dismiss();
                 Intent intent = new Intent(VerifyOtpActivity.this, SignInActivity.class);
                 startActivity(intent);
                 finish();
@@ -211,13 +203,13 @@ public class VerifyOtpActivity extends AppCompatActivity {
 
     }
 
-    private void moveToNewPassword(AlertDialog alertDialog) {
+    private void moveToNewPassword(Dialog dialog) {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 timer.cancel();
-                alertDialog.dismiss();
+                dialog.dismiss();
                 Intent intent = new Intent(VerifyOtpActivity.this, NewPassWordActivity.class);
                 intent.putExtra("phone", phone);
                 startActivity(intent);
@@ -386,18 +378,19 @@ public class VerifyOtpActivity extends AppCompatActivity {
     private void moveToNextScreen() {
 
         String from = getIntent().getStringExtra("from");
-        AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(VerifyOtpActivity.this,
+        Dialog dialog = DialogUtil.showDialog(VerifyOtpActivity.this,
                 R.raw.loading, "Success");
         if (from.equals("signup")) {
             textViewCountTimer.setVisibility(View.GONE);
             SaveToDataBase saveToDataBase = new SaveToDataBase(VerifyOtpActivity.this);
             saveToDataBase.execute();
-            alertDialog.setCanceledOnTouchOutside(false);
-            alertDialog.show();
-            moveToLogin(alertDialog);
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.setCancelable(false);
+            dialog.show();
+            moveToLogin(dialog);
         } else {
             if (from.equals("forgot")) {
-                moveToNewPassword(alertDialog);
+                moveToNewPassword(dialog);
             }
         }
 

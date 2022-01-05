@@ -4,18 +4,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -26,7 +23,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.furniture.R;
 import com.example.furniture.models.User;
 import com.example.furniture.services.Api;
-import com.example.furniture.utilities.AlertDialogUtil;
+import com.example.furniture.utilities.DialogUtil;
 import com.example.furniture.utilities.NetworkUtil;
 import com.example.furniture.utilities.Validate;
 import com.google.android.material.textfield.TextInputLayout;
@@ -36,9 +33,7 @@ import com.google.gson.GsonBuilder;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -83,9 +78,9 @@ public class NewPassWordActivity extends AppCompatActivity {
             validatePhone(context, editNewPass, editNewConfirm);
         } else {
             String str = "Please check your connection and try again";
-            AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(context, R.raw.disconnected, str);
-            alertDialog.setCanceledOnTouchOutside(true);
-            alertDialog.show();
+            Dialog dialog = DialogUtil.showDialog(context, R.raw.disconnected, str);
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.show();
         }
     }
 
@@ -119,9 +114,9 @@ public class NewPassWordActivity extends AppCompatActivity {
         }
 
         if (temp == 0) {
-            AlertDialog alertDialog = AlertDialogUtil.showAlertDialog(context, R.raw.wrong, message);
-            alertDialog.setCanceledOnTouchOutside(true);
-            alertDialog.show();
+            Dialog dialog = DialogUtil.showDialog(context, R.raw.wrong, message);
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.show();
         } else {
             FindPhoneMatch findPhoneMatch = new FindPhoneMatch(context, phone, pass);
             findPhoneMatch.execute();
