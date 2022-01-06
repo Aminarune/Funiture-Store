@@ -89,7 +89,7 @@ public class CartFragment extends Fragment implements OnDataCartList {
 
     private RequestQueue queue;
 
-    private String link = Api.url + "cart";
+    private String link = Api.urlLocal + "cart";
 
     private User user;
 

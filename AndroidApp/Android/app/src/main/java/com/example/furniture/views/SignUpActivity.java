@@ -1,6 +1,5 @@
 package com.example.furniture.views;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
@@ -39,7 +38,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private TextView tvSignIn;
 
-    private static final String url = Api.url+"user";
+    private static final String url = Api.urlLocal +"user";
 
     private RequestQueue queue;
 

@@ -13,11 +13,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Furniture">
         <activity
-            android:name=".views.ShippingAddressActivity"
-            android:exported="false" />
+            android:name=".views.ShippingActivity"
+            android:exported="false">
+
+        </activity>
+        <activity
+            android:name=".views.AddShippingActivity"
+            android:exported="false">
+
+        </activity>
         <activity
             android:name=".views.DetailProductActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".views.NewPassWordActivity"
             android:exported="false" />

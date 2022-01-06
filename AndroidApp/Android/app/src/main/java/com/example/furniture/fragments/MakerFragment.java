@@ -82,7 +82,7 @@ public class MakerFragment extends Fragment implements OnDataFavList, OnDataProd
 
     private RequestQueue queue;
 
-    private String link = Api.url + "favorite";
+    private String link = Api.urlLocal + "favorite";
 
     private User user;
 

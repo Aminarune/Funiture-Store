@@ -2,14 +2,12 @@ package com.example.furniture.services;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.furniture.models.Cart;
-import com.example.furniture.models.Favourite;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,7 +24,7 @@ public class GetCart extends AsyncTask<Void, Void, Void> {
 
     OnDataCartList onDataCartList;
 
-    private String urlFav = Api.url + "cart";
+    private String urlFav = Api.urlLocal + "cart";
 
 
     ArrayList<Cart> arrayList = new ArrayList<>();

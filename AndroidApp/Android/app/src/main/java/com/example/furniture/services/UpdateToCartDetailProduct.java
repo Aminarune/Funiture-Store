@@ -28,7 +28,7 @@ public class UpdateToCartDetailProduct extends AsyncTask<Void, Void, Void> {
 
     OnDataSaveCart onDataSaveCart;
 
-    private String urlCart = Api.url + "cart";
+    private String urlCart = Api.urlLocal + "cart";
 
 
     public UpdateToCartDetailProduct(int quantity,

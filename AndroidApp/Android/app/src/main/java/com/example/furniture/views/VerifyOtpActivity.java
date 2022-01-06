@@ -2,7 +2,6 @@ package com.example.furniture.views;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
@@ -71,7 +70,7 @@ public class VerifyOtpActivity extends AppCompatActivity {
     private String phone;
 
 
-    private static final String url = Api.url + "user";
+    private static final String url = Api.urlLocal + "user";
 
 
     @Override

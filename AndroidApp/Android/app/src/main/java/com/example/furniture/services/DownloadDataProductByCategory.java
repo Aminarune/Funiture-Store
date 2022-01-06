@@ -5,19 +5,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Base64;
-import android.util.Log;
-import android.view.View;
-import android.widget.GridView;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.furniture.R;
-import com.example.furniture.models.Category;
 import com.example.furniture.models.Product;
 
 import org.json.JSONArray;
@@ -37,7 +30,7 @@ public class DownloadDataProductByCategory extends AsyncTask<Void, Void, Void> {
 
     ArrayList<Product> products = new ArrayList<Product>();
 
-    private static final String urlProduct = Api.url+"product";
+    private static final String urlProduct = Api.urlLocal +"product";
 
     public DownloadDataProductByCategory(Context view, OnDataProductListener mlistener, String id) {
         this.view = view;

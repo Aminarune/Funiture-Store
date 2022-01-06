@@ -1,10 +1,7 @@
 package com.example.furniture.services;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.AsyncTask;
-import android.util.Log;
-import android.view.View;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -28,7 +25,7 @@ public class GetFavorite extends AsyncTask<Void,Void,Void> {
 
     OnDataFavList onDataFavList;
 
-    private String urlFav = Api.url + "favorite";
+    private String urlFav = Api.urlLocal + "favorite";
 
 
     ArrayList<Favourite> arrayList=new ArrayList<>();

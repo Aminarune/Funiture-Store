@@ -34,7 +34,7 @@ public class DownloadProductById extends AsyncTask<Void, Void, Void> {
     }
 
 
-    private static final String urlProduct = Api.url + "product";
+    private static final String urlProduct = Api.urlLocal + "product";
 
     @Override
     protected Void doInBackground(Void... voids) {

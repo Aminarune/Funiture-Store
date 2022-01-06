@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".views.AddShippingActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/main_color"
+        android:gravity="center_vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/main_color">
+
+            <ImageView
+                android:id="@+id/ivBackToAddShipping"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/space16"
+                android:src="@drawable/ic_chevron_left" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/add_shipping_add"
+                android:textSize="@dimen/font24" />
+
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutAddShipping"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space16"
+            android:layout_marginEnd="@dimen/space16"
+            android:text="@string/street_address" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="@dimen/space16"
+            android:backgroundTint="@color/grey_7"
+            app:cardCornerRadius="@dimen/space4">
+
+            <EditText
+                android:id="@+id/editAddressDetail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/space16"
+                android:layout_marginEnd="@dimen/space16"
+                android:background="@android:color/transparent" />
+
+        </androidx.cardview.widget.CardView>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space16"
+            android:layout_marginEnd="@dimen/space16"
+            android:text="@string/province_city" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="@dimen/space16"
+            android:backgroundTint="@color/grey_7"
+            app:cardCornerRadius="@dimen/space4">
+
+            <Spinner
+                android:id="@+id/spinner_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space16"
+            android:layout_marginEnd="@dimen/space16"
+            android:text="@string/district" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="@dimen/space16"
+            android:backgroundTint="@color/grey_7"
+            app:cardCornerRadius="@dimen/space4">
+
+            <Spinner
+                android:id="@+id/spinner_district"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </androidx.cardview.widget.CardView>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space16"
+            android:layout_marginEnd="@dimen/space16"
+            android:text="@string/ward_commune" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="@dimen/space16"
+            android:backgroundTint="@color/grey_7"
+            app:cardCornerRadius="@dimen/space4">
+
+            <Spinner
+                android:id="@+id/spinner_ward"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </androidx.cardview.widget.CardView>
+
+
+        <Button
+            android:id="@+id/btnAddToShipping"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/space16"
+            android:layout_marginTop="@dimen/space16"
+            android:layout_marginEnd="@dimen/space16"
+            android:layout_marginBottom="@dimen/space16"
+            android:backgroundTint="@color/black_1"
+            android:padding="@dimen/space16"
+            android:text="@string/save_address" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

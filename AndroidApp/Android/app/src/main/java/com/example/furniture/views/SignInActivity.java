@@ -1,6 +1,5 @@
 package com.example.furniture.views;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatCheckBox;
 
@@ -49,7 +48,7 @@ public class SignInActivity extends AppCompatActivity {
 
     private RequestQueue queue;
 
-    private static final String url = Api.url + "user";
+    private static final String url = Api.urlLocal + "user";
 
     private AppCompatCheckBox checkBox;
 

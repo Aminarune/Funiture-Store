@@ -1,7 +1,6 @@
 package com.example.furniture.views;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
@@ -47,7 +46,7 @@ public class NewPassWordActivity extends AppCompatActivity {
 
     private RequestQueue queue;
 
-    private static final String url = Api.url+"user";
+    private static final String url = Api.urlLocal +"user";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

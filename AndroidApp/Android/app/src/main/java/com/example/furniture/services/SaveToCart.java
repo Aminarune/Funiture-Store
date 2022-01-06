@@ -11,7 +11,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.furniture.models.Cart;
-import com.example.furniture.models.Favourite;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -31,7 +30,7 @@ public class SaveToCart extends AsyncTask<Void, Void, Void> {
 
     OnDataSaveCart onDataSaveCart;
 
-    private String urlCart = Api.url + "cart";
+    private String urlCart = Api.urlLocal + "cart";
 
 
     public SaveToCart(String id_User, String id_Product, int quantity, float price, float totalPrice, RequestQueue queue, OnDataSaveCart onDataSaveCart) {

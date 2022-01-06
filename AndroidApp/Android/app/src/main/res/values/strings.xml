@@ -53,4 +53,11 @@
     <string name="notification">Notification</string>
     <string name="my_cart">my cart</string>
     <string name="money_symbol">$ </string>
+    <string name="city">City</string>
+    <string name="province_city">Province/City</string>
+    <string name="district">District</string>
+    <string name="ward_commune">Ward/Commune</string>
+    <string name="street_address">Street Address</string>
+    <string name="save_address">Save Address</string>
+    <string name="add_shipping_add">Add Shipping Address</string>
 </resources>

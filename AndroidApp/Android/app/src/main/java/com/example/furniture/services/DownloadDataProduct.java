@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Base64;
-import android.view.View;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -34,7 +33,7 @@ public class DownloadDataProduct extends AsyncTask<Void, Void, Void> {
 
     ArrayList<Cart> carts;
 
-    private static final String urlProduct = Api.url + "product";
+    private static final String urlProduct = Api.urlLocal + "product";
 
 
     public DownloadDataProduct(Context view, OnDataProductListener mlistener, ArrayList<Favourite> favourites) {

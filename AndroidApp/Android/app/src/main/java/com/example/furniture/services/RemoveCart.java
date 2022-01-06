@@ -16,7 +16,7 @@ public class RemoveCart extends AsyncTask<Void,Void,Void> {
     RequestQueue queue;
 
 
-    private String urlCart = Api.url + "cart";
+    private String urlCart = Api.urlLocal + "cart";
 
     public RemoveCart(String id,RequestQueue queue) {
         this.id = id;

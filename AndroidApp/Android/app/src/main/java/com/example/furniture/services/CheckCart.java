@@ -27,7 +27,7 @@ public class CheckCart extends AsyncTask<Void, Void, Void> {
         this.onDataGetCart = onDataGetCart;
     }
 
-    String link = Api.url + "cart";
+    String link = Api.urlLocal + "cart";
 
     @Override
     protected Void doInBackground(Void... voids) {

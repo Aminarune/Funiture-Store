@@ -9,17 +9,10 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.furniture.models.Favourite;
-import com.example.furniture.models.Product;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +26,7 @@ public class SaveToFavorite extends AsyncTask<Void, Void, Void> {
 
     OnDataSaveListener saveListener;
 
-    private String urlFav = Api.url + "favorite";
+    private String urlFav = Api.urlLocal + "favorite";
 
 
     public SaveToFavorite(String id_User, String id_Product, RequestQueue queue, OnDataSaveListener saveListener) {

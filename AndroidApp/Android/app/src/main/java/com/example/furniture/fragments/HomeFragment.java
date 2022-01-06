@@ -81,7 +81,7 @@ public class HomeFragment extends Fragment implements OnDataCategoryListener, On
     }
 
 
-    private static final String urlProduct = Api.url+"product";
+    private static final String urlProduct = Api.urlLocal +"product";
 
     private RecyclerView recyclerViewCategory, recyclerViewProduct;
 

@@ -19,7 +19,7 @@ public class CheckFavorite extends AsyncTask<Void, Void, Void> {
 
     OnFavDataListener onFavDataListener;
 
-    private String urlFav = Api.url + "favorite";
+    private String urlFav = Api.urlLocal + "favorite";
 
     public CheckFavorite(String id_User, String id_Product, RequestQueue queue, OnFavDataListener onFavDataListener) {
         this.id_User = id_User;

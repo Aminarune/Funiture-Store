@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -30,7 +29,7 @@ import com.example.furniture.adapters.AvatarAdapter;
 import com.example.furniture.models.Avatar;
 import com.example.furniture.models.User;
 import com.example.furniture.services.Api;
-import com.example.furniture.views.ShippingAddressActivity;
+import com.example.furniture.views.ShippingActivity;
 import com.example.furniture.views.SignInActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -99,11 +98,11 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
     private ImageView ivUser, ivPhotoCamera,btnLogout;
 
-    private ImageButton  ivEditOrder, ivEditShppingAddress, ivEditSetting;
+    private ImageButton  ivEditOrder,ivEditShipping, ivEditSetting;
 
     private RequestQueue queue;
 
-    private static final String url = Api.url+"user";
+    private static final String url = Api.urlLocal +"user";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -154,23 +153,24 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         ivPhotoCamera = view.findViewById(R.id.ivPhotoCamera);
 
         ivEditOrder = view.findViewById(R.id.ivEditOrder);
-        ivEditShppingAddress = view.findViewById(R.id.ivEditShppingAddress);
-        ivEditShppingAddress.setOnClickListener(this::onClick);
+
         ivEditSetting = view.findViewById(R.id.ivEditSetting);
 
+        ivEditShipping=view.findViewById(R.id.ivEditShipping);
+        ivEditShipping.setOnClickListener(this::onClick);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.ivEditShppingAddress:
-                moveToAddressShipping();
+            case R.id.ivEditShipping:
+                moveToShippingAddress(user);
                 break;
         }
     }
 
-    private void moveToAddressShipping() {
-        Intent intent=new Intent(getActivity(), ShippingAddressActivity.class);
+    private void moveToShippingAddress(User user){
+        Intent intent=new Intent(getActivity(), ShippingActivity.class);
         intent.putExtra("user",user);
         startActivity(intent);
     }
@@ -268,6 +268,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             }
         });
     }
+
+
 
     public class UpdateAvatar extends AsyncTask<Void, Void, Void> {
 

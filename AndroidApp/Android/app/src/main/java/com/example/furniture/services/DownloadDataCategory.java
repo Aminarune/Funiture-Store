@@ -13,7 +13,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.furniture.R;
 import com.example.furniture.models.Category;
 
 
@@ -34,7 +33,7 @@ public class DownloadDataCategory extends AsyncTask<Void, Void, Void> {
     RecyclerView recycleViewCategory;
 
 
-    private static final String urlCategory = Api.url+"category";
+    private static final String urlCategory = Api.urlLocal +"category";
 
 
     public DownloadDataCategory(View view, OnDataCategoryListener mlistener, RecyclerView recycleViewCategory) {
