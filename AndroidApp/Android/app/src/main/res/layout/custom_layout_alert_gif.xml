@@ -6,8 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
         android:elevation="@dimen/space8"
         app:cardCornerRadius="@dimen/space16"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -37,7 +37,8 @@
                 android:layout_marginEnd="@dimen/space16"
                 android:maxLines="5"
                 android:text="~~~~~~"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+               />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
