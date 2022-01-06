@@ -180,9 +180,8 @@ public class MakerFragment extends Fragment implements OnDataFavList, OnDataProd
         favoriteAdapter.setOnClickFav(new FavoriteAdapter.SetOnClickFav() {
             @Override
             public void onRemoveItem(Favourite favourite, int pos) {
-                favourites.remove(favourite);
+                favourites.remove(pos);
                 favoriteAdapter.notifyItemRemoved(pos);
-                favoriteAdapter.notifyItemRangeChanged(pos, favourites.size());
                 RemoveFavorite removeFavorite = new RemoveFavorite(favourite.getId(), queue);
                 removeFavorite.execute();
             }

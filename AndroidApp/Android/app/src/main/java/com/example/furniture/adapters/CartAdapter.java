@@ -138,7 +138,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHD> {
         holder.ivCartRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setOnClickCart.onRemoveItem(view, cart, position);
+                setOnClickCart.onRemoveItem(view, cart, holder.getAbsoluteAdapterPosition());
             }
         });
 

@@ -68,7 +68,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHD
         holder.ivFavRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onClickFav.onRemoveItem(favourite,position);
+                onClickFav.onRemoveItem(favourite,holder.getAbsoluteAdapterPosition());
             }
         });
 

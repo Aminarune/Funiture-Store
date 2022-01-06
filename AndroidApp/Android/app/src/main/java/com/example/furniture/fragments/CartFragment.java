@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -179,7 +180,6 @@ public class CartFragment extends Fragment implements OnDataCartList {
         recycleViewCart.setLayoutManager(layoutManager);
         recycleViewCart.setAdapter(cartAdapter);
 
-        cartAdapter.notifyDataSetChanged();
 
         shimmerCart.stopShimmer();
         shimmerCart.setVisibility(View.GONE);
@@ -188,21 +188,20 @@ public class CartFragment extends Fragment implements OnDataCartList {
         cartAdapter.setSetOnClickCart(new CartAdapter.SetOnClickCart() {
             @Override
             public void onRemoveItem(View view, Cart cart, int pos) {
-                carts.remove(cart);
+                carts.remove(pos);
                 cartAdapter.notifyItemRemoved(pos);
-                cartAdapter.notifyItemRangeChanged(pos, carts.size());
                 RemoveCart removeCart = new RemoveCart(cart.getId(), queue);
                 removeCart.execute();
             }
 
             @Override
-            public void onIncreaseItem(View view, Cart cart,int quantity) {
-                getCart(cart,quantity);
+            public void onIncreaseItem(View view, Cart cart, int quantity) {
+                getCart(cart, quantity);
             }
 
             @Override
-            public void onDecreaseItem(View view,Cart cart,int quantity){
-                getCart(cart,quantity);
+            public void onDecreaseItem(View view, Cart cart, int quantity) {
+                getCart(cart, quantity);
             }
 
             @Override
@@ -214,13 +213,13 @@ public class CartFragment extends Fragment implements OnDataCartList {
 
     }
 
-    private void getCart(Cart cartA,int quantity) {
+    private void getCart(Cart cartA, int quantity) {
 
         CheckCart checkCart = new CheckCart(user.getId(), cartA.getIdProduct(), queue, new OnDataGetCart() {
             @Override
             public void onFoundCartItem(Cart cart) {
                 //found - update
-                updateCart(cart,quantity);
+                updateCart(cart, quantity);
             }
 
             @Override
@@ -231,7 +230,7 @@ public class CartFragment extends Fragment implements OnDataCartList {
         checkCart.execute();
     }
 
-    private void updateCart(Cart cart,int quantity) {
+    private void updateCart(Cart cart, int quantity) {
 
         UpdateToCart updateToCart = new UpdateToCart(quantity, queue, cart, new OnDataSaveCart() {
             @Override
@@ -249,7 +248,6 @@ public class CartFragment extends Fragment implements OnDataCartList {
     }
 
 
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -257,7 +255,7 @@ public class CartFragment extends Fragment implements OnDataCartList {
     }
 
     public void sendDataToActivity(Product product) {
-        onDataPassProduct.onDataPassProduct(product,"Cart");
+        onDataPassProduct.onDataPassProduct(product, "Cart");
     }
 
 
