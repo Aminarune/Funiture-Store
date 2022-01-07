@@ -1,10 +1,12 @@
 package com.example.furniture.fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
@@ -27,8 +29,11 @@ import com.android.volley.toolbox.Volley;
 import com.example.furniture.R;
 import com.example.furniture.adapters.AvatarAdapter;
 import com.example.furniture.models.Avatar;
+import com.example.furniture.models.Product;
 import com.example.furniture.models.User;
 import com.example.furniture.services.Api;
+import com.example.furniture.utilities.OnDataPassProduct;
+import com.example.furniture.utilities.OnDataPassUser;
 import com.example.furniture.views.ShippingActivity;
 import com.example.furniture.views.SignInActivity;
 import com.google.gson.Gson;
@@ -104,6 +109,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
     private static final String url = Api.urlLocal +"user";
 
+    private OnDataPassUser onDataPassUser;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -164,15 +171,9 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.ivEditShipping:
-                moveToShippingAddress(user);
+                sendDataToActivity(user);
                 break;
         }
-    }
-
-    private void moveToShippingAddress(User user){
-        Intent intent=new Intent(getActivity(), ShippingActivity.class);
-        intent.putExtra("user",user);
-        startActivity(intent);
     }
 
 
@@ -333,6 +334,16 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             super.onPostExecute(unused);
             user.setPicture(image);
         }
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        onDataPassUser = (OnDataPassUser) context;
+    }
+
+    public void sendDataToActivity(User user) {
+        onDataPassUser.onDataPassUser(user);
     }
 
 

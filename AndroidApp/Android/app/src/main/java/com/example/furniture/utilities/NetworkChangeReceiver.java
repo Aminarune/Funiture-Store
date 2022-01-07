@@ -1,29 +1,30 @@
 package com.example.furniture.utilities;
 
+
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-
-
-import androidx.appcompat.app.AlertDialog;
+import android.util.Log;
 
 
 public class NetworkChangeReceiver extends BroadcastReceiver {
 
+    private AlertDialog alertDialog;
+
+    public NetworkChangeReceiver(AlertDialog alertDialog) {
+        this.alertDialog = alertDialog;
+    }
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("Please check your connection and try again");
-        AlertDialog alertDialog = builder.create();
         int status = NetworkUtil.getConnectivityStatus(context);
 
-
         if (status == NetworkUtil.TYPE_NOT_CONNECTED) {
-
+            Log.d("TAG","onStop");
             alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.setCancelable(false);
 
@@ -36,9 +37,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
                     alertDialog.dismiss();
                 }
             });
-
             alertDialog.show();
-
         } else {
             alertDialog.dismiss();
         }

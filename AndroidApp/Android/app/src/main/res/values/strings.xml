@@ -60,4 +60,5 @@
     <string name="street_address">Street Address</string>
     <string name="save_address">Save Address</string>
     <string name="add_shipping_add">Add Shipping Address</string>
+    <string name="use_as_df_addrss">Use as the shipping address</string>
 </resources>

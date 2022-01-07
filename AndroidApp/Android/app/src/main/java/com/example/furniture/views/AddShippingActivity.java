@@ -2,7 +2,10 @@ package com.example.furniture.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +29,11 @@ import com.example.furniture.models.Ward;
 import com.example.furniture.services.DownloadCity;
 import com.example.furniture.services.DownloadDistrict;
 import com.example.furniture.services.DownloadWard;
+import com.example.furniture.services.OnDataSaveAddress;
+import com.example.furniture.services.SaveToAddress;
+import com.example.furniture.services.SaveToCart;
+import com.example.furniture.utilities.AlbertDialogUtil;
+import com.example.furniture.utilities.NetworkChangeReceiver;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
@@ -34,7 +42,7 @@ public class AddShippingActivity extends AppCompatActivity implements
         DownloadCity.GetCity,
         View.OnClickListener,
         DownloadDistrict.GetDistrict,
-        DownloadWard.GetWard {
+        DownloadWard.GetWard, OnDataSaveAddress {
 
 
     private Spinner spinnerCity, spinnerDistrict, spinnerWard;
@@ -45,16 +53,22 @@ public class AddShippingActivity extends AppCompatActivity implements
 
     private Button btnSaveAddress;
 
-    private User user;
+
 
     private ImageView ivBackToAddShipping;
 
     private LinearLayout layoutAddShipping;
 
+    //check connection state auto
+    private NetworkChangeReceiver networkChangeReceiver;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_shipping);
+
+        User user = (User) getIntent().getSerializableExtra("user");
 
         editAddress = findViewById(R.id.editAddressDetail);
 
@@ -65,18 +79,29 @@ public class AddShippingActivity extends AppCompatActivity implements
         spinnerWard = findViewById(R.id.spinner_ward);
 
         btnSaveAddress = findViewById(R.id.btnAddToShipping);
-        btnSaveAddress.setOnClickListener(this::onClick);
+        btnSaveAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getAddressInfor(user);
+            }
+        });
 
         ivBackToAddShipping = findViewById(R.id.ivBackToAddShipping);
-        ivBackToAddShipping.setOnClickListener(this::onClick);
+        ivBackToAddShipping.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         queue = Volley.newRequestQueue(this);
 
 
-        user = (User) getIntent().getSerializableExtra("user");
+
 
         layoutAddShipping=findViewById(R.id.layoutAddShipping);
-
+        AlertDialog alertDialog= AlbertDialogUtil.showAlertDialog(this);
+        networkChangeReceiver = new NetworkChangeReceiver(alertDialog);
 
         downloadCityList();
 
@@ -157,24 +182,44 @@ public class AddShippingActivity extends AppCompatActivity implements
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnAddToShipping:
-                getAddressInfor();
+
                 break;
             case R.id.ivBackToAddShipping:
-                moveToShipping(user);
+                moveToShipping();
                 break;
 
         }
     }
 
-    private void getAddressInfor() {
+    private void getAddressInfor(User user) {
         String address = editAddress.getText().toString();
         City city = (City) spinnerCity.getSelectedItem();
         District district = (District) spinnerDistrict.getSelectedItem();
         Ward ward = (Ward) spinnerWard.getSelectedItem();
+        SaveToAddress saveToAddress=new SaveToAddress(AddShippingActivity.this,
+                user,
+                address,
+                city.getTitle(),
+                district.getTitle(),
+                ward.getTitle(),
+                queue);
+        saveToAddress.execute();
+
+        saveToAddress.setDataSaveAddress(this);
+    }
+
+    @Override
+    public void onSuccess() {
+        moveToShipping();
+    }
+
+    @Override
+    public void onFail() {
+
     }
 
 
-    private void moveToShipping(User user) {
+    private void moveToShipping() {
         Intent intent = new Intent(AddShippingActivity.this, ShippingActivity.class);
         startActivity(intent);
         finish();
@@ -183,7 +228,19 @@ public class AddShippingActivity extends AppCompatActivity implements
 
     @Override
     public void onBackPressed() {
-        moveToShipping(user);
+        moveToShipping();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerReceiver(networkChangeReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(networkChangeReceiver);
     }
 
 

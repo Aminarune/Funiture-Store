@@ -1,8 +1,8 @@
 package com.example.furniture.views;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.IntentFilter;
@@ -34,6 +34,7 @@ import com.example.furniture.services.RemoveFavorite;
 import com.example.furniture.services.SaveToCart;
 import com.example.furniture.services.SaveToFavorite;
 import com.example.furniture.services.UpdateToCartDetailProduct;
+import com.example.furniture.utilities.AlbertDialogUtil;
 import com.example.furniture.utilities.DialogUtil;
 import com.example.furniture.utilities.NetworkChangeReceiver;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -92,7 +93,8 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
 
         initView();
 
-        networkChangeReceiver = new NetworkChangeReceiver();
+        AlertDialog alertDialog= AlbertDialogUtil.showAlertDialog(this);
+        networkChangeReceiver = new NetworkChangeReceiver(alertDialog);
 
         //check first
         CheckFavorite checkFavorite = new CheckFavorite(user.getId(), idProduct, queue, this);

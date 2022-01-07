@@ -66,6 +66,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/space16"
                 android:layout_marginEnd="@dimen/space16"
+                android:imeOptions="actionDone"
                 android:background="@android:color/transparent" />
 
         </androidx.cardview.widget.CardView>

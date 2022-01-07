@@ -1,11 +1,11 @@
 package com.example.furniture.views;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -23,15 +23,18 @@ import com.example.furniture.fragments.HomeFragment;
 import com.example.furniture.fragments.MakerFragment;
 import com.example.furniture.models.Product;
 import com.example.furniture.models.User;
+import com.example.furniture.utilities.AlbertDialogUtil;
 import com.example.furniture.utilities.DialogUtil;
 import com.example.furniture.utilities.NetworkChangeReceiver;
 import com.example.furniture.utilities.OnDataPassProduct;
+import com.example.furniture.utilities.OnDataPassUser;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity implements
-        NavigationBarView.OnItemSelectedListener, View.OnClickListener, OnDataPassProduct {
+        NavigationBarView.OnItemSelectedListener, View.OnClickListener, OnDataPassProduct ,
+        OnDataPassUser {
 
 
     //check connection state auto
@@ -66,8 +69,8 @@ public class MainActivity extends AppCompatActivity implements
 
         bottomNav.setOnItemSelectedListener(this);
 
-
-        networkChangeReceiver = new NetworkChangeReceiver();
+        AlertDialog alertDialog= AlbertDialogUtil.showAlertDialog(this);
+        networkChangeReceiver = new NetworkChangeReceiver(alertDialog);
 
         /*show home screen first*/
         bottomNav.setSelectedItemId(R.id.bottom_home_nav);
@@ -164,4 +167,10 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
+    @Override
+    public void onDataPassUser(User user) {
+        Intent intent=new Intent(MainActivity.this, ShippingActivity.class);
+        intent.putExtra("user",user);
+        startActivity(intent);
+    }
 }
