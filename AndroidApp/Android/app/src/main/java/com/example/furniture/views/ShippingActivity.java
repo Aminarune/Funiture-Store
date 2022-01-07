@@ -8,7 +8,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.media.Image;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +22,8 @@ import com.example.furniture.models.ShippingAddress;
 import com.example.furniture.models.User;
 import com.example.furniture.services.GetShippingAddress;
 import com.example.furniture.services.OnDataShipAddList;
+import com.example.furniture.services.RemoveCart;
+import com.example.furniture.services.RemoveShippingAddress;
 import com.example.furniture.services.UpdateDefaultAddress;
 import com.example.furniture.utilities.AlbertDialogUtil;
 import com.example.furniture.utilities.NetworkChangeReceiver;
@@ -41,6 +42,8 @@ public class ShippingActivity extends AppCompatActivity{
 
     private RequestQueue queue;
 
+    private User user;
+
     //check connection state auto
     private NetworkChangeReceiver networkChangeReceiver;
 
@@ -49,7 +52,9 @@ public class ShippingActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shipping);
 
-        User user = (User) getIntent().getSerializableExtra("user");
+        queue = Volley.newRequestQueue(ShippingActivity.this);
+
+        user = (User) getIntent().getSerializableExtra("user");
 
         btnAdd = findViewById(R.id.btnCreateShipping);
 
@@ -60,7 +65,7 @@ public class ShippingActivity extends AppCompatActivity{
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                moveToAddShipping(user);
+                moveToCreateAddShipping(user);
             }
         });
 
@@ -74,9 +79,10 @@ public class ShippingActivity extends AppCompatActivity{
         AlertDialog alertDialog= AlbertDialogUtil.showAlertDialog(this);
         networkChangeReceiver = new NetworkChangeReceiver(alertDialog);
 
-        queue = Volley.newRequestQueue(ShippingActivity.this);
+
 
         getShippingAddress(ShippingActivity.this, user, queue);
+
     }
 
     private void getShippingAddress(Context context, User user, RequestQueue queue) {
@@ -119,12 +125,35 @@ public class ShippingActivity extends AppCompatActivity{
                         queue,false);
                 updateDefaultAddress.execute();
             }
+
+            @Override
+            public void modifyShipping(ShippingAddress shippingAddress, int pos) {
+                moveToUpdateShipping(shippingAddress,user);
+            }
+
+            @Override
+            public void onRemoveItem(ShippingAddress shippingAddress, int pos) {
+                arrayList.remove(pos);
+                shippingAddressAdapter.notifyItemRemoved(pos);
+                RemoveShippingAddress removeShippingAddress = new RemoveShippingAddress(
+                        shippingAddress.getId(), queue);
+                removeShippingAddress.execute();
+            }
         });
     }
 
-
-    private void moveToAddShipping(User user) {
+    private void moveToUpdateShipping(ShippingAddress shippingAddress,User user){
         Intent intent = new Intent(ShippingActivity.this, AddShippingActivity.class);
+        intent.putExtra("shipping",shippingAddress);
+        intent.putExtra("from","from_edit");
+        intent.putExtra("user", user);
+        startActivity(intent);
+    }
+
+
+    private void moveToCreateAddShipping(User user) {
+        Intent intent = new Intent(ShippingActivity.this, AddShippingActivity.class);
+        intent.putExtra("from","from_create");
         intent.putExtra("user", user);
         startActivity(intent);
     }
@@ -133,13 +162,13 @@ public class ShippingActivity extends AppCompatActivity{
     protected void onStart() {
         super.onStart();
         registerReceiver(networkChangeReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        getShippingAddress(ShippingActivity.this, user, queue);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         unregisterReceiver(networkChangeReceiver);
-
     }
 
 

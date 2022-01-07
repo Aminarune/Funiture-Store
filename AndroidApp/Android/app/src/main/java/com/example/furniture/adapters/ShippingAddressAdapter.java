@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.furniture.R;
+import com.example.furniture.models.Favourite;
 import com.example.furniture.models.ShippingAddress;
 
 import java.util.ArrayList;
@@ -67,8 +68,10 @@ public class ShippingAddressAdapter extends RecyclerView.Adapter<ShippingAddress
         ShippingAddress shippingAddress = arrayList.get(position);
 
         if (selectCheck.get(position) == 1) {
+            holder.btnRemove.setVisibility(View.GONE);
             holder.checkBox.setChecked(true);
         } else {
+            holder.btnRemove.setVisibility(View.VISIBLE);
             holder.checkBox.setChecked(false);
         }
 
@@ -100,6 +103,21 @@ public class ShippingAddressAdapter extends RecyclerView.Adapter<ShippingAddress
             }
         });
 
+        holder.btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int pos = holder.getAdapterPosition();
+                onCheck.modifyShipping(shippingAddress,pos);
+            }
+        });
+
+        holder.btnRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCheck.onRemoveItem(shippingAddress,holder.getAbsoluteAdapterPosition());
+            }
+        });
+
 
         String fullAddress =
                 shippingAddress.getAddress() + ", " +
@@ -108,6 +126,8 @@ public class ShippingAddressAdapter extends RecyclerView.Adapter<ShippingAddress
                         shippingAddress.getWard();
 
         holder.textAddress.setText(fullAddress);
+
+
 
     }
 
@@ -120,7 +140,7 @@ public class ShippingAddressAdapter extends RecyclerView.Adapter<ShippingAddress
 
         CheckBox checkBox;
 
-        ImageView btnEdit;
+        ImageView btnEdit,btnRemove;
 
         TextView textAddress;
 
@@ -129,11 +149,14 @@ public class ShippingAddressAdapter extends RecyclerView.Adapter<ShippingAddress
             checkBox = itemView.findViewById(R.id.checkboxState);
             btnEdit = itemView.findViewById(R.id.ic_edit_address);
             textAddress = itemView.findViewById(R.id.tvAddress);
+            btnRemove=itemView.findViewById(R.id.ic_remove_address);
         }
     }
 
     public interface OnCheck {
         void setOnCheck(ShippingAddress shippingAddress);
         void setOnUnCheck(ShippingAddress shippingAddress);
+        void modifyShipping(ShippingAddress shippingAddress,int pos);
+        void onRemoveItem(ShippingAddress shippingAddress, int pos);
     }
 }

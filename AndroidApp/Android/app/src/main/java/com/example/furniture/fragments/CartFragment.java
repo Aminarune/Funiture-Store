@@ -12,6 +12,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -31,6 +35,7 @@ import com.example.furniture.services.OnDataProductListener;
 import com.example.furniture.services.OnDataSaveCart;
 import com.example.furniture.services.RemoveCart;
 import com.example.furniture.services.UpdateToCart;
+import com.example.furniture.utilities.NumberUtilities;
 import com.example.furniture.utilities.OnDataPassProduct;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
@@ -98,6 +103,12 @@ public class CartFragment extends Fragment implements OnDataCartList {
 
     private CartAdapter cartAdapter;
 
+    private TextView tvTotalPriceAllCart;
+
+    private Button btnCheckOut;
+
+    private LinearLayout layoutCheckOut;
+
 
     public CartFragment(User user) {
         this.user = user;
@@ -114,6 +125,12 @@ public class CartFragment extends Fragment implements OnDataCartList {
         shimmerCart = view.findViewById(R.id.shimmerCart);
 
         recycleViewCart = view.findViewById(R.id.recycleViewCart);
+
+        tvTotalPriceAllCart=view.findViewById(R.id.tvTotalPriceAllCart);
+
+        btnCheckOut=view.findViewById(R.id.btnCheckOut);
+
+        layoutCheckOut=view.findViewById(R.id.layoutCheckOut);
 
         queue = Volley.newRequestQueue(view.getContext());
 
@@ -172,6 +189,19 @@ public class CartFragment extends Fragment implements OnDataCartList {
         recycleViewCart.setVisibility(View.VISIBLE);
     }
 
+    private void updateTotalPrice(ArrayList<Product> products,ArrayList<Cart> carts){
+        float total=0;
+        for(int i=0;i<carts.size();i++){
+            total+=carts.get(i).getTotalPrice();
+        }
+        tvTotalPriceAllCart.setText(NumberUtilities.getFloatDecimal("###.##").format(total));
+        if(carts.size()>0){
+            layoutCheckOut.setVisibility(View.VISIBLE);
+        }
+        else {
+            layoutCheckOut.setVisibility(View.GONE);
+        }
+    }
 
     private void createUiProduct(Context context, ArrayList<Product> products, ArrayList<Cart> carts) {
         cartAdapter = new CartAdapter(context, products, carts);
@@ -179,6 +209,9 @@ public class CartFragment extends Fragment implements OnDataCartList {
         LinearLayoutManager layoutManager = new LinearLayoutManager(context, RecyclerView.VERTICAL, false);
         recycleViewCart.setLayoutManager(layoutManager);
         recycleViewCart.setAdapter(cartAdapter);
+
+        updateTotalPrice(products,carts);
+
 
 
         shimmerCart.stopShimmer();
@@ -192,16 +225,19 @@ public class CartFragment extends Fragment implements OnDataCartList {
                 cartAdapter.notifyItemRemoved(pos);
                 RemoveCart removeCart = new RemoveCart(cart.getId(), queue);
                 removeCart.execute();
+                updateTotalPrice(products,carts);
             }
 
             @Override
             public void onIncreaseItem(View view, Cart cart, int quantity) {
                 getCart(cart, quantity);
+                updateTotalPrice(products,carts);
             }
 
             @Override
             public void onDecreaseItem(View view, Cart cart, int quantity) {
                 getCart(cart, quantity);
+                updateTotalPrice(products,carts);
             }
 
             @Override

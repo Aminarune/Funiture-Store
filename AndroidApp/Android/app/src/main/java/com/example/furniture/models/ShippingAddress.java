@@ -1,6 +1,8 @@
 package com.example.furniture.models;
 
-public class ShippingAddress {
+import java.io.Serializable;
+
+public class ShippingAddress implements Serializable {
     private String id;
     private String idUser;
     private String address;
