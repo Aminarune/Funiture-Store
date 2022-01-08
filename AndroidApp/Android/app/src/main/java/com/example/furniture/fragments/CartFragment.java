@@ -123,6 +123,7 @@ public class CartFragment extends Fragment implements OnDataCartList, View.OnCli
 
     private ArrayList<String> productArrayList;
 
+    private static int create=0;
 
     public CartFragment(User user) {
         this.user = user;
@@ -132,7 +133,7 @@ public class CartFragment extends Fragment implements OnDataCartList, View.OnCli
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Log.d("TAG","onCreateView");
+        create=1;
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
@@ -269,7 +270,7 @@ public class CartFragment extends Fragment implements OnDataCartList, View.OnCli
 
             @Override
             public void onClickItemCart(View view, Product product) {
-                sendDataToActivity(product);
+//                sendDataToActivity(product);
             }
         });
 
@@ -338,13 +339,17 @@ public class CartFragment extends Fragment implements OnDataCartList, View.OnCli
     @Override
     public void onStart() {
         super.onStart();
+        if(create==2){
+            layoutCheckOut.setVisibility(View.GONE);
+            recycleViewCart.setVisibility(View.GONE);
+        }
     }
 
 
     @Override
     public void onStop() {
         super.onStop();
-        layoutCheckOut.setVisibility(View.GONE);
+        create=2;
     }
 
 

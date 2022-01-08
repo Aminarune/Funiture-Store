@@ -67,4 +67,5 @@
     <string name="personal_information">Personal Information</string>
     <string name="name">Name</string>
     <string name="summit">submit order</string>
+    <string name="my_order">My Orders</string>
 </resources>

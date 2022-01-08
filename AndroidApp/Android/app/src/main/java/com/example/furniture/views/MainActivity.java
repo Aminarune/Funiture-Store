@@ -183,6 +183,10 @@ public class MainActivity extends AppCompatActivity implements
             Intent intent = new Intent(MainActivity.this, ShippingActivity.class);
             intent.putExtra("user", user);
             startActivity(intent);
+        }else if(tag.equals("my_order")){
+            Intent intent = new Intent(MainActivity.this, MyOrderActivity.class);
+            intent.putExtra("user", user);
+            startActivity(intent);
         }
 
     }

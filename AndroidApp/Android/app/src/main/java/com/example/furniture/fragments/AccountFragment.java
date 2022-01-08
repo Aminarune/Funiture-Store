@@ -157,6 +157,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         ivPhotoCamera = view.findViewById(R.id.ivPhotoCamera);
 
         ivEditOrder = view.findViewById(R.id.ivEditOrder);
+        ivEditOrder.setOnClickListener(this::onClick);
 
         ivEditSetting = view.findViewById(R.id.ivEditSetting);
 
@@ -170,8 +171,13 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             case R.id.ivEditShipping:
                 sendDataToActivity(user,"account");
                 break;
+
+            case R.id.ivEditOrder:
+                sendDataToMyOrder(user,"my_order");
+                break;
         }
     }
+
 
 
     private void setData(View view) {
@@ -340,6 +346,10 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     }
 
     public void sendDataToActivity(User user,String tag) {
+        onDataPassUser.onDataPassUser(user,tag);
+    }
+
+    private void sendDataToMyOrder(User user,String tag) {
         onDataPassUser.onDataPassUser(user,tag);
     }
 

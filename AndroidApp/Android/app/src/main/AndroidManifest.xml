@@ -13,16 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Furniture">
         <activity
+            android:name=".views.MyOrderActivity"
+            android:exported="false" />
+        <activity
             android:name=".views.CheckOutActivity"
-            android:exported="false">
-
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".views.ShippingActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".views.AddShippingActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".views.DetailProductActivity"
             android:exported="false" />

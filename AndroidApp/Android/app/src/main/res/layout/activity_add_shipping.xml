@@ -14,21 +14,18 @@
         android:background="@color/main_color"
         android:gravity="center_vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/main_color">
+
 
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:textAlignment="center"
                 android:text="@string/add_shipping_add"
                 android:textSize="@dimen/font24" />
 
 
-        </RelativeLayout>
+
     </LinearLayout>
 
     <LinearLayout
