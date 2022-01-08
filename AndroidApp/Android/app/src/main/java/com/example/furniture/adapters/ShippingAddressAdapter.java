@@ -121,9 +121,9 @@ public class ShippingAddressAdapter extends RecyclerView.Adapter<ShippingAddress
 
         String fullAddress =
                 shippingAddress.getAddress() + ", " +
-                        shippingAddress.getProvince() + ", " +
-                        shippingAddress.getDistrict() + ", " +
-                        shippingAddress.getWard();
+                        shippingAddress.getWard()+ ", " +
+                        shippingAddress.getDistrict()+ ", " +
+                        shippingAddress.getProvince();
 
         holder.textAddress.setText(fullAddress);
 

@@ -34,6 +34,8 @@ public class SaveToAddress extends AsyncTask<Void,Void,Void> {
     String district;
     String ward;
 
+    boolean status;
+
     RequestQueue queue;
 
     OnDataSaveAddress dataSaveAddress;
@@ -42,13 +44,15 @@ public class SaveToAddress extends AsyncTask<Void,Void,Void> {
         this.dataSaveAddress = dataSaveAddress;
     }
 
-    public SaveToAddress(Context context, User user, String address, String city, String district, String ward, RequestQueue queue) {
+    public SaveToAddress(Context context, User user, String address, String city, String district
+            , String ward, boolean status, RequestQueue queue) {
         this.context = context;
         this.user = user;
         this.address = address;
         this.city = city;
         this.district = district;
         this.ward = ward;
+        this.status = status;
         this.queue = queue;
     }
 
@@ -66,7 +70,7 @@ public class SaveToAddress extends AsyncTask<Void,Void,Void> {
             public void onResponse(String response) {
                 Gson gson=new GsonBuilder().create();
                 ShippingAddress shippingAddress=gson.fromJson(response,ShippingAddress.class);
-                dataSaveAddress.onSuccess();
+                dataSaveAddress.onSuccess(id);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -84,7 +88,7 @@ public class SaveToAddress extends AsyncTask<Void,Void,Void> {
                 params.put("Province",city);
                 params.put("District",district);
                 params.put("Ward",ward);
-                params.put("Status",String.valueOf(false));
+                params.put("Status",String.valueOf(status));
                 return params;
             }
         };

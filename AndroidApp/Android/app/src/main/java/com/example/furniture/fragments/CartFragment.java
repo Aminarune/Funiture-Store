@@ -1,9 +1,12 @@
 package com.example.furniture.fragments;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,19 +26,24 @@ import com.example.furniture.adapters.CartAdapter;
 import com.example.furniture.models.Cart;
 import com.example.furniture.models.Favourite;
 import com.example.furniture.models.Product;
+import com.example.furniture.models.ShippingAddress;
 import com.example.furniture.models.User;
 import com.example.furniture.services.Api;
 import com.example.furniture.services.CheckCart;
 import com.example.furniture.services.DownloadDataProduct;
 import com.example.furniture.services.GetCart;
+import com.example.furniture.services.GetShippingAddress;
 import com.example.furniture.services.OnDataCartList;
 import com.example.furniture.services.OnDataGetCart;
 import com.example.furniture.services.OnDataProductListener;
 import com.example.furniture.services.OnDataSaveCart;
+import com.example.furniture.services.OnDataShipAddList;
 import com.example.furniture.services.RemoveCart;
 import com.example.furniture.services.UpdateToCart;
 import com.example.furniture.utilities.NumberUtilities;
+import com.example.furniture.utilities.OnDataPassCart;
 import com.example.furniture.utilities.OnDataPassProduct;
+import com.example.furniture.utilities.OnDataPassUser;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
@@ -46,7 +53,7 @@ import java.util.ArrayList;
  * Use the {@link CartFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CartFragment extends Fragment implements OnDataCartList {
+public class CartFragment extends Fragment implements OnDataCartList, View.OnClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -101,6 +108,7 @@ public class CartFragment extends Fragment implements OnDataCartList {
 
     private OnDataPassProduct onDataPassProduct;
 
+
     private CartAdapter cartAdapter;
 
     private TextView tvTotalPriceAllCart;
@@ -108,6 +116,12 @@ public class CartFragment extends Fragment implements OnDataCartList {
     private Button btnCheckOut;
 
     private LinearLayout layoutCheckOut;
+
+    private OnDataPassCart onDataPassCart;
+
+    private ArrayList<String> cartArrayList;
+
+    private ArrayList<String> productArrayList;
 
 
     public CartFragment(User user) {
@@ -118,6 +132,7 @@ public class CartFragment extends Fragment implements OnDataCartList {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        Log.d("TAG","onCreateView");
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
@@ -129,6 +144,7 @@ public class CartFragment extends Fragment implements OnDataCartList {
         tvTotalPriceAllCart=view.findViewById(R.id.tvTotalPriceAllCart);
 
         btnCheckOut=view.findViewById(R.id.btnCheckOut);
+        btnCheckOut.setOnClickListener(this);
 
         layoutCheckOut=view.findViewById(R.id.layoutCheckOut);
 
@@ -210,6 +226,17 @@ public class CartFragment extends Fragment implements OnDataCartList {
         recycleViewCart.setLayoutManager(layoutManager);
         recycleViewCart.setAdapter(cartAdapter);
 
+
+        productArrayList=new ArrayList<>();
+        for(int i=0;i<products.size();i++){
+            productArrayList.add(products.get(i).getId());
+        }
+        cartArrayList=new ArrayList<>();
+        for(int j=0;j<carts.size();j++){
+            cartArrayList.add(carts.get(j).getId());
+        }
+
+
         updateTotalPrice(products,carts);
 
 
@@ -283,45 +310,42 @@ public class CartFragment extends Fragment implements OnDataCartList {
 
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btnCheckOut:
+               sendUserToActivity(user,cartArrayList,productArrayList);
+                break;
+        }
+    }
+
+    private void sendUserToActivity(User user,ArrayList<String> carts,ArrayList<String> products){
+        onDataPassCart.onDataPassCart(user,carts,products);
+    }
+
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         onDataPassProduct = (OnDataPassProduct) context;
+        onDataPassCart= (OnDataPassCart) context;
     }
 
     public void sendDataToActivity(Product product) {
         onDataPassProduct.onDataPassProduct(product, "Cart");
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
-        //getListFav
-        shimmerCart.startShimmer();
-        shimmerCart.setVisibility(View.VISIBLE);
-        recycleViewCart.setVisibility(View.GONE);
-        GetCart getCart = new GetCart(getActivity(), user.getId(), queue, this);
-        getCart.execute();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-    }
 
     @Override
     public void onStop() {
         super.onStop();
-
+        layoutCheckOut.setVisibility(View.GONE);
     }
+
+
 }

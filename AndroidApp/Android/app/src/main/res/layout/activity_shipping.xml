@@ -21,14 +21,6 @@
             android:background="@color/main_color"
             >
 
-            <ImageView
-                android:id="@+id/ivBackToShipping"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/space16"
-                android:src="@drawable/ic_chevron_left" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -55,7 +47,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="@dimen/space16"
         android:layout_marginBottom="@dimen/space16"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@color/main_color"
         android:src="@drawable/ic_add" />
 
 

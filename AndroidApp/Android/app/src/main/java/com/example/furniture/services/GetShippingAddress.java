@@ -44,33 +44,39 @@ public class GetShippingAddress extends AsyncTask<Void, Void, Void> {
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        JSONObject jsonObject = response.getJSONObject(i);
-                        String id = jsonObject.getString("Id");
-                        String idUser = jsonObject.getString("Id_User");
-                        String address = jsonObject.getString("Address");
-                        String province = jsonObject.getString("Province");
-                        String district = jsonObject.getString("District");
-                        String ward = jsonObject.getString("Ward");
-                        Boolean status = jsonObject.getBoolean("Status");
-                        if (idUser.equals(user.getId())) {
-                            shippingAddresses.add(new ShippingAddress(
-                                    id, idUser, address, province, district, ward, status
-                            ));
+                if (response.length() > 0) {
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            JSONObject jsonObject = response.getJSONObject(i);
+                            boolean status = jsonObject.getBoolean("Status");
+
+                            String id = jsonObject.getString("Id");
+                            String idUser = jsonObject.getString("Id_User");
+                            String address = jsonObject.getString("Address");
+                            String province = jsonObject.getString("Province");
+                            String district = jsonObject.getString("District");
+                            String ward = jsonObject.getString("Ward");
+
+                            if (idUser.equals(user.getId())) {
+                                shippingAddresses.add(new ShippingAddress(
+                                        id, idUser, address, province, district, ward, status
+                                ));
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
+
+                    onDataShipAddList.onSuccess(shippingAddresses);
+                } else {
+                    onDataShipAddList.onFail("");
                 }
-
-                onDataShipAddList.onSuccess(shippingAddresses);
-
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                onDataShipAddList.onFail(error.getMessage());
+
             }
         });
 

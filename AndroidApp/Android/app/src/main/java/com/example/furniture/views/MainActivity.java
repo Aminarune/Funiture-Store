@@ -12,29 +12,39 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.example.furniture.R;
 import com.example.furniture.fragments.AccountFragment;
 import com.example.furniture.fragments.BellFragment;
 import com.example.furniture.fragments.CartFragment;
 import com.example.furniture.fragments.HomeFragment;
 import com.example.furniture.fragments.MakerFragment;
+import com.example.furniture.models.Cart;
 import com.example.furniture.models.Product;
+import com.example.furniture.models.ShippingAddress;
 import com.example.furniture.models.User;
+import com.example.furniture.services.GetShippingAddress;
+import com.example.furniture.services.OnDataShipAddList;
 import com.example.furniture.utilities.AlbertDialogUtil;
 import com.example.furniture.utilities.DialogUtil;
 import com.example.furniture.utilities.NetworkChangeReceiver;
+import com.example.furniture.utilities.OnDataPassCart;
 import com.example.furniture.utilities.OnDataPassProduct;
 import com.example.furniture.utilities.OnDataPassUser;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements
-        NavigationBarView.OnItemSelectedListener, View.OnClickListener, OnDataPassProduct ,
-        OnDataPassUser {
+        NavigationBarView.OnItemSelectedListener, View.OnClickListener, OnDataPassProduct,
+        OnDataPassUser, OnDataPassCart {
 
 
     //check connection state auto
@@ -42,11 +52,12 @@ public class MainActivity extends AppCompatActivity implements
 
     private BottomNavigationView bottomNav;
 
-    private boolean checkBox;
 
     private User userLogin;
 
     private FloatingActionButton btnCart;
+
+    private RequestQueue queue;
 
 
     @Override
@@ -55,7 +66,10 @@ public class MainActivity extends AppCompatActivity implements
 
         setContentView(R.layout.activity_main);
 
-        userLogin = getUserInfor();
+        queue = Volley.newRequestQueue(this);
+
+        userLogin = (User) getIntent().getSerializableExtra("userObject");
+
 
         btnCart = findViewById(R.id.btnCart);
         btnCart.setOnClickListener(this);
@@ -69,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements
 
         bottomNav.setOnItemSelectedListener(this);
 
-        AlertDialog alertDialog= AlbertDialogUtil.showAlertDialog(this);
+        AlertDialog alertDialog = AlbertDialogUtil.showAlertDialog(this);
         networkChangeReceiver = new NetworkChangeReceiver(alertDialog);
 
         /*show home screen first*/
@@ -104,20 +118,13 @@ public class MainActivity extends AppCompatActivity implements
                 createFragment(new BellFragment());
                 break;
             case R.id.bottom_person_nav:
-                createFragment(new AccountFragment(userLogin, checkBox));
+                createFragment(new AccountFragment(userLogin));
                 break;
             default:
                 createFragment(new HomeFragment());
                 break;
         }
         return true;
-    }
-
-    private User getUserInfor() {
-        Intent intent = getIntent();
-        User user = (User) intent.getSerializableExtra("userObject");
-        checkBox = intent.getBooleanExtra("checkBox", false);
-        return user;
     }
 
 
@@ -136,7 +143,9 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void createFragment(Fragment fragment) {
+
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
         fragmentTransaction.replace(R.id.frameLayoutHome, fragment).commit();
     }
 
@@ -168,9 +177,60 @@ public class MainActivity extends AppCompatActivity implements
 
 
     @Override
-    public void onDataPassUser(User user) {
-        Intent intent=new Intent(MainActivity.this, ShippingActivity.class);
-        intent.putExtra("user",user);
-        startActivity(intent);
+    public void onDataPassUser(User user, String tag) {
+
+        if (tag.equals("account")) {
+            Intent intent = new Intent(MainActivity.this, ShippingActivity.class);
+            intent.putExtra("user", user);
+            startActivity(intent);
+        }
+
     }
+
+
+    @Override
+    public void onDataPassCart(User user, ArrayList<String> carts, ArrayList<String> products) {
+        GetShippingAddress getShippingAddress = new GetShippingAddress(user, queue);
+        getShippingAddress.execute();
+        getShippingAddress.setOnDataShipAddList(new OnDataShipAddList() {
+            @Override
+            public void onSuccess(ArrayList<ShippingAddress> shippingAddresses) {
+                moveToCheckOut(shippingAddresses, user, carts, products);
+            }
+
+            @Override
+            public void onFail(String error) {
+                moveToAddShipping(user, carts, products);
+            }
+        });
+    }
+
+    private void moveToAddShipping(User user, ArrayList<String> carts, ArrayList<String> products) {
+        Intent intent = new Intent(MainActivity.this, AddShippingActivity.class);
+        intent.putExtra("user", user);
+        intent.putExtra("cart", carts);
+        intent.putExtra("from","check_out");
+        intent.putExtra("product", products);
+        startActivity(intent);
+        finish();
+    }
+
+    private void moveToCheckOut(ArrayList<ShippingAddress> shippingAddresses, User user,
+                                ArrayList<String> carts, ArrayList<String> products) {
+        for (int i = 0; i < shippingAddresses.size(); i++) {
+            if (shippingAddresses.get(i).isStatus()) {
+                Intent intent = new Intent(MainActivity.this, CheckOutActivity.class);
+                intent.putExtra("user", user);
+                intent.putExtra("shippingId", shippingAddresses.get(i).getId());
+                intent.putExtra("cart", carts);
+                intent.putExtra("product", products);
+                startActivity(intent);
+                finish();
+                break;
+            }
+        }
+
+    }
+
+
 }

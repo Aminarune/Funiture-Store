@@ -63,4 +63,8 @@
     <string name="use_as_df_addrss">Use as the shipping address</string>
     <string name="total_price">Total:</string>
     <string name="check_out">Check out</string>
+    <string name="order">Order:</string>
+    <string name="personal_information">Personal Information</string>
+    <string name="name">Name</string>
+    <string name="summit">submit order</string>
 </resources>

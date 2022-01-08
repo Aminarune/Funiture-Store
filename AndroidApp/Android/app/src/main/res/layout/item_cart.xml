@@ -42,7 +42,8 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textSize="@dimen/font18" />
+            android:textSize="@dimen/font14"
+             />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -127,6 +128,7 @@
                 android:layout_height="match_parent"
                 android:text=""
                 android:paddingStart="@dimen/space4"
+                android:textSize="@dimen/font14"
                 android:id="@+id/tvTotalPriceCart"
                 android:gravity="start|center_vertical"
                 />

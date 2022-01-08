@@ -24,6 +24,7 @@ import com.example.furniture.R;
 import com.example.furniture.adapters.SpinnerCityAdapter;
 import com.example.furniture.adapters.SpinnerDistrictAdapter;
 import com.example.furniture.adapters.SpinnerWardAdapter;
+import com.example.furniture.models.Cart;
 import com.example.furniture.models.City;
 import com.example.furniture.models.District;
 import com.example.furniture.models.ShippingAddress;
@@ -32,7 +33,9 @@ import com.example.furniture.models.Ward;
 import com.example.furniture.services.DownloadCity;
 import com.example.furniture.services.DownloadDistrict;
 import com.example.furniture.services.DownloadWard;
+import com.example.furniture.services.GetShippingAddress;
 import com.example.furniture.services.OnDataSaveAddress;
+import com.example.furniture.services.OnDataShipAddList;
 import com.example.furniture.services.SaveToAddress;
 import com.example.furniture.services.SaveToCart;
 import com.example.furniture.services.UpdateToAddress;
@@ -69,6 +72,10 @@ public class AddShippingActivity extends AppCompatActivity implements
     //check connection state auto
     private NetworkChangeReceiver networkChangeReceiver;
 
+    private ArrayList<String> productsAr;
+
+    private ArrayList<String> cartsAr;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +102,10 @@ public class AddShippingActivity extends AppCompatActivity implements
         } else if (from.equals("from_edit")) {
             user = (User) getIntent().getSerializableExtra("user");
             shippingAddress = (ShippingAddress) getIntent().getSerializableExtra("shipping");
+        }else if(from.equals("check_out")){
+            user = (User) getIntent().getSerializableExtra("user");
+            cartsAr=getIntent().getStringArrayListExtra("cart");
+            productsAr=getIntent().getStringArrayListExtra("product");
         }
 
 
@@ -205,7 +216,7 @@ public class AddShippingActivity extends AppCompatActivity implements
                 android.R.layout.simple_list_item_1, wards);
         spinnerWard.setAdapter(spinnerWardAdapter);
 
-        if(from.equals("from_edit")){
+        if (from.equals("from_edit")) {
             setValue(user, shippingAddress);
         }
 
@@ -217,62 +228,101 @@ public class AddShippingActivity extends AppCompatActivity implements
         District district = (District) spinnerDistrict.getSelectedItem();
         Ward ward = (Ward) spinnerWard.getSelectedItem();
         if (from.equals("from_create")) {
-            SaveToAddress saveToAddress = new SaveToAddress(AddShippingActivity.this,
-                    user,
-                    address,
-                    city.getTitle(),
-                    district.getTitle(),
-                    ward.getTitle(),
-                    queue);
-            saveToAddress.execute();
-            saveToAddress.setDataSaveAddress(new OnDataSaveAddress() {
+            GetShippingAddress getShippingAddress = new GetShippingAddress(user, queue);
+            getShippingAddress.execute();
+            getShippingAddress.setOnDataShipAddList(new OnDataShipAddList() {
                 @Override
-                public void onSuccess() {
-
-                    moveToShipping(user);
+                public void onSuccess(ArrayList<ShippingAddress> shippingAddresses) {
+                    saveToAddress(user, address, city, district, ward, false, queue);
                 }
 
                 @Override
-                public void onFail() {
-
+                public void onFail(String error) {
+                    //response = 0 ( no address default) first address
+                    saveToAddress(user, address, city, district, ward, true, queue);
                 }
             });
         } else if (from.equals("from_edit")) {
-            UpdateToAddress updateToAddress = new UpdateToAddress(AddShippingActivity.this,
-                    user,
-                    shippingAddress.getId(),
-                    address,
-                    city.getTitle(),
-                    district.getTitle(),
-                    ward.getTitle(),
-                    shippingAddress.isStatus(),
-                    queue);
-            updateToAddress.execute();
-            updateToAddress.setDataSaveAddress(new OnDataSaveAddress() {
-                @Override
-                public void onSuccess() {
-                    moveToShipping(user);
-                }
-
-                @Override
-                public void onFail() {
-
-                }
-            });
+            updateToAddress(user, address, city, district, ward, shippingAddress, queue);
+        }else if(from.equals("check_out")){
+            saveToAddress(user, address, city, district, ward, true, queue);
         }
 
     }
 
+    private void saveToAddress(User user, String address, City city,
+                               District district, Ward ward, boolean status,
+                               RequestQueue queue) {
+        //first address
+        SaveToAddress saveToAddress = new SaveToAddress(AddShippingActivity.this,
+                user,
+                address,
+                city.getTitle(),
+                district.getTitle(),
+                ward.getTitle(),
+                status,
+                queue);
+        saveToAddress.execute();
+        saveToAddress.setDataSaveAddress(new OnDataSaveAddress() {
+            @Override
+            public void onSuccess(String id) {
+
+                if(from.equals("from_create")||from.equals("from_edit")){
+                    moveToShipping(user);
+                }else if (from.equals("check_out")){
+                    moveToCheckOut(user,id,productsAr,cartsAr);
+                }
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+        });
+    }
+
+    private void moveToCheckOut(User user,String id, ArrayList<String> products, ArrayList<String> carts){
+        Intent intent=new Intent(AddShippingActivity.this,CheckOutActivity.class);
+        intent.putExtra("user", user);
+        intent.putExtra("shippingId", id);
+        intent.putExtra("cart", carts);
+        intent.putExtra("product", products);
+        startActivity(intent);
+        finish();
+    }
+
+
+    private void updateToAddress(User user, String address, City city,
+                                 District district, Ward ward, ShippingAddress shipping,
+                                 RequestQueue queue){
+        UpdateToAddress updateToAddress = new UpdateToAddress(AddShippingActivity.this,
+                user,
+                shipping.getId(),
+                address,
+                city.getTitle(),
+                district.getTitle(),
+                ward.getTitle(),
+                shipping.isStatus(),
+                queue);
+        updateToAddress.execute();
+        updateToAddress.setDataSaveAddress(new OnDataSaveAddress() {
+            @Override
+            public void onSuccess(String id) {
+                moveToShipping(user);
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+        });
+    }
 
     private void moveToShipping(User user) {
         finish();
     }
 
 
-    @Override
-    public void onBackPressed() {
-        finish();
-    }
 
     @Override
     protected void onStart() {
@@ -284,6 +334,21 @@ public class AddShippingActivity extends AppCompatActivity implements
     protected void onStop() {
         super.onStop();
         unregisterReceiver(networkChangeReceiver);
+    }
+
+
+    private void moveToMainActivity(User user){
+        Intent intent=new Intent(AddShippingActivity.this,MainActivity.class);
+        intent.putExtra("userObject",user);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(from.equals("check_out")){
+            moveToMainActivity(user);
+        }
     }
 
 

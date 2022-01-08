@@ -62,18 +62,20 @@ public class DownloadDataProduct extends AsyncTask<Void, Void, Void> {
                     for (int i = 0; i < response.length(); i++) {
                         try {
                             JSONObject jsonObject = (JSONObject) response.getJSONObject(i);
-                            String id_product = jsonObject.getString("Id");
-                            String name = jsonObject.getString("Name");
-                            String id_category_product = jsonObject.getString("Id_Category");
-                            String price = jsonObject.getString("Price");
+                            boolean status = jsonObject.getBoolean("Status");
+                            if (status) {
+                                String id_product = jsonObject.getString("Id");
+                                String name = jsonObject.getString("Name");
+                                String id_category_product = jsonObject.getString("Id_Category");
+                                String price = jsonObject.getString("Price");
 
-                            String desc = jsonObject.getString("Description");
-                            byte[] byteArray = Base64.decode(jsonObject.getString("Picture"), Base64.DEFAULT);
-                            Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                                String desc = jsonObject.getString("Description");
+                                byte[] byteArray = Base64.decode(jsonObject.getString("Picture"), Base64.DEFAULT);
+                                Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 
-                            Boolean status = jsonObject.getBoolean("Status");
-                            products.add(new Product(id_product, name, id_category_product, price, desc, bmp, status));
 
+                                products.add(new Product(id_product, name, id_category_product, price, desc, bmp, status));
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

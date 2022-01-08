@@ -92,11 +92,9 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
     private User user;
 
-    private boolean checkBox;
 
-    public AccountFragment(User user, boolean checkBox) {
+    public AccountFragment(User user) {
         this.user = user;
-        this.checkBox = checkBox;
     }
 
     private TextView tvName, tvEmail;
@@ -144,7 +142,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
     private void moveToLogin() {
         Intent intent = new Intent(getActivity(), SignInActivity.class);
-        intent.putExtra("checkBoxLogout",checkBox);
         intent.putExtra("from","account_logout");
         startActivity(intent);
         getActivity().finish();
@@ -171,7 +168,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.ivEditShipping:
-                sendDataToActivity(user);
+                sendDataToActivity(user,"account");
                 break;
         }
     }
@@ -342,8 +339,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         onDataPassUser = (OnDataPassUser) context;
     }
 
-    public void sendDataToActivity(User user) {
-        onDataPassUser.onDataPassUser(user);
+    public void sendDataToActivity(User user,String tag) {
+        onDataPassUser.onDataPassUser(user,tag);
     }
 
 

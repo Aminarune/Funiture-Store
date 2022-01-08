@@ -38,14 +38,14 @@ public class ShippingActivity extends AppCompatActivity{
 
     private RecyclerView recycleViewShipping;
 
-    private ImageView ivBackToShipping;
-
     private RequestQueue queue;
 
     private User user;
 
     //check connection state auto
     private NetworkChangeReceiver networkChangeReceiver;
+
+    private ShippingAddressAdapter shippingAddressAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,6 @@ public class ShippingActivity extends AppCompatActivity{
 
         recycleViewShipping = findViewById(R.id.recycleViewShipping);
 
-        ivBackToShipping = findViewById(R.id.ivBackToShipping);
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,12 +68,6 @@ public class ShippingActivity extends AppCompatActivity{
             }
         });
 
-        ivBackToShipping.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
         AlertDialog alertDialog= AlbertDialogUtil.showAlertDialog(this);
         networkChangeReceiver = new NetworkChangeReceiver(alertDialog);
@@ -102,7 +95,7 @@ public class ShippingActivity extends AppCompatActivity{
     }
 
     private void createUIAddress(ArrayList<ShippingAddress> arrayList,User user,RequestQueue queue) {
-        ShippingAddressAdapter shippingAddressAdapter = new ShippingAddressAdapter(ShippingActivity.this,
+        shippingAddressAdapter = new ShippingAddressAdapter(ShippingActivity.this,
                 arrayList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(ShippingActivity.this, RecyclerView.VERTICAL, false);
         recycleViewShipping.setLayoutManager(layoutManager);
@@ -168,9 +161,9 @@ public class ShippingActivity extends AppCompatActivity{
     @Override
     protected void onStop() {
         super.onStop();
+        Log.d("TAG","onStop");
         unregisterReceiver(networkChangeReceiver);
     }
-
 
 
 }

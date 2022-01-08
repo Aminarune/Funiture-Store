@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".views.CheckOutActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/main_color"
+                android:gravity="center_vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/main_color">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/check_out"
+                        android:textAllCaps="true"
+                        android:textSize="@dimen/font24" />
+
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space16"
+                    android:layout_marginStart="@dimen/space16"
+                    android:layout_marginEnd="@dimen/space16"
+                    android:layout_marginBottom="@dimen/space8"
+                    android:text="@string/personal_information"
+                    android:textSize="@dimen/font16" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space16"
+                    android:layout_marginEnd="@dimen/space16"
+                    android:layout_marginBottom="@dimen/space16"
+                    android:elevation="@dimen/space4"
+                    app:cardCornerRadius="@dimen/space8">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/space16"
+                            android:layout_marginTop="@dimen/space8"
+                            android:layout_marginEnd="@dimen/space16"
+                            android:layout_marginBottom="@dimen/space8"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:lineSpacingExtra="@dimen/space8"
+                            android:text="@string/name"
+                            android:textColor="@color/black_1"
+                            android:textSize="@dimen/font16" />
+
+                        <TextView
+                            android:id="@+id/tvNameCheckOut"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/space16"
+                            android:layout_marginEnd="@dimen/space16"
+                            android:layout_marginBottom="@dimen/space8"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:lineSpacingExtra="@dimen/space8"
+                            android:text="@string/sample_user_name"
+                            android:textSize="@dimen/font16" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space16"
+                    android:layout_marginEnd="@dimen/space16"
+                    android:layout_marginBottom="@dimen/space16"
+                    android:elevation="@dimen/space4"
+                    app:cardCornerRadius="@dimen/space8">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/space16"
+                            android:layout_marginTop="@dimen/space8"
+                            android:layout_marginEnd="@dimen/space16"
+                            android:layout_marginBottom="@dimen/space8"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:lineSpacingExtra="@dimen/space8"
+                            android:text="@string/phone_numer"
+                            android:textColor="@color/black_1"
+                            android:textSize="@dimen/font16" />
+
+                        <TextView
+                            android:id="@+id/tvPhoneCheckOut"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/space16"
+                            android:layout_marginEnd="@dimen/space16"
+                            android:layout_marginBottom="@dimen/space8"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:lineSpacingExtra="@dimen/space8"
+                            android:text="@string/sample_user_name"
+                            android:textSize="@dimen/font16" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space16"
+                    android:layout_marginEnd="@dimen/space16"
+                    android:layout_marginBottom="@dimen/space8"
+                    android:text="@string/shipping_add"
+                    android:textSize="@dimen/font16" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space16"
+                    android:layout_marginEnd="@dimen/space16"
+                    android:layout_marginBottom="@dimen/space16"
+                    android:elevation="@dimen/space4"
+                    app:cardCornerRadius="@dimen/space8">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginBottom="@dimen/space4"
+                            android:background="@color/main_color">
+
+                        </RelativeLayout>
+
+
+                        <TextView
+                            android:id="@+id/tvAddressCheckOut"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_margin="@dimen/space16"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:lineSpacingExtra="@dimen/space8"
+                            android:maxLines="2" />
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space16"
+                    android:layout_marginTop="@dimen/space8"
+                    android:layout_marginEnd="@dimen/space16"
+                    android:elevation="@dimen/space4"
+                    app:cardCornerRadius="@dimen/space8"/>
+
+                <Button
+                    android:id="@+id/btnCheckOut"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/space16"
+                    android:layout_marginTop="@dimen/space8"
+                    android:layout_marginEnd="@dimen/space16"
+                    android:layout_marginBottom="@dimen/space16"
+                    android:backgroundTint="@color/black_1"
+                    android:padding="@dimen/space16"
+                    android:text="@string/summit" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

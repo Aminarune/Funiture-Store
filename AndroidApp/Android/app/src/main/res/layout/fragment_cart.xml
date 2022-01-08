@@ -59,19 +59,21 @@
         android:layout_below="@+id/tool_bar_cart"/>
 
     <LinearLayout
+        android:id="@+id/layoutCheckOut"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone"
         android:layout_alignParentBottom="true"
-        android:id="@+id/layoutCheckOut">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="@dimen/space16"
-            android:layout_gravity="center_vertical">
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/space16"
+            android:layout_marginTop="@dimen/space8"
+            android:layout_marginEnd="@dimen/space16"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -79,14 +81,15 @@
                 android:layout_alignParentStart="true"
                 android:layout_weight="1"
                 android:text="@string/total_price"
-                android:textSize="@dimen/font20" />
+                android:textSize="@dimen/font18" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_toStartOf="@+id/tvTotalPriceAllCart"
-                android:textSize="@dimen/font20"
-                android:text="@string/money_symbol"/>
+                android:layout_weight="1"
+                android:text="@string/money_symbol"
+                android:textSize="@dimen/font18" />
 
             <TextView
                 android:id="@+id/tvTotalPriceAllCart"
@@ -94,15 +97,15 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_weight="1"
-                android:textSize="@dimen/font20" />
+                android:textSize="@dimen/font18" />
         </RelativeLayout>
 
 
         <Button
             android:id="@+id/btnCheckOut"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center"
             android:layout_marginStart="@dimen/space16"
             android:layout_marginEnd="@dimen/space16"
             android:layout_marginBottom="@dimen/space16"

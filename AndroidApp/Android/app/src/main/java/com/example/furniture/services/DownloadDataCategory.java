@@ -54,14 +54,16 @@ public class DownloadDataCategory extends AsyncTask<Void, Void, Void> {
                     for (int i = 0; i < response.length(); i++) {
                         try {
                             JSONObject jsonObject = (JSONObject) response.get(i);
+                            boolean status = jsonObject.getBoolean("Status");
+                            if(status){
+                                String id = jsonObject.getString("Id");
+                                String name = jsonObject.getString("Category_Name");
 
-                            String id = jsonObject.getString("Id");
-                            String name = jsonObject.getString("Category_Name");
+                                byte[] byteArray = Base64.decode(jsonObject.getString("Picture"), Base64.DEFAULT);
+                                Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 
-                            byte[] byteArray = Base64.decode(jsonObject.getString("Picture"), Base64.DEFAULT);
-                            Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-
-                            categories.add(new Category(id, name, bmp));
+                                categories.add(new Category(id, name, bmp));
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

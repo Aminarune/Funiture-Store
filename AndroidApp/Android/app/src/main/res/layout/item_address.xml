@@ -64,12 +64,13 @@
             <TextView
                 android:id="@+id/tvAddress"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_margin="@dimen/space16"
                 android:lineSpacingExtra="@dimen/space8"
                 android:maxLines="2"
                 android:ellipsize="end"
-                android:text="25 rue Robert Latouche, Nice, 06200, Côte D’azur, France 25 rue Robert Latouche, Nice, 06200, Côte D’azur, France" />
+                android:gravity="center_vertical"
+                />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
