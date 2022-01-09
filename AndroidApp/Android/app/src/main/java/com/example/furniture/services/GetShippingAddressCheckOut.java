@@ -45,6 +45,7 @@ public class GetShippingAddressCheckOut extends AsyncTask<Void, Void, Void> {
             @Override
             public void onResponse(JSONArray response) {
                 if (response.length() > 0) {
+                    int temp=1;
                     for (int i = 0; i < response.length(); i++) {
                         try {
                             JSONObject jsonObject = response.getJSONObject(i);
@@ -62,13 +63,20 @@ public class GetShippingAddressCheckOut extends AsyncTask<Void, Void, Void> {
                                         id, idUser, address, province, district, ward, status
                                 ));
                             }
-
+                            else {
+                                temp=0;
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
+                    if(temp==0){
+                        onDataShipAddList.onFail("");
+                    }
+
                     onDataShipAddList.onSuccess(shippingAddresses);
                 } else {
+                    //first user
                     onDataShipAddList.onFail("");
                 }
             }

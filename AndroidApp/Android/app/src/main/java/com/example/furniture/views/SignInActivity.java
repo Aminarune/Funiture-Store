@@ -1,5 +1,7 @@
 package com.example.furniture.views;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatCheckBox;
 
@@ -9,15 +11,19 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.furniture.R;
 import com.example.furniture.models.User;
@@ -25,12 +31,19 @@ import com.example.furniture.models.User;
 import com.example.furniture.services.Api;
 import com.example.furniture.utilities.DialogUtil;
 import com.example.furniture.utilities.NetworkUtil;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -151,7 +164,7 @@ public class SignInActivity extends AppCompatActivity {
 
     private void moveToSignUpScreen() {
         Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
-        intent.putExtra("from","signin");
+        intent.putExtra("from", "signin");
         startActivity(intent);
         finish();
     }
@@ -254,10 +267,11 @@ public class SignInActivity extends AppCompatActivity {
 
                                     if (chk) {
                                         savePreferences(email, pass, chk);
+                                    } else {
+                                        removePreferences(email, pass, chk);
                                     }
-                                    else {
-                                       removePreferences(email,pass,chk);
-                                    }
+
+                                    getToken(user);
 
                                     break;
                                 } else {
@@ -312,6 +326,76 @@ public class SignInActivity extends AppCompatActivity {
 
     }
 
+
+    private void getToken(User user) {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("TAG", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+                        // Get new FCM registration token
+                        String token = task.getResult();
+                        UpdateToken updateToken = new UpdateToken(token,user);
+                        updateToken.execute();
+                    }
+                });
+    }
+
+    class UpdateToken extends AsyncTask<Void, Void, Void> {
+
+        String token;
+
+        User user;
+
+        public UpdateToken(String token, User user) {
+            this.token = token;
+            this.user = user;
+        }
+
+        private String link = Api.urlLocal + "user";
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            String url = link + "/" + user.getId();
+
+            StringRequest stringRequest = new StringRequest(Request.Method.PUT, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Gson gson=new GsonBuilder().create();
+                    User user=gson.fromJson(response,User.class);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            }) {
+                @Nullable
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    HashMap<String,String> params=new HashMap<>();
+                    params.put("Id",user.getId());
+                    params.put("User_Name",user.getName());
+                    params.put("Email",user.getEmail());
+                    params.put("Password",user.getPass());
+                    params.put("Picture", String.valueOf(user.getPicture()));
+                    params.put("Status", String.valueOf(user.isStatus()));
+                    params.put("Phonenumber",user.getPhone());
+                    params.put("Token",token);
+                    return params;
+                }
+            };
+
+            queue.add(stringRequest);
+
+
+            return null;
+        }
+    }
 
 
     @Override
