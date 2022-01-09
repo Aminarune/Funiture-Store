@@ -57,6 +57,8 @@ public class CheckCart extends AsyncTask<Void, Void, Void> {
                         }
                     }
 
+
+
                     if(temp==0){
                         onDataGetCart.onNotFoundItem("Item have not added.");
                     }

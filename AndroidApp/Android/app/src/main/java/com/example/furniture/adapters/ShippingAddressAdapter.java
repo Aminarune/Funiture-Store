@@ -68,10 +68,10 @@ public class ShippingAddressAdapter extends RecyclerView.Adapter<ShippingAddress
         ShippingAddress shippingAddress = arrayList.get(position);
 
         if (selectCheck.get(position) == 1) {
-            holder.btnRemove.setVisibility(View.GONE);
+//            holder.btnRemove.setVisibility(View.GONE);
             holder.checkBox.setChecked(true);
         } else {
-            holder.btnRemove.setVisibility(View.VISIBLE);
+//            holder.btnRemove.setVisibility(View.VISIBLE);
             holder.checkBox.setChecked(false);
         }
 
@@ -111,12 +111,12 @@ public class ShippingAddressAdapter extends RecyclerView.Adapter<ShippingAddress
             }
         });
 
-        holder.btnRemove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onCheck.onRemoveItem(shippingAddress,holder.getAbsoluteAdapterPosition());
-            }
-        });
+//        holder.btnRemove.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                onCheck.onRemoveItem(shippingAddress,holder.getAbsoluteAdapterPosition());
+//            }
+//        });
 
 
         String fullAddress =
@@ -149,7 +149,7 @@ public class ShippingAddressAdapter extends RecyclerView.Adapter<ShippingAddress
             checkBox = itemView.findViewById(R.id.checkboxState);
             btnEdit = itemView.findViewById(R.id.ic_edit_address);
             textAddress = itemView.findViewById(R.id.tvAddress);
-            btnRemove=itemView.findViewById(R.id.ic_remove_address);
+//            btnRemove=itemView.findViewById(R.id.ic_remove_address);
         }
     }
 

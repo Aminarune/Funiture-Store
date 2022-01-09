@@ -62,7 +62,7 @@ public class SaveToOrder extends AsyncTask<Void, Void, Void> {
 
         Calendar calendar = Calendar.getInstance();
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss aaa");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss aaa");
         String dateTime = simpleDateFormat.format(calendar.getTime()).toString();
 
 

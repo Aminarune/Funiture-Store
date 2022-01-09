@@ -1,6 +1,7 @@
 package com.example.furniture.services;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -14,9 +15,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Queue;
 
-public class GetShippingAddress extends AsyncTask<Void, Void, Void> {
+public class GetShippingAddressCheckOut extends AsyncTask<Void, Void, Void> {
 
 
     User user;
@@ -25,7 +25,7 @@ public class GetShippingAddress extends AsyncTask<Void, Void, Void> {
 
     OnDataShipAddList onDataShipAddList;
 
-    public GetShippingAddress(User user, RequestQueue queue) {
+    public GetShippingAddressCheckOut(User user, RequestQueue queue) {
         this.user = user;
         this.queue = queue;
     }
@@ -56,11 +56,13 @@ public class GetShippingAddress extends AsyncTask<Void, Void, Void> {
                             String province = jsonObject.getString("Province");
                             String district = jsonObject.getString("District");
                             String ward = jsonObject.getString("Ward");
+
                             if (idUser.equals(user.getId())) {
                                 shippingAddresses.add(new ShippingAddress(
                                         id, idUser, address, province, district, ward, status
                                 ));
                             }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

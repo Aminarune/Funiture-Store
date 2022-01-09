@@ -68,4 +68,6 @@
     <string name="name">Name</string>
     <string name="summit">submit order</string>
     <string name="my_order">My Orders</string>
+    <string name="msg_token_fmt">jfkjf</string>
+    <string name="detail">Detail</string>
 </resources>

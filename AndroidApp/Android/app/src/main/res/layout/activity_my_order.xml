@@ -27,7 +27,13 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayoutOrder"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:tabIndicatorHeight="@dimen/space2"
+        app:tabIndicatorColor="@color/black_1"
+        app:tabSelectedTextColor="@color/black_1"
+        app:tabTextColor="@color/grey_7">
+
+    </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"

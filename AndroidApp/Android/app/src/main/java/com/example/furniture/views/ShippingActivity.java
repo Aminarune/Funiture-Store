@@ -126,11 +126,11 @@ public class ShippingActivity extends AppCompatActivity{
 
             @Override
             public void onRemoveItem(ShippingAddress shippingAddress, int pos) {
-                arrayList.remove(pos);
-                shippingAddressAdapter.notifyItemRemoved(pos);
-                RemoveShippingAddress removeShippingAddress = new RemoveShippingAddress(
-                        shippingAddress.getId(), queue);
-                removeShippingAddress.execute();
+//                arrayList.remove(pos);
+//                shippingAddressAdapter.notifyItemRemoved(pos);
+//                RemoveShippingAddress removeShippingAddress = new RemoveShippingAddress(
+//                        shippingAddress.getId(), queue);
+//                removeShippingAddress.execute();
             }
         });
     }

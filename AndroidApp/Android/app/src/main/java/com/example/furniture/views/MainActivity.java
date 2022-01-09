@@ -29,6 +29,7 @@ import com.example.furniture.models.Product;
 import com.example.furniture.models.ShippingAddress;
 import com.example.furniture.models.User;
 import com.example.furniture.services.GetShippingAddress;
+import com.example.furniture.services.GetShippingAddressCheckOut;
 import com.example.furniture.services.OnDataShipAddList;
 import com.example.furniture.utilities.AlbertDialogUtil;
 import com.example.furniture.utilities.DialogUtil;
@@ -194,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onDataPassCart(User user, ArrayList<String> carts, ArrayList<String> products) {
-        GetShippingAddress getShippingAddress = new GetShippingAddress(user, queue);
+        GetShippingAddressCheckOut getShippingAddress = new GetShippingAddressCheckOut(user, queue);
         getShippingAddress.execute();
         getShippingAddress.setOnDataShipAddList(new OnDataShipAddList() {
             @Override

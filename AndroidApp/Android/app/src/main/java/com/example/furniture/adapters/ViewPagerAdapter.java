@@ -12,12 +12,16 @@ import com.example.furniture.fragments.CompletedFragment;
 import com.example.furniture.fragments.DeliveringFragment;
 import com.example.furniture.fragments.HomeFragment;
 import com.example.furniture.fragments.PendingFragment;
+import com.example.furniture.models.User;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
 
 
-    public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
+    User user;
+
+    public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity,User user) {
         super(fragmentActivity);
+        this.user=user;
     }
 
     @NonNull
@@ -25,13 +29,13 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position){
             case 0:
-                return new PendingFragment();
+                return new PendingFragment(user);
             case 1:
-                return new DeliveringFragment();
+                return new DeliveringFragment(user);
             case 2:
-                return new CompletedFragment();
+                return new CompletedFragment(user);
             default:
-                return new PendingFragment();
+                return new PendingFragment(user);
         }
     }
 

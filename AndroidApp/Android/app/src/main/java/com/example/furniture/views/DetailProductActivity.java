@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -211,6 +212,7 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
                         "Item could not  added to your cart");
                 dialog.setCanceledOnTouchOutside(true);
                 dialog.show();
+                Log.d("TAG23",result);
             }
         });
         tvQuantityDetail.setText(formatString(1));

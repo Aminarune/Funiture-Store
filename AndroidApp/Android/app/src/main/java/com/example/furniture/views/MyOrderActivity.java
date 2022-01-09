@@ -23,6 +23,8 @@ public class MyOrderActivity extends AppCompatActivity {
 
     private User user;
 
+
+
     private static final String[] title = {"Pending", "Delivering", "Completed"};
 
     @Override
@@ -36,7 +38,7 @@ public class MyOrderActivity extends AppCompatActivity {
 
         viewPager = findViewById(R.id.viewPager);
 
-        viewPagerAdapter = new ViewPagerAdapter(this);
+        viewPagerAdapter = new ViewPagerAdapter(this,user);
         viewPager.setAdapter(viewPagerAdapter);
 
         new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {

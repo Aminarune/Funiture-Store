@@ -121,6 +121,16 @@ public class SignInActivity extends AppCompatActivity {
         editor.commit();
     }
 
+    private void removePreferences(String email, String pass, boolean chk) {
+        SharedPreferences preferences = getSharedPreferences("caches", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.remove("email");
+        editor.remove("pass");
+        editor.remove("check");
+        editor.commit();
+    }
+
+
     private void loadPreferences(TextInputLayout editMailLogin, TextInputLayout editPassLogin, AppCompatCheckBox checkBox) {
         SharedPreferences sharedPreferences = getSharedPreferences("caches", Context.MODE_PRIVATE);
         String email = sharedPreferences.getString("email", "");
@@ -245,6 +255,9 @@ public class SignInActivity extends AppCompatActivity {
                                     if (chk) {
                                         savePreferences(email, pass, chk);
                                     }
+                                    else {
+                                       removePreferences(email,pass,chk);
+                                    }
 
                                     break;
                                 } else {
@@ -298,6 +311,7 @@ public class SignInActivity extends AppCompatActivity {
         }
 
     }
+
 
 
     @Override
