@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.TypedArrayUtils;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.furniture.R;
@@ -50,7 +52,18 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHD>{
         holder.tvOrderNo.setText("OrderNo: "+order.getId());
         holder.tvDate.setText(order.getDate());
         holder.tvPriceOrderTotal.setText(order.getPrice());
-        holder.tvStatus.setText(order.getState());
+
+        if(order.getState().equals("Pending")){
+            holder.tvStatus.setTextColor(ContextCompat.getColor(context,R.color.holo_red_dark));
+            holder.tvStatus.setText(order.getState());
+        }else if(order.getState().equals("Delivering")){
+            holder.tvStatus.setTextColor(ContextCompat.getColor(context,R.color.blue));
+            holder.tvStatus.setText(order.getState());
+        }else if(order.getState().equals("Completed")){
+            holder.tvStatus.setTextColor(ContextCompat.getColor(context,R.color.green));
+            holder.tvStatus.setText(order.getState());
+        }
+
         holder.btnDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
