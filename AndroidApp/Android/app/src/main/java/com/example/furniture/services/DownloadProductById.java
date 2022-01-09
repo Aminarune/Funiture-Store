@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Base64;
+import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -41,6 +42,7 @@ public class DownloadProductById extends AsyncTask<Void, Void, Void> {
 
         String url = urlProduct + "/" + id;
 
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -71,6 +73,7 @@ public class DownloadProductById extends AsyncTask<Void, Void, Void> {
         });
 
         queue.add(jsonObjectRequest);
+
         return null;
     }
 

@@ -25,6 +25,7 @@ import com.example.furniture.R;
 import com.example.furniture.adapters.CartAdapter;
 import com.example.furniture.models.Cart;
 import com.example.furniture.models.Favourite;
+import com.example.furniture.models.OrderDetail;
 import com.example.furniture.models.Product;
 import com.example.furniture.models.ShippingAddress;
 import com.example.furniture.models.User;
@@ -193,6 +194,11 @@ public class CartFragment extends Fragment implements OnDataCartList, View.OnCli
                 }
 
                 createUiProduct(view, arrayListProduct, carts);
+            }
+
+            @Override
+            public void onCompleteDataOrderDetailProduct(Context view, ArrayList<Product> products, ArrayList<OrderDetail> carts) {
+
             }
         });
         downloadDataProduct.execute();

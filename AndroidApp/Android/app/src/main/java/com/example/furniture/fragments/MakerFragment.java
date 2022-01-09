@@ -18,6 +18,7 @@ import com.example.furniture.R;
 import com.example.furniture.adapters.FavoriteAdapter;
 import com.example.furniture.models.Cart;
 import com.example.furniture.models.Favourite;
+import com.example.furniture.models.OrderDetail;
 import com.example.furniture.models.Product;
 import com.example.furniture.models.User;
 import com.example.furniture.services.Api;
@@ -163,6 +164,11 @@ public class MakerFragment extends Fragment implements OnDataFavList, OnDataProd
 
     @Override
     public void onCompleteDataCartProduct(Context view, ArrayList<Product> products, ArrayList<Cart> carts) {
+
+    }
+
+    @Override
+    public void onCompleteDataOrderDetailProduct(Context view, ArrayList<Product> products, ArrayList<OrderDetail> carts) {
 
     }
 

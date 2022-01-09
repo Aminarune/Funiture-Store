@@ -6,6 +6,7 @@ import android.view.View;
 import com.example.furniture.models.Cart;
 import com.example.furniture.models.Category;
 import com.example.furniture.models.Favourite;
+import com.example.furniture.models.OrderDetail;
 import com.example.furniture.models.Product;
 
 import java.util.ArrayList;
@@ -18,4 +19,7 @@ public interface OnDataProductListener {
     void onCompleteDataFavProduct(Context view, ArrayList<Product> products, ArrayList<Favourite> favourites);
 
     void onCompleteDataCartProduct(Context view, ArrayList<Product> products, ArrayList<Cart> carts);
+
+    void onCompleteDataOrderDetailProduct(Context view, ArrayList<Product> products, ArrayList<OrderDetail> carts);
+
 }

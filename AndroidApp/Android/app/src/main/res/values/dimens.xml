@@ -17,4 +17,5 @@
     <dimen name="font12">12sp</dimen>
     <dimen name="font50">50sp</dimen>
     <dimen name="font42">42sp</dimen>
+    <dimen name="space24">24dp</dimen>
 </resources>

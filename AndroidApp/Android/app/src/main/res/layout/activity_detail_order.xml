@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".views.DetailOrderActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/main_color"
+        android:gravity="center_vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/main_color">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/detail_order"
+                android:textAllCaps="true"
+                android:textSize="@dimen/font20" />
+
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space16"
+            android:layout_marginEnd="@dimen/space16"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/space16">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space8"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="@dimen/space8"
+                android:text="@string/order_no"
+                android:textColor="@color/black_1"
+                android:textSize="@dimen/font16" />
+
+            <TextView
+                android:id="@+id/tvIdOrderDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space16"
+                android:layout_marginBottom="@dimen/space8"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="@dimen/space8"
+                android:text="@string/sample_user_name"
+                android:textSize="@dimen/font16" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space16"
+            android:layout_marginEnd="@dimen/space16"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space8"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="@dimen/space8"
+                android:text="@string/date"
+                android:textColor="@color/black_1"
+                android:textSize="@dimen/font16" />
+
+            <TextView
+                android:id="@+id/tvDateOrderDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space16"
+                android:layout_marginBottom="@dimen/space8"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="@dimen/space8"
+                android:text="@string/sample_user_name"
+                android:textSize="@dimen/font16" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space16"
+            android:layout_marginEnd="@dimen/space16"
+            android:text="@string/personal_information"
+            android:textSize="@dimen/font16"
+            android:textColor="@color/black_1"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space16"
+            android:layout_marginEnd="@dimen/space16"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space16"
+                android:layout_marginTop="@dimen/space8"
+                android:layout_marginEnd="@dimen/space16"
+                android:layout_marginBottom="@dimen/space8"
+                android:layout_weight="2"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="@dimen/space8"
+                android:text="@string/name"
+                android:textColor="@color/black_1"
+                android:textSize="@dimen/font16" />
+
+            <TextView
+                android:id="@+id/tvNameOrderDetail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/space16"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:lineSpacingExtra="@dimen/space8"
+                android:text="@string/sample_user_name"
+                android:textSize="@dimen/font16" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space16"
+            android:layout_marginEnd="@dimen/space16"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space16"
+                android:layout_marginTop="@dimen/space8"
+                android:layout_marginEnd="@dimen/space16"
+                android:layout_marginBottom="@dimen/space8"
+                android:layout_weight="2"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="@dimen/space8"
+                android:text="@string/phone"
+                android:textColor="@color/black_1"
+                android:textSize="@dimen/font16" />
+
+            <TextView
+                android:id="@+id/tvPhoneOrderDetail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/space16"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:lineSpacingExtra="@dimen/space8"
+                android:text="@string/sample_user_name"
+                android:textSize="@dimen/font16" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space16"
+            android:layout_marginEnd="@dimen/space16"
+            android:layout_marginBottom="@dimen/space8"
+            android:text="@string/shipping_add"
+            android:textSize="@dimen/font16"
+            android:textColor="@color/black_1"/>
+
+        <TextView
+            android:id="@+id/tvAddressOrderDetail"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="@dimen/space24"
+            android:layout_marginEnd="@dimen/space16"
+            android:layout_marginBottom="@dimen/space8"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:lineSpacingExtra="@dimen/space8"
+            android:maxLines="2" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleViewDetailOrder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
+

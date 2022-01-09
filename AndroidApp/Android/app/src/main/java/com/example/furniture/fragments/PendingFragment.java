@@ -3,6 +3,7 @@ package com.example.furniture.fragments;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +19,7 @@ import com.example.furniture.adapters.MyOrderAdapter;
 import com.example.furniture.models.Order;
 import com.example.furniture.models.User;
 import com.example.furniture.services.GetOrder;
+import com.example.furniture.utilities.SendDetailToActivity;
 import com.example.furniture.views.MyOrderActivity;
 
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ import java.util.ArrayList;
  * Use the {@link PendingFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PendingFragment extends Fragment implements GetOrder.OnDataGetOrder {
+public class PendingFragment extends Fragment implements GetOrder.OnDataGetOrder, MyOrderAdapter.SetOnClickOrderItem {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -81,6 +83,8 @@ public class PendingFragment extends Fragment implements GetOrder.OnDataGetOrder
 
     private static final String state = "Pending";
 
+    private SendDetailToActivity sendDetailToActivity;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -107,5 +111,21 @@ public class PendingFragment extends Fragment implements GetOrder.OnDataGetOrder
                 context,RecyclerView.VERTICAL,false);
         recyclerView.setAdapter(myOrderAdapter);
         recyclerView.setLayoutManager(layoutManager);
+
+        myOrderAdapter.setSetOnClickOrderItem(this);
+
     }
+
+    @Override
+    public void SetOnClickOrderItem(Order order, User user) {
+        sendDetailToActivity.sendDetailToActivity(order,user);
+    }
+
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        sendDetailToActivity= (SendDetailToActivity) context;
+    }
+
 }

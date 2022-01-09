@@ -70,4 +70,9 @@
     <string name="my_order">My Orders</string>
     <string name="msg_token_fmt">jfkjf</string>
     <string name="detail">Detail</string>
+    <string name="quantity">Quantity </string>
+    <string name="detail_order">Order detail</string>
+    <string name="phone">PhoneNo</string>
+    <string name="order_no">OrderNo</string>
+    <string name="date">Date</string>
 </resources>

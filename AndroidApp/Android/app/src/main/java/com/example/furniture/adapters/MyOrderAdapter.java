@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.furniture.R;
 import com.example.furniture.models.Order;
+import com.example.furniture.models.User;
 
 import java.util.ArrayList;
 
@@ -21,9 +22,17 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHD>{
 
     ArrayList<Order> arrayList;
 
+    User user;
+
+    SetOnClickOrderItem setOnClickOrderItem;
+
     public MyOrderAdapter(Context context, ArrayList<Order> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
+    }
+
+    public void setSetOnClickOrderItem(SetOnClickOrderItem setOnClickOrderItem) {
+        this.setOnClickOrderItem = setOnClickOrderItem;
     }
 
     @NonNull
@@ -45,7 +54,7 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHD>{
         holder.btnDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                setOnClickOrderItem.SetOnClickOrderItem(order,user);
             }
         });
     }
@@ -68,5 +77,9 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHD>{
             tvPriceOrderTotal=itemView.findViewById(R.id.tvPriceOrderTotal);
             btnDetail=itemView.findViewById(R.id.btnDetailOrder);
         }
+    }
+
+    public interface SetOnClickOrderItem{
+        void SetOnClickOrderItem(Order order, User user);
     }
 }

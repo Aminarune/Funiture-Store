@@ -16,6 +16,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.furniture.R;
 import com.example.furniture.models.Cart;
 import com.example.furniture.models.Favourite;
+import com.example.furniture.models.OrderDetail;
 import com.example.furniture.models.Product;
 import com.example.furniture.models.ShippingAddress;
 import com.example.furniture.models.User;
@@ -143,6 +144,11 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onCompleteDataCartProduct(Context view, ArrayList<Product> products, ArrayList<Cart> carts) {
                 saveOrderDetail(carts);
+            }
+
+            @Override
+            public void onCompleteDataOrderDetailProduct(Context view, ArrayList<Product> products, ArrayList<OrderDetail> carts) {
+
             }
         });
         downloadDataProduct.execute();

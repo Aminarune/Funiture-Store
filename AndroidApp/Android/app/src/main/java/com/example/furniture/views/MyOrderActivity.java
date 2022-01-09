@@ -5,15 +5,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.furniture.R;
 import com.example.furniture.adapters.ViewPagerAdapter;
+import com.example.furniture.fragments.PendingFragment;
+import com.example.furniture.models.Order;
 import com.example.furniture.models.User;
+import com.example.furniture.utilities.SendDetailToActivity;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-public class MyOrderActivity extends AppCompatActivity {
+public class MyOrderActivity extends AppCompatActivity implements SendDetailToActivity {
 
     private TabLayout tabLayout;
 
@@ -21,9 +26,7 @@ public class MyOrderActivity extends AppCompatActivity {
 
     private ViewPagerAdapter viewPagerAdapter;
 
-    private User user;
-
-
+    private User userAccount;
 
     private static final String[] title = {"Pending", "Delivering", "Completed"};
 
@@ -32,13 +35,13 @@ public class MyOrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_order);
 
-        user= (User) getIntent().getSerializableExtra("user");
+        userAccount = (User) getIntent().getSerializableExtra("user");
 
         tabLayout = findViewById(R.id.tabLayoutOrder);
 
         viewPager = findViewById(R.id.viewPager);
 
-        viewPagerAdapter = new ViewPagerAdapter(this,user);
+        viewPagerAdapter = new ViewPagerAdapter(this, userAccount);
         viewPager.setAdapter(viewPagerAdapter);
 
         new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
@@ -58,4 +61,13 @@ public class MyOrderActivity extends AppCompatActivity {
             }
         }).attach();
     }
+
+    @Override
+    public void sendDetailToActivity(Order order,User user) {
+        Intent intent = new Intent(MyOrderActivity.this, DetailOrderActivity.class);
+        intent.putExtra("idOder", order);
+        intent.putExtra("user", userAccount);
+        startActivity(intent);
+    }
+
 }

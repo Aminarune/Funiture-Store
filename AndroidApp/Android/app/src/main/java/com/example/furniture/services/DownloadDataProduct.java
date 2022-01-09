@@ -13,6 +13,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.furniture.models.Cart;
 import com.example.furniture.models.Favourite;
+import com.example.furniture.models.OrderDetail;
 import com.example.furniture.models.Product;
 
 import org.json.JSONArray;
@@ -30,6 +31,8 @@ public class DownloadDataProduct extends AsyncTask<Void, Void, Void> {
     ArrayList<Product> products = new ArrayList<Product>();
 
     ArrayList<Favourite> favourites;
+
+    ArrayList<OrderDetail> orderDetails;
 
     ArrayList<Cart> carts;
 
@@ -49,6 +52,11 @@ public class DownloadDataProduct extends AsyncTask<Void, Void, Void> {
         this.carts = carts;
     }
 
+    public DownloadDataProduct(Context view, OnDataProductListener mlistener, ArrayList<OrderDetail> orderDetails,int i) {
+        this.view = view;
+        this.mlistener = mlistener;
+        this.orderDetails = orderDetails;
+    }
 
     @Override
     protected Void doInBackground(Void... voids) {
@@ -82,6 +90,7 @@ public class DownloadDataProduct extends AsyncTask<Void, Void, Void> {
                     }
                     mlistener.onCompleteDataFavProduct(view, products,favourites);
                     mlistener.onCompleteDataCartProduct(view,products,carts);
+                    mlistener.onCompleteDataOrderDetailProduct(view,products,orderDetails);
                 }
 
             }
