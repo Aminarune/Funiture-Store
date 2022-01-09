@@ -45,14 +45,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:overScrollMode="never"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmerCategory"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -67,31 +65,69 @@
 
             <include layout="@layout/item_category_shimmer" />
 
-            <include layout="@layout/item_category_shimmer"/>
+            <include layout="@layout/item_category_shimmer" />
 
 
         </LinearLayout>
 
     </com.facebook.shimmer.ShimmerFrameLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycleViewProduct"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/editSearch"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/space16"
+        android:background="@color/white"
+        android:hint="@string/fint_product"
+        app:boxStrokeColor="@color/black"
+        app:boxStrokeWidthFocused="@dimen/space2"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/black"
+        app:hintTextColor="@color/black"
+        app:startIconDrawable="@drawable/ic_ri_search"
+        app:startIconTint="@color/black_1">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ic_ri_search"
+            android:imeOptions="actionDone"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutProduct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:overScrollMode="never"
-        android:visibility="gone"
-        />
+        android:orientation="vertical">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleViewProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never" />
+
+    </LinearLayout>
 
     <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerProduct"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/shimmerProduct">
+        android:visibility="gone">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <include layout="@layout/item_product_shimmer"/>
-            <include layout="@layout/item_product_shimmer"/>
+
+            <include layout="@layout/item_product_shimmer" />
+
+            <include layout="@layout/item_product_shimmer" />
+
         </LinearLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>
 

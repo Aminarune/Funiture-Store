@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:background="@color/main_color"
+    android:gravity="center"
     android:orientation="vertical"
     tools:context=".views.SignInActivity">
-
 
 
     <TextView
@@ -23,7 +22,7 @@
 
 
     <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="@dimen/space32"
@@ -33,18 +32,18 @@
         app:cardCornerRadius="@dimen/space16">
 
         <LinearLayout
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/editMailLogin"
-                android:layout_marginTop="@dimen/space32"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/space16"
                 android:layout_marginLeft="@dimen/space16"
+                android:layout_marginTop="@dimen/space32"
+                android:layout_marginRight="@dimen/space16"
                 android:layout_marginBottom="@dimen/space16"
                 android:background="@color/white"
                 android:hint="@string/enter_email"
@@ -91,7 +90,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -126,8 +124,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/space16"
                 android:layout_marginTop="@dimen/space16"
+                android:layout_marginBottom="@dimen/space16"
                 android:backgroundTint="@color/main_color"
                 android:text="@string/log_in" />
 

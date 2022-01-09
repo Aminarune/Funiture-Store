@@ -42,6 +42,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHD> 
         this.productArrayList = productArrayList;
     }
 
+    public void setProductArrayList(ArrayList<Product> productArrayList) {
+        this.productArrayList = productArrayList;
+    }
+
     @NonNull
     @Override
     public ViewHD onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

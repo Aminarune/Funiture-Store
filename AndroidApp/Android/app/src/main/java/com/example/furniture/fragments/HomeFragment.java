@@ -9,9 +9,16 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.furniture.R;
@@ -25,11 +32,13 @@ import com.example.furniture.models.OrderDetail;
 import com.example.furniture.models.Product;
 import com.example.furniture.services.Api;
 import com.example.furniture.services.DownloadDataCategory;
+import com.example.furniture.services.DownloadDataProduct;
 import com.example.furniture.services.DownloadDataProductByCategory;
 import com.example.furniture.services.OnDataCategoryListener;
 import com.example.furniture.services.OnDataProductListener;
 import com.example.furniture.utilities.OnDataPassProduct;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.textfield.TextInputLayout;
 
 
 import java.util.ArrayList;
@@ -82,13 +91,17 @@ public class HomeFragment extends Fragment implements OnDataCategoryListener, On
     }
 
 
-    private static final String urlProduct = Api.urlLocal +"product";
+    private static final String urlProduct = Api.urlLocal + "product";
 
     private RecyclerView recyclerViewCategory, recyclerViewProduct;
 
     private ShimmerFrameLayout shimmerCategory, shimmerProduct;
 
     private OnDataPassProduct dataPassProduct;
+
+    private LinearLayout linearLayout;
+
+    private TextInputLayout editSearch;
 
 
     @Override
@@ -103,6 +116,10 @@ public class HomeFragment extends Fragment implements OnDataCategoryListener, On
         shimmerCategory = view.findViewById(R.id.shimmerCategory);
         shimmerProduct = view.findViewById(R.id.shimmerProduct);
 
+        editSearch = view.findViewById(R.id.editSearch);
+
+        linearLayout = view.findViewById(R.id.layoutProduct);
+
         downloadCategory(view);
 
         return view;
@@ -111,6 +128,7 @@ public class HomeFragment extends Fragment implements OnDataCategoryListener, On
     private void downloadCategory(View view) {
         //run animate
         recyclerViewCategory.setVisibility(View.GONE);
+        editSearch.setVisibility(View.GONE);
         shimmerCategory.setVisibility(View.VISIBLE);
         shimmerCategory.startShimmer();
         DownloadDataCategory downloadDataCategory = new DownloadDataCategory(view,
@@ -137,11 +155,11 @@ public class HomeFragment extends Fragment implements OnDataCategoryListener, On
 
         downloadProduct(view, arrayList.get(0).getId());
 
-
         //stop animate
         shimmerCategory.stopShimmer();
         shimmerCategory.setVisibility(View.GONE);
         recyclerViewCategory.setVisibility(View.VISIBLE);
+        editSearch.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -151,7 +169,7 @@ public class HomeFragment extends Fragment implements OnDataCategoryListener, On
 
 
     private void downloadProduct(View view, String id) {
-        recyclerViewProduct.setVisibility(View.GONE);
+        linearLayout.setVisibility(View.GONE);
         shimmerProduct.setVisibility(View.VISIBLE);
         shimmerProduct.startShimmer();
         DownloadDataProductByCategory downloadDataProductByCategory = new DownloadDataProductByCategory(view.getContext(),
@@ -170,7 +188,6 @@ public class HomeFragment extends Fragment implements OnDataCategoryListener, On
         productAdapter.setSetOnClickItemPurchase(new ProductAdapter.SetOnClickItemPurchase() {
             @Override
             public void setOnClickItemPurchase(View view, int pos) {
-
             }
         });
 
@@ -186,8 +203,89 @@ public class HomeFragment extends Fragment implements OnDataCategoryListener, On
 
         shimmerProduct.stopShimmer();
         shimmerProduct.setVisibility(View.GONE);
-        recyclerViewProduct.setVisibility(View.VISIBLE);
+        linearLayout.setVisibility(View.VISIBLE);
+
+        editSearch.getEditText().setOnEditorActionListener(new EditText.OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId,
+                                          KeyEvent event) {
+                if (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER
+                        || actionId == EditorInfo.IME_ACTION_DONE) {
+
+                    InputMethodManager imm = (InputMethodManager) view.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(editSearch.getApplicationWindowToken(), 0);
+
+
+                    shimmerProduct.startShimmer();
+                    shimmerProduct.setVisibility(View.VISIBLE);
+                    linearLayout.setVisibility(View.GONE);
+
+                    DownloadDataProduct downloadDataProduct = new DownloadDataProduct(view, new OnDataProductListener() {
+                        @Override
+                        public void onCompleteDataProduct(Context view, ArrayList<Product> arrayList) {
+
+
+                            String text = editSearch.getEditText().getText().toString();
+
+                            ArrayList<Product> newProduct = new ArrayList<>();
+
+                            if (!text.isEmpty()) {
+                                for (int i = 0; i < arrayList.size(); i++) {
+                                    if (arrayList.get(i).getName().toLowerCase().contains(text)
+                                || arrayList.get(i).getPrice().contains(text)) {
+                                        newProduct.add(arrayList.get(i));
+                                    }
+                                }
+                                if(newProduct.size()==0){
+                                    productAdapter.setProductArrayList(arrayList);
+                                }
+                                productAdapter.setProductArrayList(newProduct);
+                            } else {
+                                productAdapter.setProductArrayList(arrayList);
+                            }
+
+                            productAdapter.notifyDataSetChanged();
+
+                            shimmerProduct.stopShimmer();
+                            shimmerProduct.setVisibility(View.GONE);
+                            linearLayout.setVisibility(View.VISIBLE);
+                        }
+
+
+                        @Override
+                        public void onErrorDataProduct(Context view, String error) {
+
+                        }
+
+                        @Override
+                        public void onCompleteDataFavProduct(Context view, ArrayList<Product> products, ArrayList<Favourite> favourites) {
+
+                        }
+
+                        @Override
+                        public void onCompleteDataCartProduct(Context view, ArrayList<Product> products, ArrayList<Cart> carts) {
+
+                        }
+
+                        @Override
+                        public void onCompleteDataOrderDetailProduct(Context view, ArrayList<Product> products, ArrayList<OrderDetail> carts) {
+
+                        }
+                    });
+
+                    downloadDataProduct.execute();
+
+
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
     }
+
 
     @Override
     public void onErrorDataProduct(Context view, String error) {
@@ -217,6 +315,6 @@ public class HomeFragment extends Fragment implements OnDataCategoryListener, On
     }
 
     public void sendDataToActivity(Product product) {
-        dataPassProduct.onDataPassProduct(product,"Home");
+        dataPassProduct.onDataPassProduct(product, "Home");
     }
 }
