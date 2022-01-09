@@ -197,7 +197,6 @@ public class HomeFragment extends Fragment implements OnDataCategoryListener, On
             public void setOnClickItemProduct(View view, int pos) {
                 Product p = arrayList.get(pos);
                 sendDataToActivity(p);
-
             }
         });
 
@@ -217,6 +216,9 @@ public class HomeFragment extends Fragment implements OnDataCategoryListener, On
                     imm.hideSoftInputFromWindow(editSearch.getApplicationWindowToken(), 0);
 
 
+                    arrayList.clear();
+                    productAdapter.notifyDataSetChanged();
+
                     shimmerProduct.startShimmer();
                     shimmerProduct.setVisibility(View.VISIBLE);
                     linearLayout.setVisibility(View.GONE);
@@ -233,19 +235,41 @@ public class HomeFragment extends Fragment implements OnDataCategoryListener, On
                             if (!text.isEmpty()) {
                                 for (int i = 0; i < arrayList.size(); i++) {
                                     if (arrayList.get(i).getName().toLowerCase().contains(text)
-                                || arrayList.get(i).getPrice().contains(text)) {
+                                            || arrayList.get(i).getPrice().contains(text)) {
                                         newProduct.add(arrayList.get(i));
                                     }
                                 }
-                                if(newProduct.size()==0){
+                                if (newProduct.size() == 0) {
                                     productAdapter.setProductArrayList(arrayList);
+                                    productAdapter.setOnClickItemProduct(new ProductAdapter.SetOnClickItemProduct() {
+                                        @Override
+                                        public void setOnClickItemProduct(View view, int pos) {
+                                            Product p = arrayList.get(pos);
+                                            sendDataToActivity(p);
+                                        }
+                                    });
                                 }
                                 productAdapter.setProductArrayList(newProduct);
+                                productAdapter.setOnClickItemProduct(new ProductAdapter.SetOnClickItemProduct() {
+                                    @Override
+                                    public void setOnClickItemProduct(View view, int pos) {
+                                        Product p = newProduct.get(pos);
+                                        sendDataToActivity(p);
+                                    }
+                                });
                             } else {
                                 productAdapter.setProductArrayList(arrayList);
+                                productAdapter.setOnClickItemProduct(new ProductAdapter.SetOnClickItemProduct() {
+                                    @Override
+                                    public void setOnClickItemProduct(View view, int pos) {
+                                        Product p = arrayList.get(pos);
+                                        sendDataToActivity(p);
+                                    }
+                                });
                             }
 
                             productAdapter.notifyDataSetChanged();
+
 
                             shimmerProduct.stopShimmer();
                             shimmerProduct.setVisibility(View.GONE);

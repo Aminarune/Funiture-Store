@@ -72,7 +72,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHD> 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onClickItemProduct.setOnClickItemProduct(view, position);
+                onClickItemProduct.setOnClickItemProduct(view, holder.getAdapterPosition());
             }
         });
     }
