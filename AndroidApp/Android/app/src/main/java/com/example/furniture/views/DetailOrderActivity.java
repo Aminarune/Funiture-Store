@@ -4,9 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,6 +31,9 @@ import com.example.furniture.services.GetOrderDetail;
 import com.example.furniture.services.GetShippingAddressId;
 import com.example.furniture.services.OnDataProductByID;
 import com.example.furniture.services.OnDataProductListener;
+import com.example.furniture.utilities.AlbertDialogUtil;
+import com.example.furniture.utilities.NetworkChangeReceiver;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
 
@@ -43,11 +50,25 @@ public class DetailOrderActivity extends AppCompatActivity {
     RecyclerView recyclerView;
 
 
+    //check connection state auto
+    private NetworkChangeReceiver networkChangeReceiver;
+
+    ShimmerFrameLayout shimmerFrameLayout;
+    LinearLayout linearLayout;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_order);
         queue = Volley.newRequestQueue(this);
+
+        AlertDialog alertDialog = AlbertDialogUtil.showAlertDialog(this);
+        networkChangeReceiver = new NetworkChangeReceiver(alertDialog);
+
+        shimmerFrameLayout=findViewById(R.id.shimmerDetailOrder);
+        linearLayout=findViewById(R.id.layoutDetailOrder);
+
 
         tvIdOrderDetail = findViewById(R.id.tvIdOrderDetail);
         tvDateOrderDetail = findViewById(R.id.tvDateOrderDetail);
@@ -61,6 +82,10 @@ public class DetailOrderActivity extends AppCompatActivity {
         order = (Order) getIntent().getSerializableExtra("idOder");
         user = (User) getIntent().getSerializableExtra("user");
 
+
+        shimmerFrameLayout.startShimmer();
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        linearLayout.setVisibility(View.GONE);
 
         tvIdOrderDetail.setText(order.getId());
         tvDateOrderDetail.setText(order.getDate());
@@ -138,6 +163,7 @@ public class DetailOrderActivity extends AppCompatActivity {
 
     }
 
+
     private void createUiProduct(Context context, ArrayList<Product> products, ArrayList<OrderDetail> orderDetail) {
         DetailOrderProductAdapter adapter = new DetailOrderProductAdapter(DetailOrderActivity.this,
                 products, orderDetail);
@@ -145,7 +171,23 @@ public class DetailOrderActivity extends AppCompatActivity {
                 RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+
+        shimmerFrameLayout.stopShimmer();
+        shimmerFrameLayout.setVisibility(View.GONE);
+        linearLayout.setVisibility(View.VISIBLE);
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerReceiver(networkChangeReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(networkChangeReceiver);
+    }
 
 }

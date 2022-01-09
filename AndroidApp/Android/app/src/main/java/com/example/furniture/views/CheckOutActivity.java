@@ -2,9 +2,12 @@ package com.example.furniture.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,7 +32,9 @@ import com.example.furniture.services.OnDataProductListener;
 import com.example.furniture.services.RemoveCart;
 import com.example.furniture.services.SaveToOrder;
 import com.example.furniture.services.SaveToOrderDetail;
+import com.example.furniture.utilities.AlbertDialogUtil;
 import com.example.furniture.utilities.DialogUtil;
+import com.example.furniture.utilities.NetworkChangeReceiver;
 
 import org.w3c.dom.Text;
 
@@ -55,11 +60,17 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
     private Dialog dialog;
 
+       //check connection state auto
+    private NetworkChangeReceiver networkChangeReceiver;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_out);
+
+        AlertDialog alertDialog = AlbertDialogUtil.showAlertDialog(this);
+        networkChangeReceiver = new NetworkChangeReceiver(alertDialog);
 
         dialog = DialogUtil.showDialog(CheckOutActivity.this
                 , R.raw.loading, " Please wait a minute.");
@@ -82,6 +93,18 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
         setData(user, shippingAddressId, queue);
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerReceiver(networkChangeReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(networkChangeReceiver);
     }
 
     private void setData(User user, String shippingId, RequestQueue queue) {

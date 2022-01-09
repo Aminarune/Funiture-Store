@@ -32,10 +32,20 @@
         </RelativeLayout>
     </LinearLayout>
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/shimmerDetailOrder"
+        android:visibility="gone">
+
+        <include layout="@layout/shimmer_detail_order"/>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/layoutDetailOrder">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -117,6 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space16"
             android:layout_marginEnd="@dimen/space16"
+            android:layout_marginTop="@dimen/space8"
             android:orientation="horizontal">
 
             <TextView
@@ -154,6 +165,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space16"
             android:layout_marginEnd="@dimen/space16"
+            android:layout_marginTop="@dimen/space8"
+            android:layout_marginBottom="@dimen/space8"
             android:orientation="horizontal">
 
             <TextView

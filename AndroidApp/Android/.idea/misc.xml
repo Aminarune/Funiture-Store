@@ -63,7 +63,7 @@
         <entry key="..\:/Users/wakac/Desktop/Funiture-Store/AndroidApp/Android/app/src/main/res/layout/activity_add_shipping.xml" value="0.22083333333333333" />
         <entry key="..\:/Users/wakac/Desktop/Funiture-Store/AndroidApp/Android/app/src/main/res/layout/activity_cart.xml" value="0.264" />
         <entry key="..\:/Users/wakac/Desktop/Funiture-Store/AndroidApp/Android/app/src/main/res/layout/activity_check_out.xml" value="0.264" />
-        <entry key="..\:/Users/wakac/Desktop/Funiture-Store/AndroidApp/Android/app/src/main/res/layout/activity_detail_order.xml" value="0.3336842105263158" />
+        <entry key="..\:/Users/wakac/Desktop/Funiture-Store/AndroidApp/Android/app/src/main/res/layout/activity_detail_order.xml" value="0.264" />
         <entry key="..\:/Users/wakac/Desktop/Funiture-Store/AndroidApp/Android/app/src/main/res/layout/activity_detail_product.xml" value="0.264" />
         <entry key="..\:/Users/wakac/Desktop/Funiture-Store/AndroidApp/Android/app/src/main/res/layout/activity_edit_profile.xml" value="0.4" />
         <entry key="..\:/Users/wakac/Desktop/Funiture-Store/AndroidApp/Android/app/src/main/res/layout/activity_main.xml" value="0.2" />
@@ -93,6 +93,7 @@
         <entry key="..\:/Users/wakac/Desktop/Funiture-Store/AndroidApp/Android/app/src/main/res/layout/layout_item_avatar.xml" value="0.22083333333333333" />
         <entry key="..\:/Users/wakac/Desktop/Funiture-Store/AndroidApp/Android/app/src/main/res/layout/shimmer_add_shipping.xml" value="0.264" />
         <entry key="..\:/Users/wakac/Desktop/Funiture-Store/AndroidApp/Android/app/src/main/res/layout/shimmer_cart.xml" value="0.22083333333333333" />
+        <entry key="..\:/Users/wakac/Desktop/Funiture-Store/AndroidApp/Android/app/src/main/res/layout/shimmer_detail_order.xml" value="0.264" />
         <entry key="..\:/Users/wakac/Desktop/Funiture-Store/AndroidApp/Android/app/src/main/res/layout/spinner_item.xml" value="0.22083333333333333" />
         <entry key="..\:/Users/wakac/Desktop/Funiture-Store/AndroidApp/Android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.24114583333333334" />
       </map>
