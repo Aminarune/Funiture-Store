@@ -30,6 +30,7 @@ import com.example.furniture.models.Category;
 import com.example.furniture.models.Favourite;
 import com.example.furniture.models.OrderDetail;
 import com.example.furniture.models.Product;
+import com.example.furniture.models.User;
 import com.example.furniture.services.Api;
 import com.example.furniture.services.DownloadDataCategory;
 import com.example.furniture.services.DownloadDataProduct;
@@ -63,6 +64,7 @@ public class HomeFragment extends Fragment implements OnDataCategoryListener, On
         // Required empty public constructor
     }
 
+    private User user;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -103,6 +105,9 @@ public class HomeFragment extends Fragment implements OnDataCategoryListener, On
 
     private TextInputLayout editSearch;
 
+    public HomeFragment(User user) {
+        this.user = user;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -196,7 +201,7 @@ public class HomeFragment extends Fragment implements OnDataCategoryListener, On
             @Override
             public void setOnClickItemProduct(View view, int pos) {
                 Product p = arrayList.get(pos);
-                sendDataToActivity(p);
+                sendDataToActivity(user,p,"Home");
             }
         });
 
@@ -245,7 +250,7 @@ public class HomeFragment extends Fragment implements OnDataCategoryListener, On
                                         @Override
                                         public void setOnClickItemProduct(View view, int pos) {
                                             Product p = arrayList.get(pos);
-                                            sendDataToActivity(p);
+                                            sendDataToActivity(user,p,"Home");
                                         }
                                     });
                                 }
@@ -254,7 +259,7 @@ public class HomeFragment extends Fragment implements OnDataCategoryListener, On
                                     @Override
                                     public void setOnClickItemProduct(View view, int pos) {
                                         Product p = newProduct.get(pos);
-                                        sendDataToActivity(p);
+                                        sendDataToActivity(user,p,"Home");
                                     }
                                 });
                             } else {
@@ -263,7 +268,7 @@ public class HomeFragment extends Fragment implements OnDataCategoryListener, On
                                     @Override
                                     public void setOnClickItemProduct(View view, int pos) {
                                         Product p = arrayList.get(pos);
-                                        sendDataToActivity(p);
+                                        sendDataToActivity(user,p,"Home");
                                     }
                                 });
                             }
@@ -338,7 +343,9 @@ public class HomeFragment extends Fragment implements OnDataCategoryListener, On
         dataPassProduct = (OnDataPassProduct) context;
     }
 
-    public void sendDataToActivity(Product product) {
-        dataPassProduct.onDataPassProduct(product, "Home");
+    public void sendDataToActivity(User user,Product product,String tag) {
+        dataPassProduct.onDataPassProduct(user,product,tag);
     }
+
+
 }

@@ -3,6 +3,7 @@ package com.example.furniture.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ import com.example.furniture.views.DetailProductActivity;
 import java.util.ArrayList;
 import java.util.Queue;
 
-public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHD>{
+public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHD> {
 
     Context context;
 
@@ -49,9 +50,9 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHD
     @NonNull
     @Override
     public ViewHD onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater=LayoutInflater.from(context);
-        View view=layoutInflater.inflate(R.layout.item_fav,parent,false);
-        ViewHD viewHD=new ViewHD(view);
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        View view = layoutInflater.inflate(R.layout.item_fav, parent, false);
+        ViewHD viewHD = new ViewHD(view);
         return viewHD;
     }
 
@@ -59,25 +60,26 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHD
     public void onBindViewHolder(@NonNull ViewHD holder, @SuppressLint("RecyclerView") int position) {
 
 
-        Product product=productArrayList.get(position);
+        Product product = productArrayList.get(position);
+
         holder.ivFavProduct.setImageBitmap(product.getPicture());
         holder.tvFavProduct.setText(product.getName());
         holder.tvPriceProduct.setText(product.getPrice());
-
-        Favourite favourite=favouriteArrayList.get(position);
+        Favourite favourite = favouriteArrayList.get(position);
         holder.ivFavRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onClickFav.onRemoveItem(favourite,holder.getAbsoluteAdapterPosition());
+                onClickFav.onRemoveItem(favourite, holder.getAbsoluteAdapterPosition());
             }
         });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onClickFav.onClickItemFav(view,product);
+                onClickFav.onClickItemFav(view, product);
             }
         });
+
 
     }
 
@@ -104,9 +106,10 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHD
         }
     }
 
-    public interface SetOnClickFav{
-        void onRemoveItem(Favourite favourite,int pos);
-        void onClickItemFav(View view,Product product);
+    public interface SetOnClickFav {
+        void onRemoveItem(Favourite favourite, int pos);
+
+        void onClickItemFav(View view, Product product);
     }
 
 

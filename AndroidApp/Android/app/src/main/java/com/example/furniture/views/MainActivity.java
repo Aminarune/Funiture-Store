@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private RequestQueue queue;
 
+    private String tagFrom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements
 
         queue = Volley.newRequestQueue(this);
 
-        userLogin = (User) getIntent().getSerializableExtra("userObject");
+        userLogin = (User) getIntent().getSerializableExtra("user");
 
 
         btnCart = findViewById(R.id.btnCart);
@@ -91,9 +92,19 @@ public class MainActivity extends AppCompatActivity implements
         AlertDialog alertDialog = AlbertDialogUtil.showAlertDialog(this);
         networkChangeReceiver = new NetworkChangeReceiver(alertDialog);
 
-        /*show home screen first*/
-        bottomNav.setSelectedItemId(R.id.bottom_home_nav);
-
+        tagFrom=getIntent().getStringExtra("from");
+        if(tagFrom==null){
+            /*show home screen first*/
+            bottomNav.setSelectedItemId(R.id.bottom_home_nav);
+        }else if(tagFrom.equals("Maker")){
+            bottomNav.setSelectedItemId(R.id.bottom_maker_nav);
+        }else if(tagFrom.equals("Home")){
+            bottomNav.setSelectedItemId(R.id.bottom_home_nav);
+        }else if(tagFrom.equals("Shipping")||tagFrom.equals("MyOrder")){
+            bottomNav.setSelectedItemId(R.id.bottom_person_nav);
+        }else if(tagFrom.equals("Cart")){
+            createFragment(new CartFragment(userLogin));
+        }
 
     }
 
@@ -114,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.bottom_home_nav:
-                createFragment(new HomeFragment());
+                createFragment(new HomeFragment(userLogin));
                 break;
             case R.id.bottom_maker_nav:
                 createFragment(new MakerFragment(userLogin));
@@ -126,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements
                 createFragment(new AccountFragment(userLogin));
                 break;
             default:
-                createFragment(new HomeFragment());
+                createFragment(new HomeFragment(userLogin));
                 break;
         }
         return true;
@@ -164,13 +175,14 @@ public class MainActivity extends AppCompatActivity implements
 
 
     @Override
-    public void onDataPassProduct(Product data, String tag) {
+    public void onDataPassProduct(User user,Product data, String tag) {
         //receive data from fragment and send to detail
         Intent intent = new Intent(MainActivity.this, DetailProductActivity.class);
         intent.putExtra("productID", data.getId());
-        intent.putExtra("user", userLogin);
+        intent.putExtra("user", user);
         intent.putExtra("from", tag);
         startActivity(intent);
+        finish();
     }
 
 
@@ -192,14 +204,18 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onDataPassUser(User user, String tag) {
 
-        if (tag.equals("account")) {
+        if (tag.equals("Account")) {
             Intent intent = new Intent(MainActivity.this, ShippingActivity.class);
             intent.putExtra("user", user);
+            intent.putExtra("from",tag);
             startActivity(intent);
-        }else if(tag.equals("my_order")){
+            finish();
+        }else if(tag.equals("MyOrder")){
             Intent intent = new Intent(MainActivity.this, MyOrderActivity.class);
             intent.putExtra("user", user);
+            intent.putExtra("from",tag);
             startActivity(intent);
+            finish();
         }
 
     }

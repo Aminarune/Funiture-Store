@@ -180,6 +180,7 @@ public class VerifyOtpActivity extends AppCompatActivity {
     private void moveToLogin(Dialog dialog) {
 
         Timer timer = new Timer();
+        dialog.show();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -204,6 +205,7 @@ public class VerifyOtpActivity extends AppCompatActivity {
 
     private void moveToNewPassword(Dialog dialog) {
         Timer timer = new Timer();
+        dialog.show();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -385,7 +387,6 @@ public class VerifyOtpActivity extends AppCompatActivity {
             saveToDataBase.execute();
             dialog.setCanceledOnTouchOutside(false);
             dialog.setCancelable(false);
-            dialog.show();
             moveToLogin(dialog);
         } else {
             if (from.equals("forgot")) {
@@ -393,6 +394,7 @@ public class VerifyOtpActivity extends AppCompatActivity {
             }
         }
 
-
     }
+
+
 }

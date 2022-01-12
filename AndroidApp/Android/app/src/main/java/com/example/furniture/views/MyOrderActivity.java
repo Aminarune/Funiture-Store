@@ -95,6 +95,12 @@ public class MyOrderActivity extends AppCompatActivity implements SendDetailToAc
         unregisterReceiver(networkChangeReceiver);
     }
 
-
-
+    @Override
+    public void onBackPressed() {
+        Intent intent=new Intent(MyOrderActivity.this,MainActivity.class);
+        intent.putExtra("user",userAccount);
+        intent.putExtra("from","MyOrder");
+        startActivity(intent);
+        finish();
+    }
 }

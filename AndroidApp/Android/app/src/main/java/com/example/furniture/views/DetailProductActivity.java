@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -147,6 +148,10 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
                 break;
 
             case R.id.ivBackDetail:
+                Intent intent=new Intent(DetailProductActivity.this,MainActivity.class);
+                intent.putExtra("user",user);
+                intent.putExtra("from",from);
+                startActivity(intent);
                 finish();
                 break;
 
@@ -387,6 +392,10 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
 
     @Override
     public void onBackPressed() {
-
+        Intent intent=new Intent(DetailProductActivity.this,MainActivity.class);
+        intent.putExtra("user",user);
+        intent.putExtra("from",from);
+        startActivity(intent);
+        finish();
     }
 }

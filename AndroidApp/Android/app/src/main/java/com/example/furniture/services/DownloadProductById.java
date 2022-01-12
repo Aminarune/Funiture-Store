@@ -48,6 +48,7 @@ public class DownloadProductById extends AsyncTask<Void, Void, Void> {
             public void onResponse(JSONObject response) {
                 if (response.length() > 0) {
                     try {
+
                         String id = response.getString("Id");
                         String name = response.getString("Name");
                         String id_category = response.getString("Id_Category");
@@ -56,8 +57,13 @@ public class DownloadProductById extends AsyncTask<Void, Void, Void> {
                         byte[] byteArray = Base64.decode(response.getString("Picture"), Base64.DEFAULT);
                         Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
                         boolean status = response.getBoolean("Status");
-                        Product product = new Product(id, name, id_category, price, desc, bmp, status);
-                        onDataProductByID.onFound(context, product);
+                        if(status){
+                            Product product = new Product(id, name, id_category, price, desc, bmp, status);
+                            onDataProductByID.onFound(context, product);
+                        }
+                        else {
+                            onDataProductByID.onNotFound(context, "This product was deleted.");
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

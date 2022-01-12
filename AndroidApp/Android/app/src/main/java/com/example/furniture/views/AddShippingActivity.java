@@ -358,9 +358,10 @@ public class AddShippingActivity extends AppCompatActivity implements
     }
 
 
-    private void moveToMainActivity(User user){
+    private void moveToMainActivity(User user,String tag){
         Intent intent=new Intent(AddShippingActivity.this,MainActivity.class);
-        intent.putExtra("userObject",user);
+        intent.putExtra("user",user);
+        intent.putExtra("from",tag);
         startActivity(intent);
         finish();
     }
@@ -368,7 +369,10 @@ public class AddShippingActivity extends AppCompatActivity implements
     @Override
     public void onBackPressed() {
         if(from.equals("check_out")){
-            moveToMainActivity(user);
+            moveToMainActivity(user,"Cart");
+        }
+        else {
+            moveToMainActivity(user,"Cart");
         }
     }
 

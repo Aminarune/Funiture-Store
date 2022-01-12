@@ -42,6 +42,8 @@ public class ShippingActivity extends AppCompatActivity{
 
     private User user;
 
+    private String from;
+
     //check connection state auto
     private NetworkChangeReceiver networkChangeReceiver;
 
@@ -55,6 +57,8 @@ public class ShippingActivity extends AppCompatActivity{
         queue = Volley.newRequestQueue(ShippingActivity.this);
 
         user = (User) getIntent().getSerializableExtra("user");
+
+        from = getIntent().getStringExtra("from");
 
         btnAdd = findViewById(R.id.btnCreateShipping);
 
@@ -164,5 +168,12 @@ public class ShippingActivity extends AppCompatActivity{
         unregisterReceiver(networkChangeReceiver);
     }
 
-
+    @Override
+    public void onBackPressed() {
+        Intent intent=new Intent(ShippingActivity.this,MainActivity.class);
+        intent.putExtra("user",user);
+        intent.putExtra("from","Shipping");
+        startActivity(intent);
+        finish();
+    }
 }

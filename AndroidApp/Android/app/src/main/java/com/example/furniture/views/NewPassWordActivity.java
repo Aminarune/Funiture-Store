@@ -272,6 +272,13 @@ public class NewPassWordActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(NewPassWordActivity.this, SignInActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }
 
 

@@ -60,7 +60,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
     private Dialog dialog;
 
-       //check connection state auto
+    //check connection state auto
     private NetworkChangeReceiver networkChangeReceiver;
 
 
@@ -243,7 +243,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void run() {
                         dia.dismiss();
-                        moveToMainActivity(user);
+                        moveToMainActivity(user,"Cart");
                     }
                 }, 1500);
 
@@ -259,7 +259,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 dia.setCancelable(false);
                 dia.setCanceledOnTouchOutside(false);
                 dia.dismiss();
-                moveToMainActivity(user);
+                moveToMainActivity(user,"Cart");
             }
         });
     }
@@ -269,15 +269,17 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-    private void moveToMainActivity(User user){
-        Intent intent=new Intent(CheckOutActivity.this,MainActivity.class);
-        intent.putExtra("userObject",user);
+    private void moveToMainActivity(User user, String tag) {
+        Intent intent = new Intent(CheckOutActivity.this, MainActivity.class);
+        intent.putExtra("user", user);
+        intent.putExtra("from", tag);
         startActivity(intent);
         finish();
+
     }
 
     @Override
     public void onBackPressed() {
-        moveToMainActivity(user);
+        moveToMainActivity(user, "Cart");
     }
 }

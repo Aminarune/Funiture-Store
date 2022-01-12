@@ -74,17 +74,17 @@ public class EnterPhoneActivity extends AppCompatActivity {
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
-            if ( v instanceof EditText) {
+            if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         }
-        return super.dispatchTouchEvent( event );
+        return super.dispatchTouchEvent(event);
     }
 
     private void moveToRegisterScreen() {
@@ -179,26 +179,36 @@ public class EnterPhoneActivity extends AppCompatActivity {
                                             R.raw.wrong, "This phone number is already registered for another. Try forgot password!");
                                     dialog.setCanceledOnTouchOutside(true);
                                     dialog.show();
-                                } else if (from.equals("signup") && !num.equals(editPhone)) {
-                                    fromSignUpToEnterPhoneScreen(phoneNo, editPhone);
                                     break;
-                                } else {
+                                }else if(from.equals("forgot") && num.equals(editPhone)){
                                     fromForgotToEnterPhoneScreen(phoneNo, editPhone);
                                     break;
+                                } else {
+                                    temp=1;
                                 }
-
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
 
                         }
+
+                        if (temp==1){
+                            if (from.equals("signup")) {
+                                fromSignUpToEnterPhoneScreen(phoneNo, editPhone);
+                            } else if (from.equals("forgot")) {
+                                fromForgotToEnterPhoneScreen(phoneNo,editPhone);
+                            }
+                        }
+
+
+
                     } else {
                         //first account
                         if (from.equals("signup")) {
                             fromSignUpToEnterPhoneScreen(phoneNo, editPhone);
                         } else {
                             Dialog dialog = DialogUtil.showDialog(EnterPhoneActivity.this,
-                                    R.raw.wrong, "AAA This phone number is not link with any account. Try register account!");
+                                    R.raw.wrong, "This phone number is not link with any account. Try register account!");
                             dialog.setCanceledOnTouchOutside(true);
                             dialog.show();
                         }

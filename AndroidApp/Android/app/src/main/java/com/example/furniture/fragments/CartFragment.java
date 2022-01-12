@@ -124,7 +124,7 @@ public class CartFragment extends Fragment implements OnDataCartList, View.OnCli
 
     private ArrayList<String> productArrayList;
 
-    private static int create=0;
+    private static int create = 0;
 
     public CartFragment(User user) {
         this.user = user;
@@ -134,7 +134,7 @@ public class CartFragment extends Fragment implements OnDataCartList, View.OnCli
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        create=1;
+        create = 1;
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
@@ -143,12 +143,12 @@ public class CartFragment extends Fragment implements OnDataCartList, View.OnCli
 
         recycleViewCart = view.findViewById(R.id.recycleViewCart);
 
-        tvTotalPriceAllCart=view.findViewById(R.id.tvTotalPriceAllCart);
+        tvTotalPriceAllCart = view.findViewById(R.id.tvTotalPriceAllCart);
 
-        btnCheckOut=view.findViewById(R.id.btnCheckOut);
+        btnCheckOut = view.findViewById(R.id.btnCheckOut);
         btnCheckOut.setOnClickListener(this);
 
-        layoutCheckOut=view.findViewById(R.id.layoutCheckOut);
+        layoutCheckOut = view.findViewById(R.id.layoutCheckOut);
 
         queue = Volley.newRequestQueue(view.getContext());
 
@@ -183,17 +183,24 @@ public class CartFragment extends Fragment implements OnDataCartList, View.OnCli
 
             @Override
             public void onCompleteDataCartProduct(Context view, ArrayList<Product> products, ArrayList<Cart> carts) {
-                ArrayList<Product> arrayListProduct = new ArrayList<>();
+
+                ArrayList<Product> productArrayList = new ArrayList<>();
+
+                ArrayList<Cart> cartArrayList = new ArrayList<>();
 
                 for (Cart cart : carts) {
                     for (Product product : products) {
                         if (cart.getIdProduct().equals(product.getId())) {
-                            arrayListProduct.add(product);
+                            if (product.getStatus()) {
+                                productArrayList.add(product);
+                                cartArrayList.add(cart);
+                                break;
+                            }
                         }
                     }
                 }
 
-                createUiProduct(view, arrayListProduct, carts);
+                createUiProduct(view, productArrayList, cartArrayList);
             }
 
             @Override
@@ -212,16 +219,15 @@ public class CartFragment extends Fragment implements OnDataCartList, View.OnCli
         recycleViewCart.setVisibility(View.VISIBLE);
     }
 
-    private void updateTotalPrice(ArrayList<Product> products,ArrayList<Cart> carts){
-        float total=0;
-        for(int i=0;i<carts.size();i++){
-            total+=carts.get(i).getTotalPrice();
+    private void updateTotalPrice(ArrayList<Product> products, ArrayList<Cart> carts) {
+        float total = 0;
+        for (int i = 0; i < carts.size(); i++) {
+            total += carts.get(i).getTotalPrice();
         }
         tvTotalPriceAllCart.setText(NumberUtilities.getFloatDecimal("###.##").format(total));
-        if(carts.size()>0){
+        if (carts.size() > 0) {
             layoutCheckOut.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             layoutCheckOut.setVisibility(View.GONE);
         }
     }
@@ -234,18 +240,17 @@ public class CartFragment extends Fragment implements OnDataCartList, View.OnCli
         recycleViewCart.setAdapter(cartAdapter);
 
 
-        productArrayList=new ArrayList<>();
-        for(int i=0;i<products.size();i++){
+        productArrayList = new ArrayList<>();
+        for (int i = 0; i < products.size(); i++) {
             productArrayList.add(products.get(i).getId());
         }
-        cartArrayList=new ArrayList<>();
-        for(int j=0;j<carts.size();j++){
+        cartArrayList = new ArrayList<>();
+        for (int j = 0; j < carts.size(); j++) {
             cartArrayList.add(carts.get(j).getId());
         }
 
 
-        updateTotalPrice(products,carts);
-
+        updateTotalPrice(products, carts);
 
 
         shimmerCart.stopShimmer();
@@ -259,24 +264,24 @@ public class CartFragment extends Fragment implements OnDataCartList, View.OnCli
                 cartAdapter.notifyItemRemoved(pos);
                 RemoveCart removeCart = new RemoveCart(cart.getId(), queue);
                 removeCart.execute();
-                updateTotalPrice(products,carts);
+                updateTotalPrice(products, carts);
             }
 
             @Override
             public void onIncreaseItem(View view, Cart cart, int quantity) {
                 getCart(cart, quantity);
-                updateTotalPrice(products,carts);
+                updateTotalPrice(products, carts);
             }
 
             @Override
             public void onDecreaseItem(View view, Cart cart, int quantity) {
                 getCart(cart, quantity);
-                updateTotalPrice(products,carts);
+                updateTotalPrice(products, carts);
             }
 
             @Override
             public void onClickItemCart(View view, Product product) {
-//                sendDataToActivity(product);
+                sendDataToActivity(user, product, "Cart");
             }
         });
 
@@ -319,15 +324,15 @@ public class CartFragment extends Fragment implements OnDataCartList, View.OnCli
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btnCheckOut:
-               sendUserToActivity(user,cartArrayList,productArrayList);
+                sendUserToActivity(user, cartArrayList, productArrayList);
                 break;
         }
     }
 
-    private void sendUserToActivity(User user,ArrayList<String> carts,ArrayList<String> products){
-        onDataPassCart.onDataPassCart(user,carts,products);
+    private void sendUserToActivity(User user, ArrayList<String> carts, ArrayList<String> products) {
+        onDataPassCart.onDataPassCart(user, carts, products);
     }
 
 
@@ -335,17 +340,17 @@ public class CartFragment extends Fragment implements OnDataCartList, View.OnCli
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         onDataPassProduct = (OnDataPassProduct) context;
-        onDataPassCart= (OnDataPassCart) context;
+        onDataPassCart = (OnDataPassCart) context;
     }
 
-    public void sendDataToActivity(Product product) {
-        onDataPassProduct.onDataPassProduct(product, "Cart");
+    public void sendDataToActivity(User user, Product product, String tag) {
+        onDataPassProduct.onDataPassProduct(user, product, tag);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        if(create==2){
+        if (create == 2) {
             layoutCheckOut.setVisibility(View.GONE);
             recycleViewCart.setVisibility(View.GONE);
         }
@@ -355,7 +360,7 @@ public class CartFragment extends Fragment implements OnDataCartList, View.OnCli
     @Override
     public void onStop() {
         super.onStop();
-        create=2;
+        create = 2;
     }
 
 

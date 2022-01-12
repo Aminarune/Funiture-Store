@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -132,7 +133,7 @@ public class MakerFragment extends Fragment implements OnDataFavList, OnDataProd
 
     @Override
     public void onDataFavNotFound(Context view, String error) {
-
+        Log.d("TAG",error);
     }
 
 
@@ -149,17 +150,25 @@ public class MakerFragment extends Fragment implements OnDataFavList, OnDataProd
     @Override
     public void onCompleteDataFavProduct(Context context, ArrayList<Product> products, ArrayList<Favourite> favourites) {
 
-        ArrayList<Product> arrayListProduct = new ArrayList<>();
+
+
+        ArrayList<Product> productArrayList=new ArrayList<>();
+
+        ArrayList<Favourite> favouriteArrayList=new ArrayList<>();
 
         for (Favourite fav : favourites) {
             for (Product product : products) {
                 if (fav.getIdProduct().equals(product.getId())) {
-                    arrayListProduct.add(product);
+                    if(product.getStatus()){
+                        productArrayList.add(product);
+                        favouriteArrayList.add(fav);
+                        break;
+                    }
                 }
             }
         }
 
-        createUiFav(context, arrayListProduct, favourites);
+        createUiFav(context, productArrayList, favouriteArrayList);
     }
 
     @Override
@@ -173,6 +182,9 @@ public class MakerFragment extends Fragment implements OnDataFavList, OnDataProd
     }
 
     private void createUiFav(Context context, ArrayList<Product> products, ArrayList<Favourite> favourites) {
+
+
+
         FavoriteAdapter favoriteAdapter = new FavoriteAdapter(context, products, favourites);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context, RecyclerView.VERTICAL, false);
         recycleViewFavorite.setLayoutManager(layoutManager);
@@ -194,7 +206,7 @@ public class MakerFragment extends Fragment implements OnDataFavList, OnDataProd
 
             @Override
             public void onClickItemFav(View view, Product product) {
-                sendDataToActivity(product);
+                sendDataToActivity(user,product,"Maker");
             }
 
 
@@ -209,19 +221,8 @@ public class MakerFragment extends Fragment implements OnDataFavList, OnDataProd
         onDataPassProduct = (OnDataPassProduct) context;
     }
 
-    public void sendDataToActivity(Product product) {
-        onDataPassProduct.onDataPassProduct(product,"Maker");
+    public void sendDataToActivity(User user,Product product,String tag) {
+        onDataPassProduct.onDataPassProduct(user,product,tag);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        shimmerFrameLayout.startShimmer();
-        shimmerFrameLayout.setVisibility(View.VISIBLE);
-        recycleViewFavorite.setVisibility(View.GONE);
-        //getListFav
-        GetFavorite getFavorite = new GetFavorite(getActivity(), user.getId(), queue, this);
-        getFavorite.execute();
-    }
 }

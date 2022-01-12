@@ -282,7 +282,7 @@ public class SignInActivity extends AppCompatActivity {
                                     User user = new User(id, user_name, email, pass, picture, status, phone);
 
                                     boolean chk = checkBox.isChecked();
-                                    intent.putExtra("userObject", user);
+                                    intent.putExtra("user", user);
 
                                     intent.putExtra("checkBox", chk);
 

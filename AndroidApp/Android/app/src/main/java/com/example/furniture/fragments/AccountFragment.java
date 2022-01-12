@@ -169,11 +169,11 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.ivEditShipping:
-                sendDataToActivity(user,"account");
+                sendDataToActivity(user,"Account");
                 break;
 
             case R.id.ivEditOrder:
-                sendDataToMyOrder(user,"my_order");
+                sendDataToMyOrder(user,"MyOrder");
                 break;
         }
     }
@@ -352,6 +352,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     private void sendDataToMyOrder(User user,String tag) {
         onDataPassUser.onDataPassUser(user,tag);
     }
+
 
 
 }
