@@ -218,7 +218,7 @@ public class NewPassWordActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            link = url + "" + u.getId();
+            link = url + "/" + u.getId();
         }
 
         @Override
@@ -246,7 +246,6 @@ public class NewPassWordActivity extends AppCompatActivity {
                     params.put("Picture", String.valueOf(u.getPicture()));
                     params.put("Status", String.valueOf(u.isStatus()));
                     params.put("Phonenumber", u.getPhone());
-
                     return params;
 
                 }

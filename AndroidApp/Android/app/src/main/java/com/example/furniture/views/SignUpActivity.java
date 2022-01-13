@@ -42,7 +42,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private TextView tvSignIn;
 
-    private static final String url = Api.urlLocal +"user";
+    private static final String url = Api.urlLocal + "user";
 
     private RequestQueue queue;
 
@@ -51,8 +51,6 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
-
 
 
         queue = Volley.newRequestQueue(this);
@@ -145,12 +143,12 @@ public class SignUpActivity extends AppCompatActivity {
                     " - At least one number.\n" +
                     " - At least one uppercase and one lowercase character.\n" +
                     " - At least one special symbol (@#$%^&+=%).\n" +
-                    " - White spaces don’t allowed.\n"+
+                    " - White spaces don’t allowed.\n" +
                     " - Between 5 to 8 characters long.";
         } else if (!pass.equals(confirm)) {
             message += "The password not match.";
         } else {
-            CheckMail checkMail=new CheckMail(view, user, email, pass);
+            CheckMail checkMail = new CheckMail(view, user, email, pass);
             checkMail.execute();
         }
 
@@ -163,8 +161,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
-
-    public class CheckMail extends AsyncTask<Void,Void,Void> {
+    public class CheckMail extends AsyncTask<Void, Void, Void> {
 
         View view;
         String user_name;
@@ -228,17 +225,17 @@ public class SignUpActivity extends AppCompatActivity {
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
-            if ( v instanceof EditText) {
+            if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         }
-        return super.dispatchTouchEvent( event );
+        return super.dispatchTouchEvent(event);
     }
 
     private void moveToEnterPhone(View view, String user_name, String email, String pass) {
@@ -246,23 +243,16 @@ public class SignUpActivity extends AppCompatActivity {
         intent.putExtra("userName", user_name);
         intent.putExtra("email", email);
         intent.putExtra("pass", pass);
-        intent.putExtra("from","signup");
+        intent.putExtra("from", "signup");
         startActivity(intent);
         finish();
     }
 
     @Override
     public void onBackPressed() {
-        String from = getIntent().getStringExtra("from");
-        if(from.equals("signin")){
-            Intent intent=new Intent(SignUpActivity.this,SignInActivity.class);
-            startActivity(intent);
-            finish();
-        }
-        else if(from.equals("enter_phone")){
-            Intent intent=new Intent(SignUpActivity.this,SignInActivity.class);
-            startActivity(intent);
-            finish();
-        }
+        Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
+        startActivity(intent);
+        finish();
+
     }
 }

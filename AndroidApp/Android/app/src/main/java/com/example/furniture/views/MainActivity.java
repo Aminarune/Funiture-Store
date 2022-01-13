@@ -216,6 +216,12 @@ public class MainActivity extends AppCompatActivity implements
             intent.putExtra("from",tag);
             startActivity(intent);
             finish();
+        }else if(tag.equals("account_logout")){
+            Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+            intent.putExtra("user", user);
+            intent.putExtra("from",tag);
+            startActivity(intent);
+            finish();
         }
 
     }
