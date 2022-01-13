@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -55,15 +54,6 @@ public class EnterPhoneActivity extends AppCompatActivity {
 
         queue = Volley.newRequestQueue(this);
 
-        String phone = getIntent().getStringExtra("phone");
-        String phoneCode =getIntent().getStringExtra("phoneCode");
-
-        if (phone!=null && phoneCode!=null){
-            editTextPhone.setText(phone);
-            countryCodePicker.setCountryForNameCode(phoneCode);
-        }
-
-
         btnSend = findViewById(R.id.btnSend);
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,12 +87,17 @@ public class EnterPhoneActivity extends AppCompatActivity {
         return super.dispatchTouchEvent(event);
     }
 
-    private void moveToRegisterScreen(String userName,String email,String pass) {
+    private void moveToRegisterScreen() {
+
+        String user = getIntent().getStringExtra("userName");
+        String email = getIntent().getStringExtra("email");
+        String pass = getIntent().getStringExtra("pass");
 
         Intent intent = new Intent(EnterPhoneActivity.this, SignUpActivity.class);
-        intent.putExtra("userName", userName);
+        intent.putExtra("userName", user);
         intent.putExtra("email", email);
         intent.putExtra("pass", pass);
+        intent.putExtra("from", "enter_phone");
         startActivity(intent);
         finish();
     }
@@ -247,31 +242,15 @@ public class EnterPhoneActivity extends AppCompatActivity {
         intent.putExtra("phoneNo", phoneNo);
         intent.putExtra("phone", phone);
         intent.putExtra("from", "signup");
-
-        String phoneCode = countryCodePicker.getSelectedCountryNameCode();
-        intent.putExtra("phoneCode",phoneCode);
-
         startActivity(intent);
 
         finish();
     }
 
     private void fromForgotToEnterPhoneScreen(String phoneNo, String phone) {
-        String user = getIntent().getStringExtra("userName");
-        String email = getIntent().getStringExtra("email");
-        String pass = getIntent().getStringExtra("pass");
-
         Intent intent = new Intent(EnterPhoneActivity.this, VerifyOtpActivity.class);
-
-        String phoneCode = countryCodePicker.getSelectedCountryNameCode();
-
-        intent.putExtra("phoneCode",phoneCode);
-        intent.putExtra("userName", user);
-        intent.putExtra("email", email);
-        intent.putExtra("pass", pass);
         intent.putExtra("phoneNo", phoneNo);
         intent.putExtra("phone", phone);
-
         intent.putExtra("from", "forgot");
         startActivity(intent);
         finish();
@@ -279,22 +258,11 @@ public class EnterPhoneActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
-        String userName = getIntent().getStringExtra("userName");
-        String email = getIntent().getStringExtra("email");
-        String pass = getIntent().getStringExtra("pass");
         String from = getIntent().getStringExtra("from");
-
-        if(from!=null){
-            if (from.equals("signup")) {
-                moveToRegisterScreen(userName,email,pass);
-            } else if (from.equals("forgot")) {
-                moveToLoginScreen();
-            }
-        }
-        else {
+        if (from.equals("signup")) {
+            moveToRegisterScreen();
+        } else if (from.equals("forgot")) {
             moveToLoginScreen();
         }
-
     }
 }

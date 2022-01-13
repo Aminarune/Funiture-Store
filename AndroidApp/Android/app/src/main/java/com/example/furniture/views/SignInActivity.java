@@ -86,7 +86,14 @@ public class SignInActivity extends AppCompatActivity {
         String from = getIntent().getStringExtra("from");
 
         if (from != null && from.equals("account_logout")) {
-            loadPreferences(editMailLogin, editPassLogin, checkBox);
+            boolean checkRemember = getIntent().getBooleanExtra("checkBoxLogout", false);
+            if (checkRemember) {
+                checkBox.setChecked(checkRemember);
+            } else {
+                checkBox.setChecked(checkRemember);
+                editMailLogin.getEditText().setText("");
+                editPassLogin.getEditText().setText("");
+            }
         }
 
         tvSignUp = findViewById(R.id.tvSignUp);

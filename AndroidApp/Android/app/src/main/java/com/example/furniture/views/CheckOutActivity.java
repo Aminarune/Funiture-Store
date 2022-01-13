@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -77,7 +78,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         dialog = DialogUtil.showDialog(CheckOutActivity.this
                 , R.raw.loading, " Please wait a minute.");
 
-        queue = Volley.newRequestQueue(this);
+        queue = Volley.newRequestQueue(CheckOutActivity.this);
 
         user = (User) getIntent().getSerializableExtra("user");
 
@@ -93,7 +94,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         btnCheckOut = findViewById(R.id.btnCheckOut);
         btnCheckOut.setOnClickListener(this);
 
-        setData(user, shippingAddressId, queue);
+        setData(user, shippingAddressId);
 
     }
 
@@ -109,7 +110,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         unregisterReceiver(networkChangeReceiver);
     }
 
-    private void setData(User user, String shippingId, RequestQueue queue) {
+    private void setData(User user, String shippingId) {
 
         String from = getIntent().getStringExtra("from");
         if (from != null && from.equals("add_shipping")) {
@@ -162,8 +163,9 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 if (from != null && from.equals("add_shipping")) {
                     saveAddress();
                 } else {
-                    saveOrder("");
+                    saveOrder();
                 }
+
                 break;
         }
     }
@@ -182,11 +184,50 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             SaveToAddress saveToAddress=new SaveToAddress(CheckOutActivity.this,u,address,city,district,ward,true,queue);
             saveToAddress.execute();
 
-
             saveToAddress.setDataSaveAddress(new OnDataSaveAddress() {
                 @Override
                 public void onSuccess(String id) {
-                    saveOrder(id);
+                    dialog.show();
+                    dialog.setCancelable(false);
+                    dialog.setCanceledOnTouchOutside(false);
+                    GetCart getCart = new GetCart(CheckOutActivity.this, user.getId(), id, queue, new OnDataCartList() {
+                        @Override
+                        public void onDataCartFound(Context view, ArrayList<Cart> cartArrayList) {
+                            DownloadDataProduct downloadDataProduct = new DownloadDataProduct(CheckOutActivity.this, cartArrayList, new OnDataProductListener() {
+                                @Override
+                                public void onCompleteDataProduct(Context view, ArrayList<Product> arrayList) {
+
+                                }
+
+                                @Override
+                                public void onErrorDataProduct(Context view, String error) {
+
+                                }
+
+                                @Override
+                                public void onCompleteDataFavProduct(Context view, ArrayList<Product> products, ArrayList<Favourite> favourites) {
+
+                                }
+
+                                @Override
+                                public void onCompleteDataCartProduct(Context view, ArrayList<Product> products, ArrayList<Cart> carts) {
+                                    saveOrderDetail(carts,id);
+                                }
+
+                                @Override
+                                public void onCompleteDataOrderDetailProduct(Context view, ArrayList<Product> products, ArrayList<OrderDetail> carts) {
+
+                                }
+                            });
+                            downloadDataProduct.execute();
+                        }
+
+                        @Override
+                        public void onDataCartNotFound(Context view, String error) {
+
+                        }
+                    });
+                    getCart.execute();
                 }
 
                 @Override
@@ -198,11 +239,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    private void saveOrder(String shipId) {
-
-        if(shipId.isEmpty()==false){
-            shippingAddressId=shipId;
-        }
+    private void saveOrder() {
 
         dialog.show();
         dialog.setCancelable(false);
@@ -235,7 +272,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onCompleteDataCartProduct(Context view, ArrayList<Product> products, ArrayList<Cart> carts) {
-                saveOrderDetail(carts);
+                saveOrderDetail(carts,shippingAddressId);
             }
 
             @Override
@@ -246,7 +283,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         downloadDataProduct.execute();
     }
 
-    private void saveOrderDetail(ArrayList<Cart> carts) {
+    private void saveOrderDetail(ArrayList<Cart> carts,String idShip) {
         float total = 0;
 
         for (int i = 0; i < carts.size(); i++) {
@@ -254,9 +291,11 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         }
 
         //save to order
-        SaveToOrder saveToOrder = new SaveToOrder(CheckOutActivity.this, queue,
-                total, user.getId(), shippingAddressId);
+        SaveToOrder saveToOrder = new SaveToOrder(getApplicationContext(), queue,
+                total, user.getId(), idShip);
         saveToOrder.execute();
+
+
         saveToOrder.setOnDataSaveOrder(new SaveToOrder.OnDataSaveOrder() {
             @Override
             public void onDataSaveOrder(String idOrder) {
@@ -303,6 +342,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
                 for (int j = 0; j < carts.size(); j++) {
                     String id = carts.get(j).getId();
+
                     RemoveCart removeCart = new RemoveCart(id, queue);
                     removeCart.execute();
                 }
@@ -325,10 +365,17 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 Dialog dia = DialogUtil.showDialog(CheckOutActivity.this, R.raw.wrong,
                         "Something went wrong.");
                 dia.show();
+                Log.d("TAG33",error+"");
                 dia.setCancelable(false);
                 dia.setCanceledOnTouchOutside(false);
-                dia.dismiss();
-                moveToMainActivity(user, "Cart");
+                Timer timer=new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        dia.dismiss();
+                        moveToMainActivity(user, "Cart");
+                    }
+                },1500);
             }
         });
     }

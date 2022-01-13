@@ -141,7 +141,10 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
 
     private void moveToLogin() {
-        sendDataToActivity(user,"account_logout");
+        Intent intent = new Intent(getActivity(), SignInActivity.class);
+        intent.putExtra("from","account_logout");
+        startActivity(intent);
+        getActivity().finish();
     }
 
     private void initView(View view) {

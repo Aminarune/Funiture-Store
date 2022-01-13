@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -127,18 +126,29 @@ public class VerifyOtpActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(VerifyOtpActivity.this, "Sending OTP", Toast.LENGTH_SHORT).show();
+                Dialog dialog= DialogUtil.showDialog(VerifyOtpActivity.this,
+                        R.raw.loading,"Sending OTP");
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.setCancelable(false);
+                dialog.show();
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        timer.cancel();
 
+                        pinView.setText("");
 
-                pinView.setText("");
+                        sendVerification(phoneNo);
 
-                sendVerification(phoneNo);
+                        layoutResend.setVisibility(View.GONE);
+                        dialog.dismiss();
 
-                layoutResend.setVisibility(View.GONE);
+                        textViewCountTimer.setVisibility(View.VISIBLE);
 
-                textViewCountTimer.setVisibility(View.VISIBLE);
-
-                countTimer();
+                        countTimer();
+                    }
+                }, 1500);
 
 
             }
@@ -260,6 +270,13 @@ public class VerifyOtpActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(VerifyOtpActivity.this, SignInActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
 
     //    /*for releasse*/
     private void sendVerification(String phoneNumber) {
@@ -345,7 +362,6 @@ public class VerifyOtpActivity extends AppCompatActivity {
 
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 // The verification code entered was invalid
-                                Toast.makeText(VerifyOtpActivity.this, "The OTP is invalid.", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -356,14 +372,8 @@ public class VerifyOtpActivity extends AppCompatActivity {
     private void verifyCode(String code) {
         //code (user input)
         //codeBySystem (receive from fbase)
-        if(codeBySystem!=null&&code!=null){
-            PhoneAuthCredential credential = PhoneAuthProvider.getCredential(codeBySystem, code);
-            signInWithPhoneAuthCredential(credential);
-        }
-        else {
-            Toast.makeText(VerifyOtpActivity.this, "The OTP is invalid.", Toast.LENGTH_SHORT).show();
-        }
-
+        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(codeBySystem, code);
+        signInWithPhoneAuthCredential(credential);
     }
 
     private void moveToNextScreen() {
@@ -380,49 +390,11 @@ public class VerifyOtpActivity extends AppCompatActivity {
             moveToLogin(dialog);
         } else {
             if (from.equals("forgot")) {
-                textViewCountTimer.setVisibility(View.GONE);
-                dialog.setCanceledOnTouchOutside(false);
-                dialog.setCancelable(false);
                 moveToNewPassword(dialog);
             }
         }
 
     }
 
-
-    @Override
-    public void onBackPressed() {
-        String from = getIntent().getStringExtra("from");
-        Intent intent = new Intent(VerifyOtpActivity.this, EnterPhoneActivity.class);
-
-        String userName = getIntent().getStringExtra("userName");
-        String email = getIntent().getStringExtra("email");
-        String pass = getIntent().getStringExtra("pass");
-        String phone = getIntent().getStringExtra("phone");
-        String phoneCode = getIntent().getStringExtra("phoneCode");
-
-
-        if (from.equals("signup")) {
-
-            intent.putExtra("userName", userName);
-            intent.putExtra("email", email);
-            intent.putExtra("pass", pass);
-            intent.putExtra("phone", phone);
-            intent.putExtra("from", "signup");
-            intent.putExtra("phoneCode", phoneCode);
-
-        } else if (from.equals("forgot")) {
-
-            intent.putExtra("userName", userName);
-            intent.putExtra("email", email);
-            intent.putExtra("pass", pass);
-            intent.putExtra("phone", phone);
-            intent.putExtra("phoneCode", phoneCode);
-            intent.putExtra("from", "forgot");
-        }
-        startActivity(intent);
-        finish();
-
-    }
 
 }

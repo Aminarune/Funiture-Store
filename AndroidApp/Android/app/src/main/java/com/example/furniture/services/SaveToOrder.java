@@ -7,12 +7,14 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.furniture.models.Order;
 import com.example.furniture.models.User;
 import com.example.furniture.utilities.NumberUtilities;
@@ -54,6 +56,7 @@ public class SaveToOrder extends AsyncTask<Void, Void, Void> {
         this.onDataSaveOrder = onDataSaveOrder;
     }
 
+
     @Override
     protected Void doInBackground(Void... voids) {
 
@@ -62,9 +65,8 @@ public class SaveToOrder extends AsyncTask<Void, Void, Void> {
 
         Calendar calendar = Calendar.getInstance();
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss aaa");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss aaa");
         String dateTime = simpleDateFormat.format(calendar.getTime()).toString();
-
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -76,7 +78,7 @@ public class SaveToOrder extends AsyncTask<Void, Void, Void> {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                onDataSaveOrder.onDataFailOrder(error.getMessage());
+                onDataSaveOrder.onDataFailOrder(error.networkResponse.statusCode+"");
             }
         }) {
             @Nullable
