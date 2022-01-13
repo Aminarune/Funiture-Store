@@ -65,7 +65,7 @@ public class SaveToOrder extends AsyncTask<Void, Void, Void> {
 
         Calendar calendar = Calendar.getInstance();
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss aaa");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateTime = simpleDateFormat.format(calendar.getTime()).toString();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -83,27 +83,36 @@ public class SaveToOrder extends AsyncTask<Void, Void, Void> {
         }) {
             @Nullable
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() throws AuthFailureError   {
                 HashMap<String, String> params = new HashMap<>();
+//                "2099-12-31T00:00:00"
+                Log.d("TAG123",dateTime);
                 params.put("Id", id);
-                params.put("Date", dateTime);
+                params.put("Date",dateTime);
                 params.put("Price", NumberUtilities.getFloatDecimal("###.##").format(totalPrice));
                 params.put("Id_User", userId);
                 params.put("Id_Manager","");
                 params.put("State", "Pending");
                 params.put("Id_Shipping", shippingId);
                 params.put("Status", String.valueOf(true));
+
                 return params;
             }
+
+
         };
+
+
+
 
         queue.add(stringRequest);
 
         return null;
     }
 
-    public interface OnDataSaveOrder{
+    public interface OnDataSaveOrder {
         void onDataSaveOrder(String idOrder);
+
         void onDataFailOrder(String error);
     }
 

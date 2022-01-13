@@ -72,13 +72,13 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_out);
 
+        queue = Volley.newRequestQueue(CheckOutActivity.this);
+
         AlertDialog alertDialog = AlbertDialogUtil.showAlertDialog(this);
         networkChangeReceiver = new NetworkChangeReceiver(alertDialog);
 
         dialog = DialogUtil.showDialog(CheckOutActivity.this
                 , R.raw.loading, " Please wait a minute.");
-
-        queue = Volley.newRequestQueue(CheckOutActivity.this);
 
         user = (User) getIntent().getSerializableExtra("user");
 
@@ -290,6 +290,8 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             total += (carts.get(i).getTotalPrice());
         }
 
+        queue.getCache().clear();
+
         //save to order
         SaveToOrder saveToOrder = new SaveToOrder(getApplicationContext(), queue,
                 total, user.getId(), idShip);
@@ -365,7 +367,6 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 Dialog dia = DialogUtil.showDialog(CheckOutActivity.this, R.raw.wrong,
                         "Something went wrong.");
                 dia.show();
-                Log.d("TAG33",error+"");
                 dia.setCancelable(false);
                 dia.setCanceledOnTouchOutside(false);
                 Timer timer=new Timer();
