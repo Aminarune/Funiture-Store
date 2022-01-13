@@ -22,6 +22,8 @@ public class GetCart extends AsyncTask<Void, Void, Void> {
     String id_User;
     RequestQueue queue;
 
+    String shippingAddressId;
+
     OnDataCartList onDataCartList;
 
     private String urlFav = Api.urlLocal + "cart";
@@ -30,11 +32,12 @@ public class GetCart extends AsyncTask<Void, Void, Void> {
     ArrayList<Cart> arrayList = new ArrayList<>();
 
 
-    public GetCart(Context view, String id_User, RequestQueue queue, OnDataCartList onDataCartList) {
+    public GetCart(Context view, String id_User,String shippingAddressId, RequestQueue queue, OnDataCartList onDataCartList) {
         this.view = view;
         this.id_User = id_User;
         this.queue = queue;
         this.onDataCartList = onDataCartList;
+        this.shippingAddressId=shippingAddressId;
     }
 
     @Override

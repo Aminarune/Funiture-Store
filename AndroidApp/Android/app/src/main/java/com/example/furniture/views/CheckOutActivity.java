@@ -29,7 +29,9 @@ import com.example.furniture.services.GetShippingAddress;
 import com.example.furniture.services.GetShippingAddressId;
 import com.example.furniture.services.OnDataCartList;
 import com.example.furniture.services.OnDataProductListener;
+import com.example.furniture.services.OnDataSaveAddress;
 import com.example.furniture.services.RemoveCart;
+import com.example.furniture.services.SaveToAddress;
 import com.example.furniture.services.SaveToOrder;
 import com.example.furniture.services.SaveToOrderDetail;
 import com.example.furniture.utilities.AlbertDialogUtil;
@@ -108,22 +110,45 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void setData(User user, String shippingId, RequestQueue queue) {
-        tvName.setText(user.getName());
-        tvPhone.setText(user.getPhone());
 
-        GetShippingAddressId getShippingAddressId = new GetShippingAddressId(user, shippingId, queue);
-        getShippingAddressId.execute();
-        getShippingAddressId.setOnDataAddressObject(new GetShippingAddressId.OnDataAddressObject() {
-            @Override
-            public void onDataAddressObject(ShippingAddress shippingAddress) {
-                String fullAddress =
-                        shippingAddress.getAddress() + ", " +
-                                shippingAddress.getWard() + ", " +
-                                shippingAddress.getDistrict() + ", " +
-                                shippingAddress.getProvince();
-                tvAddress.setText(fullAddress);
-            }
-        });
+        String from = getIntent().getStringExtra("from");
+        if (from != null && from.equals("add_shipping")) {
+
+            User u = (User) getIntent().getSerializableExtra("user");
+            String address = getIntent().getStringExtra("address");
+            String city = getIntent().getStringExtra("city");
+            String district = getIntent().getStringExtra("district");
+            String ward = getIntent().getStringExtra("ward");
+
+
+            String fullAddress =
+                    address + ", " +
+                            ward + ", " +
+                            district + ", " +
+                            city;
+            tvAddress.setText(fullAddress);
+
+            tvName.setText(u.getName());
+            tvPhone.setText(u.getPhone());
+
+        } else {
+            tvName.setText(user.getName());
+            tvPhone.setText(user.getPhone());
+
+            GetShippingAddressId getShippingAddressId = new GetShippingAddressId(user, shippingId, queue);
+            getShippingAddressId.execute();
+            getShippingAddressId.setOnDataAddressObject(new GetShippingAddressId.OnDataAddressObject() {
+                @Override
+                public void onDataAddressObject(ShippingAddress shippingAddress) {
+                    String fullAddress =
+                            shippingAddress.getAddress() + ", " +
+                                    shippingAddress.getWard() + ", " +
+                                    shippingAddress.getDistrict() + ", " +
+                                    shippingAddress.getProvince();
+                    tvAddress.setText(fullAddress);
+                }
+            });
+        }
 
     }
 
@@ -132,22 +157,66 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnCheckOut:
-                save();
+
+                String from = getIntent().getStringExtra("from");
+                if (from != null && from.equals("add_shipping")) {
+                    saveAddress();
+                } else {
+                    saveOrder("");
+                }
                 break;
         }
     }
 
-    private void save() {
+    private void saveAddress(){
+        String from = getIntent().getStringExtra("from");
+        if (from != null && from.equals("add_shipping")) {
+
+            User u = (User) getIntent().getSerializableExtra("user");
+            String address = getIntent().getStringExtra("address");
+            String city = getIntent().getStringExtra("city");
+            String district = getIntent().getStringExtra("district");
+            String ward = getIntent().getStringExtra("ward");
+
+
+            SaveToAddress saveToAddress=new SaveToAddress(CheckOutActivity.this,u,address,city,district,ward,true,queue);
+            saveToAddress.execute();
+
+
+            saveToAddress.setDataSaveAddress(new OnDataSaveAddress() {
+                @Override
+                public void onSuccess(String id) {
+                    saveOrder(id);
+                }
+
+                @Override
+                public void onFail() {
+
+                }
+            });
+
+        }
+    }
+
+    private void saveOrder(String shipId) {
+
+        if(shipId.isEmpty()==false){
+            shippingAddressId=shipId;
+        }
+
         dialog.show();
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
-        GetCart getCart = new GetCart(CheckOutActivity.this, user.getId(), queue, this);
+        GetCart getCart = new GetCart(CheckOutActivity.this, user.getId(),shippingAddressId, queue, this);
         getCart.execute();
     }
 
 
     @Override
     public void onDataCartFound(Context view, ArrayList<Cart> cartArrayList) {
+
+
+
         DownloadDataProduct downloadDataProduct = new DownloadDataProduct(CheckOutActivity.this, cartArrayList, new OnDataProductListener() {
             @Override
             public void onCompleteDataProduct(Context view, ArrayList<Product> arrayList) {
@@ -243,7 +312,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void run() {
                         dia.dismiss();
-                        moveToMainActivity(user,"Cart");
+                        moveToMainActivity(user, "Cart");
                     }
                 }, 1500);
 
@@ -259,7 +328,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 dia.setCancelable(false);
                 dia.setCanceledOnTouchOutside(false);
                 dia.dismiss();
-                moveToMainActivity(user,"Cart");
+                moveToMainActivity(user, "Cart");
             }
         });
     }

@@ -103,15 +103,17 @@ public class AddShippingActivity extends AppCompatActivity implements
         from = getIntent().getStringExtra("from");
         if (from.equals("from_create")) {
             user = (User) getIntent().getSerializableExtra("user");
+            btnSaveAddress.setText("Save Address");
         } else if (from.equals("from_edit")) {
             user = (User) getIntent().getSerializableExtra("user");
             shippingAddress = (ShippingAddress) getIntent().getSerializableExtra("shipping");
+            btnSaveAddress.setText("Save Address");
         }else if(from.equals("check_out")){
             user = (User) getIntent().getSerializableExtra("user");
             cartsAr=getIntent().getStringArrayListExtra("cart");
             productsAr=getIntent().getStringArrayListExtra("product");
+            btnSaveAddress.setText("Next");
         }
-
 
         btnSaveAddress.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -257,38 +259,47 @@ public class AddShippingActivity extends AppCompatActivity implements
     private void saveToAddress(User user, String address, City city,
                                District district, Ward ward, boolean status,
                                RequestQueue queue) {
-        //first address
-        SaveToAddress saveToAddress = new SaveToAddress(AddShippingActivity.this,
-                user,
-                address,
-                city.getTitle(),
-                district.getTitle(),
-                ward.getTitle(),
-                status,
-                queue);
-        saveToAddress.execute();
-        saveToAddress.setDataSaveAddress(new OnDataSaveAddress() {
-            @Override
-            public void onSuccess(String id) {
 
-                if(from.equals("from_create")||from.equals("from_edit")){
-                    moveToShipping(user);
-                }else if (from.equals("check_out")){
-                    moveToCheckOut(user,id,productsAr,cartsAr);
+        if (from.equals("check_out")){
+            moveToCheckOut(user,address,city.getTitle(),district.getTitle(),ward.getTitle(),productsAr,cartsAr);
+        }
+        else {
+            //first address
+            SaveToAddress saveToAddress = new SaveToAddress(AddShippingActivity.this,
+                    user,
+                    address,
+                    city.getTitle(),
+                    district.getTitle(),
+                    ward.getTitle(),
+                    status,
+                    queue);
+            saveToAddress.execute();
+            saveToAddress.setDataSaveAddress(new OnDataSaveAddress() {
+                @Override
+                public void onSuccess(String id) {
+
+                    if(from.equals("from_create")||from.equals("from_edit")){
+                        moveToShipping(user);
+                    }
                 }
-            }
 
-            @Override
-            public void onFail() {
+                @Override
+                public void onFail() {
 
-            }
-        });
+                }
+            });
+        }
     }
 
-    private void moveToCheckOut(User user,String id, ArrayList<String> products, ArrayList<String> carts){
+    private void moveToCheckOut(User user, String address, String city,
+                                String district, String ward, ArrayList<String> products, ArrayList<String> carts){
         Intent intent=new Intent(AddShippingActivity.this,CheckOutActivity.class);
+        intent.putExtra("from","add_shipping");
         intent.putExtra("user", user);
-        intent.putExtra("shippingId", id);
+        intent.putExtra("address", address);
+        intent.putExtra("city", city);
+        intent.putExtra("district", district);
+        intent.putExtra("ward", ward);
         intent.putExtra("cart", carts);
         intent.putExtra("product", products);
         startActivity(intent);

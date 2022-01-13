@@ -157,7 +157,7 @@ public class CartFragment extends Fragment implements OnDataCartList, View.OnCli
         recycleViewCart.setVisibility(View.GONE);
 
         //getListFav
-        GetCart getCart = new GetCart(view.getContext(), user.getId(), queue, this);
+        GetCart getCart = new GetCart(view.getContext(), user.getId(),"", queue, this);
         getCart.execute();
 
         return view;

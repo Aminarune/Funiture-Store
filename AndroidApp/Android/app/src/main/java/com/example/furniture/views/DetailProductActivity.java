@@ -53,7 +53,7 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
 
     private RequestQueue queue;
 
-    private int quantity = 1; // max 10
+    private static int quantity = 1; // max 10
 
     private RelativeLayout layoutProductDetail;
 
@@ -194,13 +194,13 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
 
 
     private void saveToCart() {
-        int quantity = Integer.valueOf(tvQuantityDetail.getText().toString());
+        int quan = Integer.valueOf(tvQuantityDetail.getText().toString());
 
         float price = Float.valueOf(tvPriceProductDetail.getText().toString());
 
-        float total = price * quantity;
+        float total = price * quan;
 
-        SaveToCart saveToCart = new SaveToCart(user.getId(), idProduct, quantity, price, total, queue, new OnDataSaveCart() {
+        SaveToCart saveToCart = new SaveToCart(user.getId(), idProduct, quan, price, total, queue, new OnDataSaveCart() {
             @Override
             public void onSuccess(boolean result) {
                 Dialog dialog = DialogUtil.showDialog(DetailProductActivity.this,
@@ -208,6 +208,7 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
                         "Item successfully added to your cart");
                 dialog.setCanceledOnTouchOutside(true);
                 dialog.show();
+                quantity=1;
             }
 
             @Override
@@ -217,16 +218,17 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
                         "Item could not  added to your cart");
                 dialog.setCanceledOnTouchOutside(true);
                 dialog.show();
-                Log.d("TAG23",result);
             }
         });
-        tvQuantityDetail.setText(formatString(1));
         saveToCart.execute();
+        tvQuantityDetail.setText(formatString(1));
+        tvDescrease.setEnabled(false);
     }
 
-    private void updateCart(Cart cart, int quantity) {
+    private void updateCart(Cart cart, int quanti) {
 
-        int quan = cart.getQuantity() + quantity;
+        int quan = cart.getQuantity() + quanti;
+
         if (quan > 10) {
             Dialog dialog = DialogUtil.showDialog(DetailProductActivity.this,
                     R.raw.wrong,
@@ -242,6 +244,7 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
                             "Item successfully added to your cart");
                     dialog.setCanceledOnTouchOutside(true);
                     dialog.show();
+                    quantity=1;
                 }
 
                 @Override
@@ -249,8 +252,9 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
 
                 }
             });
-            tvQuantityDetail.setText(formatString(1));
             updateToCartDetailProduct.execute();
+            tvQuantityDetail.setText(formatString(1));
+            tvDescrease.setEnabled(false);
         }
     }
 
