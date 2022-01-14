@@ -26,16 +26,15 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
-                android:src="@raw/loading" />
+                 />
 
             <TextView
                 android:id="@+id/textMessAlbert"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/space16"
-                android:layout_marginStart="@dimen/space16"
-                android:layout_marginEnd="@dimen/space16"
+                android:layout_margin="@dimen/space16"
                 android:maxLines="5"
+                android:textSize="@dimen/font14"
                 android:text="~~~~~~"
                 android:textAlignment="center"
                />

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="300dp"
+        android:layout_height="250dp"
+        android:elevation="@dimen/space8"
+        app:cardCornerRadius="@dimen/space16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/ivDialogExit"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"/>
+
+            <TextView
+                android:id="@+id/textMessDialogExit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ivDialogExit"
+                android:layout_margin="@dimen/space16"
+                android:maxLines="5"
+                android:text="~~~~~~"
+                android:textSize="@dimen/font14"
+                android:textAlignment="center" />
+
+
+            <TextView
+                android:id="@+id/tvYes"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textMessDialogExit"
+                android:layout_toStartOf="@id/ivDialogExit"
+                android:padding="@dimen/space8"
+                android:text="@string/yes"
+                android:background="@color/main_color"
+                android:textColor="@color/white"
+                android:textAlignment="center"
+                android:textSize="@dimen/font16" />
+
+            <TextView
+                android:id="@+id/tvNo"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textMessDialogExit"
+                android:layout_marginEnd="@dimen/space4"
+                android:layout_toEndOf="@id/ivDialogExit"
+                android:background="@color/main_color"
+                android:padding="@dimen/space8"
+                android:text="@string/no"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font16"
+                android:textStyle="bold" />
+
+            </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

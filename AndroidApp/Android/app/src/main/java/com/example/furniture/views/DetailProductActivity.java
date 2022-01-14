@@ -95,8 +95,8 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
 
         initView();
 
-        AlertDialog alertDialog= AlbertDialogUtil.showAlertDialog(this);
-        networkChangeReceiver = new NetworkChangeReceiver(alertDialog);
+        Dialog dialog= AlbertDialogUtil.showAlertDialog(this);
+        networkChangeReceiver = new NetworkChangeReceiver(dialog,R.raw.disconnected);
 
         //check first
         CheckFavorite checkFavorite = new CheckFavorite(user.getId(), idProduct, queue, this);
@@ -203,7 +203,7 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
             @Override
             public void onSuccess(boolean result) {
                 Dialog dialog = DialogUtil.showDialog(DetailProductActivity.this,
-                        R.raw.loading,
+                        R.raw.success,
                         "Item successfully added to your cart");
                 dialog.setCanceledOnTouchOutside(true);
                 dialog.show();
@@ -241,7 +241,7 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
                 @Override
                 public void onSuccess(boolean result) {
                     Dialog dialog = DialogUtil.showDialog(DetailProductActivity.this,
-                            R.raw.loading,
+                            R.raw.success,
                             "Item successfully added to your cart");
                     dialog.setCanceledOnTouchOutside(true);
                     dialog.show();

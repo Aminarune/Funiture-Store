@@ -3,6 +3,7 @@ package com.example.furniture.views;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -123,8 +124,8 @@ public class AddShippingActivity extends AppCompatActivity implements
         });
 
 
-        AlertDialog alertDialog = AlbertDialogUtil.showAlertDialog(this);
-        networkChangeReceiver = new NetworkChangeReceiver(alertDialog);
+        Dialog dialog = AlbertDialogUtil.showAlertDialog(this);
+        networkChangeReceiver = new NetworkChangeReceiver(dialog,R.raw.disconnected);
 
         downloadCityList();
 

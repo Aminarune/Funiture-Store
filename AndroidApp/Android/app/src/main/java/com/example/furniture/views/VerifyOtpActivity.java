@@ -425,7 +425,7 @@ public class VerifyOtpActivity extends AppCompatActivity {
 
         String from = getIntent().getStringExtra("from");
         Dialog dialog = DialogUtil.showDialog(VerifyOtpActivity.this,
-                R.raw.loading, "Success");
+                R.raw.success, "Success");
         if (from.equals("signup")) {
             textViewCountTimer.setVisibility(View.GONE);
             SaveToDataBase saveToDataBase = new SaveToDataBase(VerifyOtpActivity.this);

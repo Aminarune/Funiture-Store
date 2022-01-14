@@ -74,11 +74,11 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
         queue = Volley.newRequestQueue(CheckOutActivity.this);
 
-        AlertDialog alertDialog = AlbertDialogUtil.showAlertDialog(this);
-        networkChangeReceiver = new NetworkChangeReceiver(alertDialog);
+        Dialog dia = AlbertDialogUtil.showAlertDialog(this);
+        networkChangeReceiver = new NetworkChangeReceiver(dia,R.raw.disconnected);
 
         dialog = DialogUtil.showDialog(CheckOutActivity.this
-                , R.raw.loading, " Please wait a minute.");
+                , R.raw.waiting, " Please wait a minute.");
 
         user = (User) getIntent().getSerializableExtra("user");
 
@@ -336,7 +336,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
 
                 dialog.dismiss();
-                Dialog dia = DialogUtil.showDialog(CheckOutActivity.this, R.raw.wrong,
+                Dialog dia = DialogUtil.showDialog(CheckOutActivity.this, R.raw.success,
                         "Success.");
                 dia.show();
                 dia.setCancelable(false);

@@ -76,4 +76,6 @@
     <string name="order_no">OrderNo</string>
     <string name="date">Date</string>
     <string name="fint_product">Find product</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
 </resources>

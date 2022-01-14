@@ -6,19 +6,25 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -47,6 +53,8 @@ import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 
+import pl.droidsonroids.gif.GifImageView;
+
 public class MainActivity extends AppCompatActivity implements
         NavigationBarView.OnItemSelectedListener, View.OnClickListener, OnDataPassProduct,
         OnDataPassUser, OnDataPassCart {
@@ -65,6 +73,9 @@ public class MainActivity extends AppCompatActivity implements
     private RequestQueue queue;
 
     private String tagFrom;
+
+    private int exiteState = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,20 +100,20 @@ public class MainActivity extends AppCompatActivity implements
 
         bottomNav.setOnItemSelectedListener(this);
 
-        AlertDialog alertDialog = AlbertDialogUtil.showAlertDialog(this);
-        networkChangeReceiver = new NetworkChangeReceiver(alertDialog);
+        Dialog dialog = AlbertDialogUtil.showAlertDialog(this);
+        networkChangeReceiver = new NetworkChangeReceiver(dialog,R.raw.disconnected);
 
-        tagFrom=getIntent().getStringExtra("from");
-        if(tagFrom==null){
+        tagFrom = getIntent().getStringExtra("from");
+        if (tagFrom == null) {
             /*show home screen first*/
             bottomNav.setSelectedItemId(R.id.bottom_home_nav);
-        }else if(tagFrom.equals("Maker")){
+        } else if (tagFrom.equals("Maker")) {
             bottomNav.setSelectedItemId(R.id.bottom_maker_nav);
-        }else if(tagFrom.equals("Home")){
+        } else if (tagFrom.equals("Home")) {
             bottomNav.setSelectedItemId(R.id.bottom_home_nav);
-        }else if(tagFrom.equals("Shipping")||tagFrom.equals("MyOrder")){
+        } else if (tagFrom.equals("Shipping") || tagFrom.equals("MyOrder")) {
             bottomNav.setSelectedItemId(R.id.bottom_person_nav);
-        }else if(tagFrom.equals("Cart")){
+        } else if (tagFrom.equals("Cart")) {
             createFragment(new CartFragment(userLogin));
         }
 
@@ -148,17 +159,17 @@ public class MainActivity extends AppCompatActivity implements
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
-            if ( v instanceof EditText) {
+            if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         }
-        return super.dispatchTouchEvent( event );
+        return super.dispatchTouchEvent(event);
     }
 
     @Override
@@ -175,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements
 
 
     @Override
-    public void onDataPassProduct(User user,Product data, String tag) {
+    public void onDataPassProduct(User user, Product data, String tag) {
         //receive data from fragment and send to detail
         Intent intent = new Intent(MainActivity.this, DetailProductActivity.class);
         intent.putExtra("productID", data.getId());
@@ -185,11 +196,6 @@ public class MainActivity extends AppCompatActivity implements
         finish();
     }
 
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
 
     @Override
     public void onClick(View view) {
@@ -207,13 +213,13 @@ public class MainActivity extends AppCompatActivity implements
         if (tag.equals("Account")) {
             Intent intent = new Intent(MainActivity.this, ShippingActivity.class);
             intent.putExtra("user", user);
-            intent.putExtra("from",tag);
+            intent.putExtra("from", tag);
             startActivity(intent);
             finish();
-        }else if(tag.equals("MyOrder")){
+        } else if (tag.equals("MyOrder")) {
             Intent intent = new Intent(MainActivity.this, MyOrderActivity.class);
             intent.putExtra("user", user);
-            intent.putExtra("from",tag);
+            intent.putExtra("from", tag);
             startActivity(intent);
             finish();
         }
@@ -242,7 +248,7 @@ public class MainActivity extends AppCompatActivity implements
         Intent intent = new Intent(MainActivity.this, AddShippingActivity.class);
         intent.putExtra("user", user);
         intent.putExtra("cart", carts);
-        intent.putExtra("from","check_out");
+        intent.putExtra("from", "check_out");
         intent.putExtra("product", products);
         startActivity(intent);
         finish();
@@ -262,6 +268,81 @@ public class MainActivity extends AppCompatActivity implements
                 break;
             }
         }
+    }
+
+
+    private void createExitDialog(Context context, int sourceGif, String mess) {
+
+
+
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.custom_layout_exit_dialog_gif);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        TextView textView = dialog.findViewById(R.id.textMessDialogExit);
+        textView.setText(mess);
+        GifImageView imageView = dialog.findViewById(R.id.ivDialogExit);
+        imageView.setImageResource(sourceGif);
+
+        TextView tvNo = dialog.findViewById(R.id.tvNo);
+        tvNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        TextView tvYes = dialog.findViewById(R.id.tvYes);
+        tvYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+
+        dialog.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+
+        //check current fragment
+
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.frameLayoutHome);
+        if (f instanceof CartFragment) {
+            bottomNav.setSelectedItemId(R.id.bottom_home_nav);
+        } else {
+            int checkedItemId = bottomNav.getSelectedItemId();
+
+            switch (checkedItemId) {
+                case R.id.bottom_home_nav:
+                    String mess = "Do you really want to quit?";
+                    createExitDialog(MainActivity.this,R.raw.exit,mess);
+                    break;
+                case R.id.bottom_maker_nav:
+                    bottomNav.setSelectedItemId(R.id.bottom_home_nav);
+                    break;
+                case R.id.bottom_bell_nav:
+                    bottomNav.setSelectedItemId(R.id.bottom_home_nav);
+                    break;
+                case R.id.bottom_person_nav:
+                    bottomNav.setSelectedItemId(R.id.bottom_home_nav);
+                    break;
+                default:
+                    bottomNav.setSelectedItemId(R.id.bottom_home_nav);
+                    break;
+            }
+
+
+        }
+
 
     }
 

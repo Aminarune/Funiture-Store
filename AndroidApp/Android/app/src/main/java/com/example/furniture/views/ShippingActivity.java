@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -73,8 +74,8 @@ public class ShippingActivity extends AppCompatActivity{
         });
 
 
-        AlertDialog alertDialog= AlbertDialogUtil.showAlertDialog(this);
-        networkChangeReceiver = new NetworkChangeReceiver(alertDialog);
+        Dialog dialog= AlbertDialogUtil.showAlertDialog(this);
+        networkChangeReceiver = new NetworkChangeReceiver(dialog,R.raw.disconnected);
 
 
 

@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -64,8 +65,8 @@ public class DetailOrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_order);
         queue = Volley.newRequestQueue(this);
 
-        AlertDialog alertDialog = AlbertDialogUtil.showAlertDialog(this);
-        networkChangeReceiver = new NetworkChangeReceiver(alertDialog);
+        Dialog dialog = AlbertDialogUtil.showAlertDialog(this);
+        networkChangeReceiver = new NetworkChangeReceiver(dialog,R.raw.disconnected);
 
         shimmerFrameLayout=findViewById(R.id.shimmerDetailOrder);
         linearLayout=findViewById(R.id.layoutDetailOrder);

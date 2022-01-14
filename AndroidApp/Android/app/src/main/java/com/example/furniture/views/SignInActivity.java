@@ -236,7 +236,7 @@ public class SignInActivity extends AppCompatActivity {
             super.onPreExecute();
             intent = new Intent(SignInActivity.this, MainActivity.class);
             String str = "Please wait a moment.";
-            dialog = DialogUtil.showDialog(context, R.raw.loading, str);
+            dialog = DialogUtil.showDialog(context, R.raw.waiting, str);
             dialog.show();
             dialog.setCanceledOnTouchOutside(false);
             dialog.setCancelable(false);
@@ -252,7 +252,7 @@ public class SignInActivity extends AppCompatActivity {
                     int temp = 0;//s=0 success
                     if (response.length() == 0) {
                         dialog.dismiss();
-                        Dialog a = DialogUtil.showDialog(SignInActivity.this, R.raw.disconnected,
+                        Dialog a = DialogUtil.showDialog(SignInActivity.this, R.raw.wrong,
                                 "Account is not exist.\nTry to register a new account.");
                         a.setCanceledOnTouchOutside(true);
                         a.show();
@@ -295,7 +295,7 @@ public class SignInActivity extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 String str2 = "Some thing wrong please check your information and try again.";
-                                Dialog dialog = DialogUtil.showDialog(context, R.raw.disconnected, str2);
+                                Dialog dialog = DialogUtil.showDialog(context, R.raw.wrong, str2);
                                 dialog.setCanceledOnTouchOutside(true);
                                 dialog.show();
                             }

@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -44,8 +45,8 @@ public class MyOrderActivity extends AppCompatActivity implements SendDetailToAc
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_order);
 
-        AlertDialog alertDialog = AlbertDialogUtil.showAlertDialog(this);
-        networkChangeReceiver = new NetworkChangeReceiver(alertDialog);
+        Dialog dialog = AlbertDialogUtil.showAlertDialog(this);
+        networkChangeReceiver = new NetworkChangeReceiver(dialog,R.raw.disconnected);
 
         userAccount = (User) getIntent().getSerializableExtra("user");
 

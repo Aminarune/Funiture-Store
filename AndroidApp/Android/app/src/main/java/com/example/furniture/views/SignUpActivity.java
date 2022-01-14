@@ -181,7 +181,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         String message="Please wait a moment.";
 
-        Dialog dia = DialogUtil.showDialog(SignUpActivity.this, R.raw.loading, message);
+        Dialog dia = DialogUtil.showDialog(SignUpActivity.this, R.raw.waiting, message);
 
 
         @Override
