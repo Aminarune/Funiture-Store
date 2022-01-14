@@ -214,10 +214,9 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginStart="@dimen/space24"
-            android:layout_marginEnd="@dimen/space16"
             android:layout_marginBottom="@dimen/space8"
             android:ellipsize="end"
-            android:gravity="center_vertical"
+            android:gravity="left"
             android:lineSpacingExtra="@dimen/space8"
             android:maxLines="2" />
 

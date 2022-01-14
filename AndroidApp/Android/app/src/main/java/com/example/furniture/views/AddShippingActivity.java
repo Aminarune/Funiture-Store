@@ -239,12 +239,21 @@ public class AddShippingActivity extends AppCompatActivity implements
             getShippingAddress.setOnDataShipAddList(new OnDataShipAddList() {
                 @Override
                 public void onSuccess(ArrayList<ShippingAddress> shippingAddresses) {
-                    saveToAddress(user, address, city, district, ward, false, queue);
+
+
+                    if(shippingAddresses.size()>=1){
+                        //respone but have add (default add)
+                        saveToAddress(user, address, city, district, ward, false, queue);
+                    }
+                    else {
+                        //respone but don't have add
+                        saveToAddress(user, address, city, district, ward, true, queue);
+                    }
                 }
 
                 @Override
                 public void onFail(String error) {
-                    //response = 0 ( no address default) first address
+                    //response = 0 ( no address default) first address, first user
                     saveToAddress(user, address, city, district, ward, true, queue);
                 }
             });
