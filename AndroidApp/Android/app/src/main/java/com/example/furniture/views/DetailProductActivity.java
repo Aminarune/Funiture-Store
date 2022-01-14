@@ -174,12 +174,11 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
                 //found - update
                 if (cart.getQuantity() == 10) {
                     Dialog dialog = DialogUtil.showDialog(DetailProductActivity.this,
-                            R.raw.wrong, "You have reached the maximum purchase limit");
+                            R.raw.wrong, "You have reached the maximum purchase limit (10).");
                     dialog.setCanceledOnTouchOutside(true);
                     dialog.show();
                 } else {
-                    int quantity = Integer.valueOf(tvQuantityDetail.getText().toString());
-                    updateCart(cart, quantity);
+                    updateCart(cart);
                 }
             }
 
@@ -225,9 +224,11 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
         tvDescrease.setEnabled(false);
     }
 
-    private void updateCart(Cart cart, int quanti) {
+    private void updateCart(Cart cart) {
 
-        int quan = cart.getQuantity() + quanti;
+        int quanAdd= Integer.valueOf(tvQuantityDetail.getText().toString());
+
+        int quan = cart.getQuantity()+quanAdd;
 
         if (quan > 10) {
             Dialog dialog = DialogUtil.showDialog(DetailProductActivity.this,
@@ -236,7 +237,7 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
             dialog.setCanceledOnTouchOutside(true);
             dialog.show();
         } else {
-            UpdateToCartDetailProduct updateToCartDetailProduct = new UpdateToCartDetailProduct(quantity, queue, cart, new OnDataSaveCart() {
+            UpdateToCartDetailProduct updateToCartDetailProduct = new UpdateToCartDetailProduct(quanAdd, queue, cart, new OnDataSaveCart() {
                 @Override
                 public void onSuccess(boolean result) {
                     Dialog dialog = DialogUtil.showDialog(DetailProductActivity.this,
