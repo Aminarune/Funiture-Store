@@ -154,12 +154,13 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
         btnLogout = view.findViewById(R.id.btnLogout);
 
+
         ivPhotoCamera = view.findViewById(R.id.ivPhotoCamera);
 
         ivEditOrder = view.findViewById(R.id.ivEditOrder);
         ivEditOrder.setOnClickListener(this::onClick);
 
-        ivEditSetting = view.findViewById(R.id.ivEditSetting);
+//        ivEditSetting = view.findViewById(R.id.ivEditSetting);
 
         ivEditShipping=view.findViewById(R.id.ivEditShipping);
         ivEditShipping.setOnClickListener(this::onClick);

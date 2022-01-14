@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -54,7 +55,7 @@ public class VerifyOtpActivity extends AppCompatActivity {
     private PinView pinView;
     private FirebaseAuth mAuth;
 
-    private String codeBySystem;
+    private String codeBySystem = "";
 
     private Button btnVerify;
 
@@ -72,11 +73,14 @@ public class VerifyOtpActivity extends AppCompatActivity {
 
     private static final String url = Api.urlLocal + "user";
 
+    private CountDownTimer countDownTimer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify_otp);
+
 
         pinView = findViewById(R.id.pinView);
 
@@ -114,7 +118,11 @@ public class VerifyOtpActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String code = pinView.getText().toString();
                 if (code != null) {
-                    verifyCode(code);
+                    if (time) {
+                        verifyCode(code);
+                    } else {
+                        Toast.makeText(VerifyOtpActivity.this, "OTP out of time", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
             }
@@ -126,30 +134,18 @@ public class VerifyOtpActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Dialog dialog= DialogUtil.showDialog(VerifyOtpActivity.this,
-                        R.raw.loading,"Sending OTP");
-                dialog.setCanceledOnTouchOutside(false);
-                dialog.setCancelable(false);
-                dialog.show();
-                Timer timer = new Timer();
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        timer.cancel();
+                Toast.makeText(view.getContext(), "Sending OTP", Toast.LENGTH_SHORT).show();
 
-                        pinView.setText("");
+                pinView.setText("");
 
-                        sendVerification(phoneNo);
 
-                        layoutResend.setVisibility(View.GONE);
-                        dialog.dismiss();
+                sendVerification(phoneNo);
 
-                        textViewCountTimer.setVisibility(View.VISIBLE);
+                layoutResend.setVisibility(View.GONE);
 
-                        countTimer();
-                    }
-                }, 1500);
+                textViewCountTimer.setVisibility(View.VISIBLE);
 
+                countTimer();
 
             }
         });
@@ -162,19 +158,31 @@ public class VerifyOtpActivity extends AppCompatActivity {
         layoutResend.setVisibility(View.GONE);
         time = true;
 
-        new CountDownTimer(60000, 1000) {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+            textViewCountTimer.setVisibility(View.GONE);
+            pinView.setText("");
+            codeBySystem = "";
+            time = false;
+            layoutResend.setVisibility(View.VISIBLE);
+        } else {
+            countDownTimer = new CountDownTimer(60000, 1000) {
 
-            public void onTick(long millisUntilFinished) {
-                textViewCountTimer.setText(millisUntilFinished / 1000 + " s");
-            }
+                public void onTick(long millisUntilFinished) {
+                    textViewCountTimer.setText(millisUntilFinished / 1000 + " s");
+                }
 
-            public void onFinish() {
-                textViewCountTimer.setVisibility(View.GONE);
-                pinView.setText("");
-                time = false;
-                layoutResend.setVisibility(View.VISIBLE);
-            }
-        }.start();
+                public void onFinish() {
+                    textViewCountTimer.setVisibility(View.GONE);
+                    pinView.setText("");
+                    codeBySystem = "";
+                    time = false;
+                    layoutResend.setVisibility(View.VISIBLE);
+                }
+            };
+            countDownTimer.start();
+        }
+
     }
 
     private void moveToLogin(Dialog dialog) {
@@ -197,8 +205,31 @@ public class VerifyOtpActivity extends AppCompatActivity {
 
     private void moveToEnterPhone() {
 
-        Intent intent = new Intent(VerifyOtpActivity.this, EnterPhoneActivity.class);
-        startActivity(intent);
+        String from = getIntent().getStringExtra("from");
+        String country = getIntent().getStringExtra("phoneCountry");
+        String user = getIntent().getStringExtra("userName");
+        String email = getIntent().getStringExtra("email");
+        String pass = getIntent().getStringExtra("pass");
+
+        if (from != null) {
+            Intent intent = new Intent(VerifyOtpActivity.this, EnterPhoneActivity.class);
+            intent.putExtra("phone", phone);
+            intent.putExtra("phoneCountry", country);
+            intent.putExtra("fromS", "backToEnter");
+            if (from.equals("signup")) {
+                intent.putExtra("userName", user);
+                intent.putExtra("email", email);
+                intent.putExtra("pass", pass);
+                intent.putExtra("from", "signup");
+            } else if (from.equals("forgot")) {
+                intent.putExtra("from", "forgot");
+            }
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(VerifyOtpActivity.this, SignInActivity.class);
+            startActivity(intent);
+        }
+
         finish();
 
     }
@@ -272,9 +303,7 @@ public class VerifyOtpActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(VerifyOtpActivity.this, SignInActivity.class);
-        startActivity(intent);
-        finish();
+        moveToEnterPhone();
     }
 
 
@@ -308,13 +337,20 @@ public class VerifyOtpActivity extends AppCompatActivity {
                 pinView.setText(code);
                 verifyCode(code);
             }
-            signInWithPhoneAuthCredential(credential);
+            if (credential != null) {
+                signInWithPhoneAuthCredential(credential);
+            }
+
         }
 
         @Override
         public void onVerificationFailed(FirebaseException e) {
             // This callback is invoked in an invalid request for verification is made,
             // for instance if the the phone number format is not valid.
+
+            Toast.makeText(VerifyOtpActivity.this, "Something when wrong. Could not send OTP.", Toast.LENGTH_SHORT).show();
+
+            countTimer();
 
 
             if (e instanceof FirebaseAuthInvalidCredentialsException) {
@@ -360,8 +396,13 @@ public class VerifyOtpActivity extends AppCompatActivity {
                         } else {
                             // Sign in failed, display a message and update the UI
 
+                            Toast.makeText(VerifyOtpActivity.this, "Validation OTP fail. Try resend again.", Toast.LENGTH_SHORT).show();
+
+                            countTimer();
+
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 // The verification code entered was invalid
+
                             }
                         }
                     }
@@ -371,9 +412,13 @@ public class VerifyOtpActivity extends AppCompatActivity {
 
     private void verifyCode(String code) {
         //code (user input)
-        //codeBySystem (receive from fbase)
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(codeBySystem, code);
-        signInWithPhoneAuthCredential(credential);
+        //codeBySystem (receive from firebase)
+        if (!codeBySystem.isEmpty()) {
+            PhoneAuthCredential credential = PhoneAuthProvider.getCredential(codeBySystem, code);
+            signInWithPhoneAuthCredential(credential);
+        } else {
+            Toast.makeText(VerifyOtpActivity.this, "Invalid OTP", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void moveToNextScreen() {

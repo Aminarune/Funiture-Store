@@ -176,45 +176,48 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardViewSetting"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/cardViewShipping"
-        android:layout_margin="@dimen/space16"
-        app:cardCornerRadius="@dimen/space4"
-        app:cardElevation="@dimen/space4">
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:id="@+id/cardViewSetting"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/cardViewShipping"-->
+<!--        android:layout_marginStart="@dimen/space16"-->
+<!--        android:layout_marginTop="@dimen/space16"-->
+<!--        android:layout_marginEnd="@dimen/space16"-->
+<!--        android:layout_marginBottom="@dimen/space16"-->
+<!--        app:cardCornerRadius="@dimen/space4"-->
+<!--        app:cardElevation="@dimen/space4">-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/space16"
-            android:orientation="horizontal">
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginBottom="@dimen/space4"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="@string/setting"
-                android:textColor="@color/black_1"
-                android:textSize="@dimen/font18" />
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="@dimen/space16"-->
+<!--            android:orientation="horizontal">-->
 
 
-            <ImageButton
-                android:id="@+id/ivEditSetting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@android:color/transparent"
-                android:padding="@dimen/space16"
-                android:src="@drawable/ic_chevron_right_1" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_vertical"-->
+<!--                android:layout_marginBottom="@dimen/space4"-->
+<!--                android:layout_weight="1"-->
+<!--                android:ellipsize="end"-->
+<!--                android:maxLines="1"-->
+<!--                android:text="@string/setting"-->
+<!--                android:textColor="@color/black_1"-->
+<!--                android:textSize="@dimen/font18" />-->
+
+
+<!--            <ImageButton-->
+<!--                android:id="@+id/ivEditSetting"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_vertical"-->
+<!--                android:background="@android:color/transparent"-->
+<!--                android:padding="@dimen/space16"-->
+<!--                android:src="@drawable/ic_chevron_right_1" />-->
+<!--        </LinearLayout>-->
+<!--    </androidx.cardview.widget.CardView>-->
 
 
 </RelativeLayout>

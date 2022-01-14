@@ -62,6 +62,14 @@ public class EnterPhoneActivity extends AppCompatActivity {
             }
         });
 
+        String from = getIntent().getStringExtra("fromS");
+        if(from!=null&&from.equals("backToEnter")){
+            String country = getIntent().getStringExtra("phoneCountry");
+            String phone = getIntent().getStringExtra("phone");
+            countryCodePicker.setCountryForNameCode(country);
+            editTextPhone.setText(phone);
+        }
+
     }
 
     private void moveToLoginScreen() {
@@ -240,6 +248,7 @@ public class EnterPhoneActivity extends AppCompatActivity {
         intent.putExtra("email", email);
         intent.putExtra("pass", pass);
         intent.putExtra("phoneNo", phoneNo);
+        intent.putExtra("phoneCountry",countryCodePicker.getSelectedCountryNameCode());
         intent.putExtra("phone", phone);
         intent.putExtra("from", "signup");
         startActivity(intent);
@@ -252,6 +261,7 @@ public class EnterPhoneActivity extends AppCompatActivity {
         intent.putExtra("phoneNo", phoneNo);
         intent.putExtra("phone", phone);
         intent.putExtra("from", "forgot");
+        intent.putExtra("phoneCountry",countryCodePicker.getSelectedCountryNameCode());
         startActivity(intent);
         finish();
     }
@@ -262,6 +272,9 @@ public class EnterPhoneActivity extends AppCompatActivity {
         if (from.equals("signup")) {
             moveToRegisterScreen();
         } else if (from.equals("forgot")) {
+            moveToLoginScreen();
+        }
+        else {
             moveToLoginScreen();
         }
     }

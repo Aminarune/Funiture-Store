@@ -137,7 +137,8 @@ public class SignUpActivity extends AppCompatActivity {
         } else if (!userCheck) {
             message += "The username must start:\n" +
                     " - The lowercase or uppercase.\n" +
-                    " - Contain 4-20 characters.";
+                    " - Contain 4-20 characters.\n"+
+                    " - White spaces don’t allowed.";
         } else if (!emailCheck) {
             message += "The given email is invalid.";
         } else if (!passwordCheck) {
@@ -178,11 +179,28 @@ public class SignUpActivity extends AppCompatActivity {
             this.password = password;
         }
 
+        String message="Please wait a moment.";
+
+        Dialog dia = DialogUtil.showDialog(SignUpActivity.this, R.raw.loading, message);
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dia.setCanceledOnTouchOutside(true);
+            dia.show();
+        }
+
         @Override
         protected Void doInBackground(Void... voids) {
+
+
+
+
             JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
+
 
                     boolean check = false;
 
@@ -203,11 +221,13 @@ public class SignUpActivity extends AppCompatActivity {
                     }
 
                     if (check) {
+                        dia.dismiss();
                         String message = "This email address is registered with another account";
                         Dialog dialog = DialogUtil.showDialog(view.getContext(), R.raw.wrong, message);
                         dialog.setCanceledOnTouchOutside(true);
                         dialog.show();
                     } else {
+                        dia.dismiss();
                         moveToEnterPhone(view, user_name, email, password);
                     }
 
@@ -215,7 +235,7 @@ public class SignUpActivity extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-
+                    dia.dismiss();
                 }
             });
 
