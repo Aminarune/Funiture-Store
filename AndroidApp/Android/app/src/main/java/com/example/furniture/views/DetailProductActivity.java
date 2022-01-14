@@ -307,6 +307,7 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
     }
 
     private void increaseNumber() {
+        int quantity= Integer.parseInt(tvQuantityDetail.getText().toString());
         tvDescrease.setEnabled(true);
         quantity++;
         String numIns = formatString(quantity);
@@ -319,6 +320,7 @@ public class DetailProductActivity extends AppCompatActivity implements OnDataPr
     }
 
     private void decreaseNumber() {
+        int quantity= Integer.parseInt(tvQuantityDetail.getText().toString());
         tvInscrease.setEnabled(true);
         quantity--;
         String numDes = formatString(quantity);
