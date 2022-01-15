@@ -12,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements
         btnCart = findViewById(R.id.btnCart);
         btnCart.setOnClickListener(this);
 
+
         bottomNav = findViewById(R.id.bottom_nav_view);
 
         //disable space menu holder
@@ -156,6 +158,16 @@ public class MainActivity extends AppCompatActivity implements
 
 
     @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btnCart:
+                createFragment(new CartFragment(userLogin));
+                break;
+        }
+    }
+
+
+    @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
@@ -197,14 +209,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btnCart:
-                createFragment(new CartFragment(userLogin));
-                break;
-        }
-    }
 
 
     @Override

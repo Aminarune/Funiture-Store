@@ -33,12 +33,12 @@ import com.android.volley.toolbox.Volley;
 import com.example.furniture.R;
 import com.example.furniture.adapters.AvatarAdapter;
 import com.example.furniture.models.Avatar;
-import com.example.furniture.models.Product;
+
 import com.example.furniture.models.User;
 import com.example.furniture.services.Api;
-import com.example.furniture.utilities.OnDataPassProduct;
+
 import com.example.furniture.utilities.OnDataPassUser;
-import com.example.furniture.views.ShippingActivity;
+
 import com.example.furniture.views.SignInActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -130,7 +130,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                moveToLogin();
+                String mess = "Do you really want to logout?";
+                createDialog(getActivity(),R.raw.exit,mess);
             }
         });
 
@@ -145,13 +146,47 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    private void createDialog(Context context, int sourceGif, String mess){
 
-    private void moveToLogin() {
-        Intent intent = new Intent(getActivity(), SignInActivity.class);
-        intent.putExtra("from","account_logout");
-        startActivity(intent);
-        getActivity().finish();
+
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.custom_layout_exit_dialog_gif);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        TextView textView = dialog.findViewById(R.id.textMessDialogExit);
+        textView.setText(mess);
+        GifImageView imageView = dialog.findViewById(R.id.ivDialogExit);
+        imageView.setImageResource(sourceGif);
+
+        TextView tvNo = dialog.findViewById(R.id.tvNo);
+        tvNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        TextView tvYes = dialog.findViewById(R.id.tvYes);
+        tvYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                Intent intent = new Intent(getActivity(), SignInActivity.class);
+                intent.putExtra("from","account_logout");
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+
+
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+
+        dialog.show();
     }
+
+
 
     private void initView(View view) {
         tvName = view.findViewById(R.id.tvNameAccountHome);
@@ -248,9 +283,15 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     }
 
     private void showAvatarDialog(View view, User user) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-        View row = getLayoutInflater().inflate(R.layout.layout_item_avatar, null);
-        GridView gridView = row.findViewById(R.id.gridViewAvatar);
+
+
+        Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.layout_item_avatar);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
+        GridView gridView = dialog.findViewById(R.id.gridViewAvatar);
         ArrayList<Avatar> arrayList = new ArrayList<>();
         arrayList.add(new Avatar(R.drawable.ic_avatar1));
         arrayList.add(new Avatar(R.drawable.ic_avatar2));
@@ -263,8 +304,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         AvatarAdapter avatarAdapter = new AvatarAdapter(view.getContext(), arrayList);
         gridView.setAdapter(avatarAdapter);
         avatarAdapter.notifyDataSetChanged();
-        builder.setView(row);
-        AlertDialog dialog = builder.create();
+
         dialog.show();
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

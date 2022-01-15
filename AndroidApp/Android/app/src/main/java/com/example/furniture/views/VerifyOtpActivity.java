@@ -66,14 +66,28 @@ public class VerifyOtpActivity extends AppCompatActivity {
 
     private TextView textViewCountTimer, tvResendCode, textView_enter_onepass_title, tvBackToEnter;
 
-    private boolean time = true;
+
 
     private String phone;
 
 
     private static final String url = Api.urlLocal + "user";
 
-    private CountDownTimer countDownTimer;
+    private CountDownTimer mCountDownTimer = new CountDownTimer(60000, 1000) {
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            textViewCountTimer.setText(millisUntilFinished / 1000 + " s");
+        }
+
+        @Override
+        public void onFinish() {
+            textViewCountTimer.setVisibility(View.GONE);
+            pinView.setText("");
+            time = false;
+            layoutResend.setVisibility(View.VISIBLE);
+        }
+    };
 
 
     @Override
@@ -107,9 +121,8 @@ public class VerifyOtpActivity extends AppCompatActivity {
             }
         });
 
-        sendVerification(phoneNo);
+        sendVerification(phoneNo,mCountDownTimer);
 
-        countTimer();
 
 
         btnVerify = findViewById(R.id.btnVerify);
@@ -139,49 +152,48 @@ public class VerifyOtpActivity extends AppCompatActivity {
                 pinView.setText("");
 
 
-                sendVerification(phoneNo);
+
 
                 layoutResend.setVisibility(View.GONE);
 
                 textViewCountTimer.setVisibility(View.VISIBLE);
 
-                countTimer();
+
+
+                sendVerification(phoneNo,mCountDownTimer);
+
+
 
             }
         });
     }
 
+    private boolean time = false;
 
-    private void countTimer() {
 
-        textViewCountTimer.setVisibility(View.VISIBLE);
-        layoutResend.setVisibility(View.GONE);
-        time = true;
 
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-            textViewCountTimer.setVisibility(View.GONE);
+
+    private void countTimer(CountDownTimer timerCount) {
+
+        if( !time ){
+            time = true;
             pinView.setText("");
             codeBySystem = "";
-            time = false;
-            layoutResend.setVisibility(View.VISIBLE);
-        } else {
-            countDownTimer = new CountDownTimer(60000, 1000) {
+            timerCount.start();
+            textViewCountTimer.setVisibility(View.VISIBLE);
+            layoutResend.setVisibility(View.GONE);
 
-                public void onTick(long millisUntilFinished) {
-                    textViewCountTimer.setText(millisUntilFinished / 1000 + " s");
-                }
-
-                public void onFinish() {
-                    textViewCountTimer.setVisibility(View.GONE);
-                    pinView.setText("");
-                    codeBySystem = "";
-                    time = false;
-                    layoutResend.setVisibility(View.VISIBLE);
-                }
-            };
-            countDownTimer.start();
         }
+        else{
+            timerCount.cancel(); // cancel
+            pinView.setText("");
+            codeBySystem = "";
+            timerCount.start();// then restart
+            textViewCountTimer.setVisibility(View.VISIBLE);
+            layoutResend.setVisibility(View.GONE);
+
+        }
+
 
     }
 
@@ -308,7 +320,9 @@ public class VerifyOtpActivity extends AppCompatActivity {
 
 
     //    /*for releasse*/
-    private void sendVerification(String phoneNumber) {
+    private void sendVerification(String phoneNumber,CountDownTimer mCountDownTimer) {
+
+        countTimer(mCountDownTimer);
 
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(mAuth)
@@ -350,7 +364,7 @@ public class VerifyOtpActivity extends AppCompatActivity {
 
             Toast.makeText(VerifyOtpActivity.this, "Something when wrong. Could not send OTP.", Toast.LENGTH_SHORT).show();
 
-            countTimer();
+
 
 
             if (e instanceof FirebaseAuthInvalidCredentialsException) {
@@ -393,12 +407,13 @@ public class VerifyOtpActivity extends AppCompatActivity {
                             moveToNextScreen();
 
 
+
+
                         } else {
                             // Sign in failed, display a message and update the UI
 
-                            Toast.makeText(VerifyOtpActivity.this, "Validation OTP fail. Try resend again.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(VerifyOtpActivity.this, "Validation OTP fail.", Toast.LENGTH_SHORT).show();
 
-                            countTimer();
 
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 // The verification code entered was invalid
@@ -413,11 +428,20 @@ public class VerifyOtpActivity extends AppCompatActivity {
     private void verifyCode(String code) {
         //code (user input)
         //codeBySystem (receive from firebase)
-        if (!codeBySystem.isEmpty()) {
-            PhoneAuthCredential credential = PhoneAuthProvider.getCredential(codeBySystem, code);
-            signInWithPhoneAuthCredential(credential);
+        if (code.isEmpty()) {
+            Toast.makeText(VerifyOtpActivity.this, "OTP must have filled.", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(VerifyOtpActivity.this, "Invalid OTP", Toast.LENGTH_SHORT).show();
+            if (!codeBySystem.isEmpty()) {
+                if(time==false){
+                    Toast.makeText(VerifyOtpActivity.this, "Out of time", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    PhoneAuthCredential credential = PhoneAuthProvider.getCredential(codeBySystem, code);
+                    signInWithPhoneAuthCredential(credential);
+                }
+            } else {
+                Toast.makeText(VerifyOtpActivity.this, "Invalid OTP", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
