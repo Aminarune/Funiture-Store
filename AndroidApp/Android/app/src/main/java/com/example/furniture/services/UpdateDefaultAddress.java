@@ -58,7 +58,7 @@ public class UpdateDefaultAddress extends AsyncTask<Void,Void,Void> {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("TAG",error.getMessage().toString());
+
             }
         }){
             @Nullable

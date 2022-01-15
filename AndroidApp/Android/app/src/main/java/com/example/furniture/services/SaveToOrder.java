@@ -86,7 +86,7 @@ public class SaveToOrder extends AsyncTask<Void, Void, Void> {
             protected Map<String, String> getParams() throws AuthFailureError   {
                 HashMap<String, String> params = new HashMap<>();
 //                "2099-12-31T00:00:00"
-                Log.d("TAG123",dateTime);
+
                 params.put("Id", id);
                 params.put("Date",dateTime);
                 params.put("Price", NumberUtilities.getFloatDecimal("###.##").format(totalPrice));

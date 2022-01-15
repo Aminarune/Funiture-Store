@@ -133,7 +133,7 @@ public class MakerFragment extends Fragment implements OnDataFavList, OnDataProd
 
     @Override
     public void onDataFavNotFound(Context view, String error) {
-        Log.d("TAG",error);
+
     }
 
 
