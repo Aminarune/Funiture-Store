@@ -15,8 +15,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -99,7 +103,7 @@ public class CartFragment extends Fragment implements OnDataCartList, View.OnCli
 
     private ShimmerFrameLayout shimmerCart;
 
-    private RecyclerView recycleViewCart;
+    private ListView listViewCart;
 
     private RequestQueue queue;
 
@@ -141,7 +145,7 @@ public class CartFragment extends Fragment implements OnDataCartList, View.OnCli
 
         shimmerCart = view.findViewById(R.id.shimmerCart);
 
-        recycleViewCart = view.findViewById(R.id.recycleViewCart);
+        listViewCart = view.findViewById(R.id.listViewCart);
 
         tvTotalPriceAllCart = view.findViewById(R.id.tvTotalPriceAllCart);
 
@@ -154,7 +158,7 @@ public class CartFragment extends Fragment implements OnDataCartList, View.OnCli
 
         shimmerCart.startShimmer();
         shimmerCart.setVisibility(View.VISIBLE);
-        recycleViewCart.setVisibility(View.GONE);
+        listViewCart.setVisibility(View.GONE);
 
         //getListFav
         GetCart getCart = new GetCart(view.getContext(), user.getId(),"", queue, this);
@@ -216,7 +220,7 @@ public class CartFragment extends Fragment implements OnDataCartList, View.OnCli
     public void onDataCartNotFound(Context view, String error) {
         shimmerCart.stopShimmer();
         shimmerCart.setVisibility(View.GONE);
-        recycleViewCart.setVisibility(View.VISIBLE);
+        listViewCart.setVisibility(View.VISIBLE);
     }
 
     private void updateTotalPrice(ArrayList<Product> products, ArrayList<Cart> carts) {
@@ -233,37 +237,39 @@ public class CartFragment extends Fragment implements OnDataCartList, View.OnCli
     }
 
     private void createUiProduct(Context context, ArrayList<Product> products, ArrayList<Cart> carts) {
-        cartAdapter = new CartAdapter(context, products, carts);
+        cartAdapter = new CartAdapter(context, carts);
+        cartAdapter.setProductArrayList(products);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context, RecyclerView.VERTICAL, false);
-        recycleViewCart.setLayoutManager(layoutManager);
-        recycleViewCart.setAdapter(cartAdapter);
+        listViewCart.setAdapter(cartAdapter);
 
-
-        productArrayList = new ArrayList<>();
-        for (int i = 0; i < products.size(); i++) {
+        productArrayList=new ArrayList<>();
+        for(int i=0;i<products.size();i++){
             productArrayList.add(products.get(i).getId());
         }
-        cartArrayList = new ArrayList<>();
-        for (int j = 0; j < carts.size(); j++) {
-            cartArrayList.add(carts.get(j).getId());
-        }
 
+        cartArrayList=new ArrayList<>();
+        for(int i=0;i<carts.size();i++){
+            cartArrayList.add(carts.get(i).getId());
+        }
 
         updateTotalPrice(products, carts);
 
 
         shimmerCart.stopShimmer();
         shimmerCart.setVisibility(View.GONE);
-        recycleViewCart.setVisibility(View.VISIBLE);
+        listViewCart.setVisibility(View.VISIBLE);
 
         cartAdapter.setSetOnClickCart(new CartAdapter.SetOnClickCart() {
             @Override
             public void onRemoveItem(View view, Cart cart, int pos) {
+
                 carts.remove(pos);
-                cartAdapter.notifyItemRemoved(pos);
+                products.remove(pos);
+                cartAdapter.notifyDataSetChanged();
+
                 RemoveCart removeCart = new RemoveCart(cart.getId(), queue);
                 removeCart.execute();
+
                 updateTotalPrice(products, carts);
             }
 
@@ -281,8 +287,9 @@ public class CartFragment extends Fragment implements OnDataCartList, View.OnCli
 
             @Override
             public void onClickItemCart(View view, Product product) {
-                sendDataToActivity(user, product, "Cart");
+                sendDataToActivity(user,product,"Cart");
             }
+
         });
 
 
@@ -352,7 +359,7 @@ public class CartFragment extends Fragment implements OnDataCartList, View.OnCli
         super.onStart();
         if (create == 2) {
             layoutCheckOut.setVisibility(View.GONE);
-            recycleViewCart.setVisibility(View.GONE);
+            listViewCart.setVisibility(View.GONE);
         }
     }
 

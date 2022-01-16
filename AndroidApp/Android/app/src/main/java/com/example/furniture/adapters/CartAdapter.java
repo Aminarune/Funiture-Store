@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.furniture.R;
@@ -25,14 +27,14 @@ import com.example.furniture.views.DetailProductActivity;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
-public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHD> {
+public class CartAdapter extends ArrayAdapter<Cart> {
 
     Context context;
 
     ArrayList<Product> productArrayList;
 
-    ArrayList<Cart> cartArrayList;
 
     SetOnClickCart setOnClickCart;
 
@@ -40,16 +42,18 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHD> {
 
     OnDataPassProduct onDataPassProduct;
 
+    public CartAdapter(@NonNull Context context, @NonNull List<Cart> objects) {
+        super(context, 0, objects);
+    }
+
     public void setOnDataPassProduct(OnDataPassProduct onDataPassProduct) {
         this.onDataPassProduct = onDataPassProduct;
     }
 
-    public CartAdapter(Context context, ArrayList<Product> productArrayList,
-                       ArrayList<Cart> cartArrayList) {
-        this.context = context;
+    public void setProductArrayList(ArrayList<Product> productArrayList) {
         this.productArrayList = productArrayList;
-        this.cartArrayList = cartArrayList;
     }
+
 
     public void setSetOnClickCart(SetOnClickCart setOnClickCart) {
         this.setOnClickCart = setOnClickCart;
@@ -57,50 +61,56 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHD> {
 
     @NonNull
     @Override
-    public ViewHD onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.item_cart, parent, false);
-        CartAdapter.ViewHD viewHD = new CartAdapter.ViewHD(view);
-        return viewHD;
-    }
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        Cart cart = getItem(position);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_cart, parent, false);
+        }
 
-    @Override
-    public void onBindViewHolder(@NonNull ViewHD holder, @SuppressLint("RecyclerView") int position) {
+
+        ImageView ivCartProduct = convertView.findViewById(R.id.ivCartProduct);
+        ImageView ivCartRemove = convertView.findViewById(R.id.ivCartRemove);
+        TextView tvCartProduct = convertView.findViewById(R.id.tvCartProduct);
+        TextView tvPriceProductCart = convertView.findViewById(R.id.tvPriceProductCart);
+        TextView tvQuantityCart = convertView.findViewById(R.id.tvQuantityCart);
+        TextView tvInscreaseCart = convertView.findViewById(R.id.tvInscreaseCart);
+        TextView tvDescreaseCart = convertView.findViewById(R.id.tvDescreaseCart);
+        TextView tvTotalPriceCart = convertView.findViewById(R.id.tvTotalPriceCart);
+
+
         Product product = productArrayList.get(position);
-        holder.ivCartProduct.setImageBitmap(product.getPicture());
-        holder.tvCartProduct.setText(product.getName());
+        ivCartProduct.setImageBitmap(product.getPicture());
+        tvCartProduct.setText(product.getName());
+
+        tvQuantityCart.setText(formatString(cart.getQuantity()));
+        tvPriceProductCart.setText(String.valueOf(cart.getPrice()));
+        tvTotalPriceCart.setText(String.valueOf(cart.getTotalPrice()));
 
 
-        Cart cart = cartArrayList.get(position);
-        holder.tvQuantityCart.setText(formatString(cart.getQuantity()));
-        holder.tvPriceProductCart.setText(String.valueOf(cart.getPrice()));
-        holder.tvTotalPriceCart.setText(String.valueOf(cart.getTotalPrice()));
-
-
-
-        if (cartArrayList.get(position).getQuantity() == 10) {
-            holder.tvInscreaseCart.setEnabled(false);
+        if (cart.getQuantity() == 10) {
+            tvInscreaseCart.setEnabled(false);
         } else {
-            holder.tvInscreaseCart.setEnabled(true);
+            tvInscreaseCart.setEnabled(true);
         }
 
-        if (cartArrayList.get(position).getQuantity() == 1) {
-            holder.tvDescreaseCart.setEnabled(false);
+        if (cart.getQuantity() == 1) {
+            tvDescreaseCart.setEnabled(false);
         } else {
-            holder.tvDescreaseCart.setEnabled(true);
+            tvDescreaseCart.setEnabled(true);
         }
-        holder.tvInscreaseCart.setOnClickListener(new View.OnClickListener() {
+
+        tvInscreaseCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int quantity = cartArrayList.get(position).getQuantity() + 1;
+                int quantity = cart.getQuantity() + 1;
 
-                float first =Float.valueOf(product.getPrice());
+                float first = Float.valueOf(product.getPrice());
                 float total = Float.valueOf(cart.getTotalPrice());
-                float result = total+first;
+                float result = total + first;
 
-                holder.tvTotalPriceCart.setText(
+                tvTotalPriceCart.setText(
                         NumberUtilities.getFloatDecimal(str).format(result));
-                holder.tvQuantityCart.setText(formatString(quantity));
+                tvQuantityCart.setText(formatString(quantity));
 
                 float temp = Float.parseFloat(NumberUtilities.getFloatDecimal(str).format(result));
                 cart.setTotalPrice(temp);
@@ -111,18 +121,18 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHD> {
             }
         });
 
-        holder.tvDescreaseCart.setOnClickListener(new View.OnClickListener() {
+        tvDescreaseCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int quantity = cartArrayList.get(position).getQuantity() - 1;
+                int quantity = cart.getQuantity() - 1;
 
-                float first =Float.valueOf(product.getPrice());
+                float first = Float.valueOf(product.getPrice());
                 float total = Float.valueOf(cart.getTotalPrice());
-                float result = total-first;
+                float result = total - first;
 
-                holder.tvTotalPriceCart.setText(
+                tvTotalPriceCart.setText(
                         NumberUtilities.getFloatDecimal(str).format(result));
-                holder.tvQuantityCart.setText(formatString(quantity));
+                tvQuantityCart.setText(formatString(quantity));
 
                 cart.setQuantity(quantity);
                 float temp = Float.parseFloat(NumberUtilities.getFloatDecimal(str).format(result));
@@ -135,45 +145,24 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHD> {
             }
         });
 
-        holder.ivCartRemove.setOnClickListener(new View.OnClickListener() {
+        ivCartRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setOnClickCart.onRemoveItem(view, cart, holder.getAbsoluteAdapterPosition());
+                setOnClickCart.onRemoveItem(view, cart, position);
             }
         });
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setOnClickCart.onClickItemCart(view,product);
+                setOnClickCart.onClickItemCart(view, product);
             }
         });
 
+
+        return convertView;
     }
 
-    @Override
-    public int getItemCount() {
-        return cartArrayList.size();
-    }
-
-    class ViewHD extends RecyclerView.ViewHolder {
-
-        ImageView ivCartProduct, ivCartRemove;
-
-        TextView tvCartProduct, tvPriceProductCart, tvQuantityCart, tvInscreaseCart, tvDescreaseCart,tvTotalPriceCart;
-
-        public ViewHD(@NonNull View itemView) {
-            super(itemView);
-            ivCartProduct = itemView.findViewById(R.id.ivCartProduct);
-            ivCartRemove = itemView.findViewById(R.id.ivCartRemove);
-            tvCartProduct = itemView.findViewById(R.id.tvCartProduct);
-            tvPriceProductCart = itemView.findViewById(R.id.tvPriceProductCart);
-            tvQuantityCart = itemView.findViewById(R.id.tvQuantityCart);
-            tvInscreaseCart = itemView.findViewById(R.id.tvInscreaseCart);
-            tvDescreaseCart = itemView.findViewById(R.id.tvDescreaseCart);
-            tvTotalPriceCart=itemView.findViewById(R.id.tvTotalPriceCart);
-        }
-    }
 
     public interface SetOnClickCart {
         void onRemoveItem(View view, Cart cart, int pos);
