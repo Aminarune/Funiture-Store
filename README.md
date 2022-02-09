@@ -1,7 +1,5 @@
 # Funiture-Store
-Android app combine with website admin
-If the admin dashboard link is unable to use
-https://github.com/Hibiniy/FunitureManager
+
 
 ![image](https://user-images.githubusercontent.com/74925274/153243811-14fef398-b26f-4225-bdb8-20196955eecb.png)
 ![image](https://user-images.githubusercontent.com/74925274/153243818-0eecd3b0-6297-4071-ac83-34f89f56e061.png)
@@ -23,11 +21,6 @@ https://github.com/Hibiniy/FunitureManager
 ![image](https://user-images.githubusercontent.com/74925274/153243995-3fba6a2d-0c24-4952-bb3b-695fe6518412.png)
 ![image](https://user-images.githubusercontent.com/74925274/153244018-cb994527-2133-4b0a-a988-1a35bd351e32.png)
 ![image](https://user-images.githubusercontent.com/74925274/153244031-0e1b07d4-e85d-4e89-b1bc-60b6bbb26714.png)
-
-
-
-
-
 
 
 
