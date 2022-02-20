@@ -1,0 +1,200 @@
+﻿@model FunitureManager.Models.ViewModel
+<html>
+<head>
+    <script src="~/Scripts/Chart.min.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <style>
+        #chart_container {
+            width: 400px;
+            border: 2px solid #ddd;
+            padding: 1px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div style="display:flex;
+justify-content:center;
+">
+        <div id="chart_container">
+            <h3>Top 5 best selling products</h3>
+            <canvas id="bar_chart" style="width:500px;height:800px"></canvas>
+        </div>
+        <div id="chart_container" style="margin-left:100px;">
+            <h3>Top 5 favorite products</h3>
+            <canvas id="bar_chart2" style="width:500px;height:800px"></canvas>
+        </div>
+    </div>
+    <script>
+        var repArray = @Html.Raw(Json.Encode(ViewBag.INT));
+        var ages = @Html.Raw(Json.Encode(ViewBag.STRING));
+
+        var ctx = $("#bar_chart");
+        var bacChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ages,
+                datasets: [{
+                    label: "Sold Product",
+                    data: repArray,
+                    backgroundColor: ['rgba(255, 99, 132, 0.5)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)']
+                }]
+            },
+            options: {
+                maintainAspectRatio: true,
+                scales: { xAxes: [{ ticks: { beginAtZero: true } }] },
+                legend: {display:false}
+            },
+        });
+        var repArray = @Html.Raw(Json.Encode(ViewBag.INT2));
+        var ages = @Html.Raw(Json.Encode(ViewBag.STRING2));
+
+        var ctx = $("#bar_chart2");
+        var bacChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ages,
+                datasets: [{
+                    label: "Sold Product",
+                    data: repArray,
+                    backgroundColor: ['rgba(255, 99, 132, 0.5)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)']
+                }]
+            },
+            options: {
+                maintainAspectRatio: true,
+                scales: { xAxes: [{ ticks: { beginAtZero: true } }] },
+                legend: {display:false}
+            },
+        });
+    </script>
+    <div style="flex-direction:row;">
+        <div class="btn-group dropright">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" style="width:125px;margin-left:120px;background-color:black;">
+                Choose Year
+            </button>
+            <div class="dropdown-menu">
+                @foreach (var item in Model.Years)
+                {
+    <div class="btn-group dropdown-container">
+        <button class="btn btn-primary dropdown-container" type="button" id="dropdownHeaderButton" data-toggle="dropdown" style="width:100px;background-color:black;">
+            @item
+        </button>
+        <div class="dropdown-container" style="margin-left:34px">
+
+            @foreach (var item2 in Model.Years)
+            {
+@Html.ActionLink("" + item2, "Indexanalytics", new { year = item, year2 = item2 })
+                    <br />}
+
+        </div>
+    </div>}
+
+            </div>
+        </div>
+    </div>
+    <div id="chart_container2">
+        <h3 style="margin-left:2%;">Order in year</h3>
+        <canvas id="line_chart" style="width:500px;"></canvas>
+    </div>
+    <script>
+        var year = @Html.Raw(Json.Encode(ViewBag.YEAR));
+        var year2 = @Html.Raw(Json.Encode(ViewBag.YEAR2));
+        var repArray = @Html.Raw(Json.Encode(ViewBag.ORDER));
+        var repArray2 = @Html.Raw(Json.Encode(ViewBag.ORDER2));
+        if (repArray == repArray2) {
+            var ctx = $("#line_chart");
+            var bacChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    datasets: [{
+                        label: 'Order in '+year,
+                        data: repArray,
+                        borderColor: 'rgb(75, 192, 192)',
+                        fill: false
+                    }]
+                }
+            });
+        }
+        else {
+            var ctx = $("#line_chart");
+            var bacChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    datasets: [{
+                        label: 'Order in '+year,
+                        data: repArray,
+                        borderColor: 'rgb(75, 192, 192)',
+                        fill: false
+                    }, {
+                            label: 'Order in ' + year2,
+                        data: repArray2,
+                            borderColor: 'rgba(255, 99, 132)',
+                        fill: false
+                    }]
+                }
+            });
+        }
+
+
+    </script>
+
+    <div id="chart_container2">
+        <h3 style="margin-left:2%;">Profit in year</h3>
+        <canvas id="line_chart2"></canvas>
+    </div>
+    <script>
+        var repArray = @Html.Raw(Json.Encode(ViewBag.PROFIT));
+        var repArray2 = @Html.Raw(Json.Encode(ViewBag.PROFIT2));
+        var year = @Html.Raw(Json.Encode(ViewBag.YEAR));
+        var year2 = @Html.Raw(Json.Encode(ViewBag.YEAR2));
+        if (repArray == repArray2) {
+            var ctx = $("#line_chart");
+            var bacChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    datasets: [{
+                        label: 'Profit in ' + year,
+                        data: repArray,
+                        borderColor: 'rgb(75, 192, 192)',
+                        fill: false
+                    }]
+                }
+            });
+        }
+        else {
+            var ctx = $("#line_chart2");
+            var bacChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    datasets: [{
+                        label: 'Profit in ' + year,
+                        data: repArray,
+                        borderColor: 'rgb(75, 192, 192)',
+                        fill: false
+                    }, {
+                            label: 'Profit in ' + year2,
+                        data: repArray2,
+                            borderColor: 'rgba(255, 99, 132)',
+                            fill: false
+                    }]
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>
