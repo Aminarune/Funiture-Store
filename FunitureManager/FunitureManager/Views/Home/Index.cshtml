@@ -1,0 +1,194 @@
+﻿@model FunitureManager.Models.ViewModel
+
+@{
+    ViewBag.Title = "Home Page";
+}
+<div class="home-content">
+    <div class="overview-boxes">
+        <div class="box">
+            <div class="right-side">
+                <div class="box-topic">Total Order</div>
+                @{ if (Model.Tests1 != null)
+                    {
+                        if (Model.Tests1.Count() <= 0)
+                        {
+                            <div class="number">0</div>
+                        }
+                        foreach (var item in Model.Tests1)
+                        {
+                            if (item.q != 0)
+                            {
+                                <div class="number">@Html.DisplayFor(modelItem => item.q)</div>
+                            }
+                            else
+                            {<div class="number">0</div>}
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        <div class="number">0</div>
+                    }
+                }
+            </div>
+            <i class='bx bx-cart-alt cart'></i>
+        </div>
+        <div class="box">
+            <div class="right-side">
+                <div class="box-topic">Total Sales</div>
+                @{ if (Model.Tests1 != null)
+                    {
+                        if (Model.Tests1.Count() <= 0)
+                        {
+                            <div class="number">0</div>
+                        }
+                        foreach (var item in Model.Tests1)
+                        {
+                            if (item.w != 0)
+                            {
+                                <div class="number">@Html.DisplayFor(modelItem => item.w)</div>
+                            }
+                            else
+                            {<div class="number">0</div>}
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        <div class="number">0</div>
+                    }
+                }
+            </div>
+            <i class='bx bxs-cart-add cart two'></i>
+        </div>
+        <div class="box">
+            <div class="right-side">
+                <div class="box-topic">Total Profit</div>
+                @{ if (Model.Tests1 != null)
+                    {
+                        if (Model.Tests1.Count() <= 0)
+                        {
+                            <div class="number">0</div>
+                        }
+                        foreach (var item in Model.Tests1)
+                        {
+                            if (item.e != 0)
+                            {
+                                <div class="number">@Html.DisplayFor(modelItem => item.e)</div>
+                            }
+                            else
+                            {<div class="number">0</div>}
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        <div class="number">0</div>
+                    }
+                }
+            </div>
+            <i class='bx bx-cart cart three'></i>
+        </div>
+    </div>
+
+    <div class="sales-boxes">
+        <div class="recent-sales box">
+            <div class="title">Recent Sales</div>
+            <div class="sales-details"> 
+                <ul class="details">
+                    <li class="topic">Date</li>
+                    @{
+                        int i = 0;
+                        foreach (var item in Model.Orders)
+                        {
+                            i = i + 1;
+                            <li><a href="">@Html.DisplayFor(modelItem => item.Date)</a></li>
+                            if (i == 6)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                </ul>
+                <ul class="details">
+                    <li class="topic">Customer</li>
+                    @{
+                        i = 0;
+                        foreach (var item in Model.Orders)
+                        {
+                            i = i + 1;
+                            <li><a href="">@Html.DisplayFor(modelItem => item.User.User_Name)</a></li>
+                            if (i == 6)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                </ul>
+                <ul class="details">
+                    <li class="topic">State</li>
+                    @{
+                        i = 0;
+                        foreach (var item in Model.Orders)
+                        {
+                            i = i + 1;
+                            <li><a href="">@Html.DisplayFor(modelItem => item.State)</a></li>
+                            if (i == 6)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                </ul>
+                <ul class="details">
+                    <li class="topic">Total</li>
+
+                    @{
+                        i = 0;
+                        foreach (var item in Model.Orders)
+                        {
+                            i = i + 1;
+                            <li><a href="">$@Html.DisplayFor(modelItem => item.Price)</a></li>
+                            if (i == 6)
+                            {
+                                break;
+                            }
+                        }
+                    } 
+                </ul>
+            </div>
+            <div class="button">
+                <a href="https://localhost:44366/Orders/Index">See All</a>
+            </div>
+        </div>
+        <div class="top-sales box">
+            <div class="title">Top Seling Product</div>
+            <ul class="top-sales-details">
+                @{
+                    i = 0;
+                    foreach (var item in Model.Tests2)
+                    {
+                        i = i + 1;
+                        <li>
+                            
+                                    @{
+                                var base64 = Convert.ToBase64String(item.p);
+                                var imgsrc = string.Format("data:image/gif;base64,{0}", base64);
+                            }
+                                <img src="@imgsrc" style="max-width:100px;max-height:100px" />
+                                <span class="product">@Html.DisplayFor(modelItem => item.n)</span>
+
+                            <span class="price">$@Html.DisplayFor(modelItem => item.t)</span>
+                        </li>
+                        
+                        if (i == 5)
+                        {
+                            break;
+                        }
+                    }
+                }
+
+            </ul>
+        </div>
+    </div>
+</div>

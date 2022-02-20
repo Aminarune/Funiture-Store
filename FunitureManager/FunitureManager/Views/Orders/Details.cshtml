@@ -1,0 +1,141 @@
+﻿@model IEnumerable<FunitureManager.Models.Order_Detail>
+
+@{ ViewBag.Title = "Detail"; }
+
+<div style="margin:2%;">
+    <h2 style="margin-bottom:20px;">
+        User information
+    </h2>
+    <table class="table" style="border:inset; ">
+        <tr>
+            <th class="abcde">
+                User name
+            </th>
+            <th>
+                PhoneNumber
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                Province
+            </th>
+            <th>
+                District
+            </th>
+            <th>
+                Ward
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Order.User.User_Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Order.User.Phonenumber)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Order.User.Email)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Order.Shipping_Address.Address)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Order.Shipping_Address.Province)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Order.Shipping_Address.District)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Order.Shipping_Address.Ward)
+    </td>
+</tr>break;
+            }
+    </table>
+    <h2>
+        Order
+    </h2>
+    <table class="table" style="border:inset;">
+        <tr>
+            <th>
+                Date Order
+            </th>
+            <th>
+                Total Price
+            </th>
+            <th>
+                State
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Order.Date)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Order.Price)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Order.State)
+    </td>
+
+</tr>break;
+            }
+    </table>
+    <h2>
+        Order Detail
+    </h2>
+    <table class="table" style="border:inset; ">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Product.Picture)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total_Price)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @{ var base64 = Convert.ToBase64String(item.Product.Picture);
+                            var imgsrc = string.Format("data:image/gif;base64,{0}", base64); }
+        <img src="@imgsrc" style="max-width:100px;max-height:100px" />
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Product.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Quantity)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Price)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Total_Price)
+    </td>
+</tr>}
+    </table>
+    <div>
+        <button style="background-color: #0A2558; border-radius: 5px; padding: 5px; border-right-width: 1px; border-top-width: 1px; border-left-width: 1px; border-bottom-width: 1px;">
+            @Html.ActionLink("Back to List", "Index", null, new { style = "color: white" })
+        </button>
+
+    </div>
+</div>
